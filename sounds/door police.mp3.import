@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/door police.mp3-cef3868022c0a9c5417a0f8befb7a486.mp3str"
+
+[deps]
+
+source_file="res://sounds/door police.mp3"
+dest_files=[ "res://.import/door police.mp3-cef3868022c0a9c5417a0f8befb7a486.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

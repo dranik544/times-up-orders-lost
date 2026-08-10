@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/EMERGENCY ORDER.mp3-6bbbaafe0fcdb72eabe8c6f5730ec417.mp3str"
+
+[deps]
+
+source_file="res://sounds/EMERGENCY ORDER.mp3"
+dest_files=[ "res://.import/EMERGENCY ORDER.mp3-6bbbaafe0fcdb72eabe8c6f5730ec417.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

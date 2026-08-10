@@ -1,0 +1,31 @@
+[gd_resource type="Theme" load_steps=8 format=2]
+
+[ext_resource path="res://font/Ubuntu-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://font/defaultdont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://font/Ubuntu-Bold.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 1 )
+
+[resource]
+Button/fonts/font = ExtResource( 2 )
+HSeparator/constants/separation = 0
+Label/colors/font_color = Color( 0.901961, 0.901961, 0.901961, 1 )
+Label/fonts/font = ExtResource( 2 )
+OptionButton/fonts/font = ExtResource( 2 )
+PopupMenu/fonts/font = ExtResource( 2 )
+PopupMenu/fonts/font_separator = ExtResource( 2 )
+RichTextLabel/fonts/bold_font = SubResource( 1 )
+RichTextLabel/fonts/bold_italics_font = SubResource( 2 )
+RichTextLabel/fonts/italics_font = SubResource( 3 )
+RichTextLabel/fonts/mono_font = SubResource( 4 )
+RichTextLabel/fonts/normal_font = ExtResource( 2 )

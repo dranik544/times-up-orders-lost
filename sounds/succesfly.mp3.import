@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/succesfly.mp3-226c5e27f47b657dfcd238a621c7ffe1.mp3str"
+
+[deps]
+
+source_file="res://sounds/succesfly.mp3"
+dest_files=[ "res://.import/succesfly.mp3-226c5e27f47b657dfcd238a621c7ffe1.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

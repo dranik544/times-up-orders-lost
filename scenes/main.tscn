@@ -1,0 +1,443 @@
+[gd_scene load_steps=28 format=2]
+
+[ext_resource path="res://defaulttheme.tres" type="Theme" id=1]
+[ext_resource path="res://font/Ubuntu-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://scenes/main.gd" type="Script" id=3]
+[ext_resource path="res://sprites/star2.png" type="Texture" id=4]
+[ext_resource path="res://sprites/wallpaper1.jpg" type="Texture" id=5]
+[ext_resource path="res://scenes/order1.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/Camera2D.gd" type="Script" id=7]
+[ext_resource path="res://scenes/CanvasModulate.gd" type="Script" id=8]
+[ext_resource path="res://sprites/HVS.png" type="Texture" id=9]
+[ext_resource path="res://sprites/titul_1.png" type="Texture" id=10]
+[ext_resource path="res://sounds/victory.mp3" type="AudioStream" id=11]
+[ext_resource path="res://sprites/effect4.png" type="Texture" id=12]
+[ext_resource path="res://scenes/pause.gd" type="Script" id=13]
+[ext_resource path="res://sounds/door police.mp3" type="AudioStream" id=14]
+[ext_resource path="res://scenes/shading1.gd" type="Script" id=15]
+
+[sub_resource type="GDScript" id=8]
+script/source = "extends TextureRect
+
+
+func _process(delta):
+	rect_position = Vector2(-6270, -4140.001) + get_global_mouse_position() * 0.05
+"
+
+[sub_resource type="Gradient" id=12]
+offsets = PoolRealArray( 0, 0.422535, 1 )
+colors = PoolColorArray( 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture2D" id=6]
+gradient = SubResource( 12 )
+width = 160
+height = 120
+fill = 1
+fill_from = Vector2( 0.5, 0.5 )
+fill_to = Vector2( 0.5, -1 )
+
+[sub_resource type="Gradient" id=13]
+colors = PoolColorArray( 0, 0, 0, 0, 0, 0, 0, 0.0117647 )
+
+[sub_resource type="GradientTexture2D" id=10]
+gradient = SubResource( 13 )
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2( 0.5, 0.5 )
+fill_to = Vector2( 0.5, 0 )
+
+[sub_resource type="DynamicFont" id=7]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 0.392157 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=14]
+size = 28
+outline_size = 1
+outline_color = Color( 0.0431373, 0.0470588, 0.0470588, 0.392157 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="GradientTexture2D" id=11]
+width = 1
+height = 1
+
+[sub_resource type="GDScript" id=17]
+script/source = "extends TextureRect
+
+
+func _process(delta):
+	rect_rotation += 8.0 * delta
+"
+
+[sub_resource type="DynamicFont" id=15]
+size = 84
+outline_size = 1
+outline_color = Color( 0.0431373, 0.0470588, 0.0470588, 0.392157 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 32
+outline_size = 1
+outline_color = Color( 0.0431373, 0.0470588, 0.0470588, 0.392157 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=18]
+size = 48
+outline_size = 1
+outline_color = Color( 0.0431373, 0.0470588, 0.0470588, 0.392157 )
+font_data = ExtResource( 2 )
+
+[node name="main" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="bg" type="TextureRect" parent="."]
+margin_left = -6270.0
+margin_top = -4140.0
+margin_right = 7230.0
+margin_bottom = 4860.0
+rect_scale = Vector2( 0.3, 0.3 )
+rect_pivot_offset = Vector2( 6750, 4500 )
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 2
+script = SubResource( 8 )
+
+[node name="order1" parent="." instance=ExtResource( 6 )]
+position = Vector2( 371, 153 )
+currentTypeOrder = 1
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+rotating = true
+current = true
+limit_smoothed = true
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_speed = 10.0
+drag_margin_left = 0.75
+drag_margin_top = 0.75
+drag_margin_right = 0.75
+drag_margin_bottom = 0.75
+script = ExtResource( 7 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+script = ExtResource( 8 )
+
+[node name="Tween" type="Tween" parent="CanvasModulate"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="shading1" type="TextureRect" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0.2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = SubResource( 6 )
+stretch_mode = 1
+script = ExtResource( 15 )
+
+[node name="shading2" type="TextureRect" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0.0313726 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource( 9 )
+stretch_mode = 1
+
+[node name="shading3" type="TextureRect" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = SubResource( 10 )
+stretch_mode = 2
+
+[node name="stats" type="VBoxContainer" parent="CanvasLayer"]
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 182.0
+margin_bottom = 84.0
+mouse_filter = 2
+
+[node name="stars" type="HBoxContainer" parent="CanvasLayer/stats"]
+margin_right = 256.0
+margin_bottom = 32.0
+mouse_filter = 2
+
+[node name="star1" type="TextureRect" parent="CanvasLayer/stats/stars"]
+margin_right = 32.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+mouse_filter = 2
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 1
+
+[node name="star2" type="TextureRect" parent="CanvasLayer/stats/stars"]
+margin_left = 36.0
+margin_right = 68.0
+margin_bottom = 32.0
+mouse_filter = 2
+texture = ExtResource( 4 )
+stretch_mode = 1
+
+[node name="star3" type="TextureRect" parent="CanvasLayer/stats/stars"]
+margin_left = 72.0
+margin_right = 104.0
+margin_bottom = 32.0
+mouse_filter = 2
+texture = ExtResource( 4 )
+stretch_mode = 1
+
+[node name="star4" type="TextureRect" parent="CanvasLayer/stats/stars"]
+margin_left = 108.0
+margin_right = 140.0
+margin_bottom = 32.0
+mouse_filter = 2
+texture = ExtResource( 4 )
+stretch_mode = 1
+
+[node name="star5" type="TextureRect" parent="CanvasLayer/stats/stars"]
+margin_left = 144.0
+margin_right = 176.0
+margin_bottom = 32.0
+mouse_filter = 2
+texture = ExtResource( 4 )
+stretch_mode = 1
+
+[node name="count reviews" type="Label" parent="CanvasLayer/stats/stars"]
+margin_left = 180.0
+margin_top = 6.0
+margin_right = 256.0
+margin_bottom = 25.0
+theme = ExtResource( 1 )
+custom_fonts/font = SubResource( 7 )
+text = "0 отзывов"
+
+[node name="money" type="Label" parent="CanvasLayer/stats"]
+margin_top = 36.0
+margin_right = 256.0
+margin_bottom = 55.0
+theme = ExtResource( 1 )
+custom_fonts/font = SubResource( 7 )
+text = "0$ на балансе"
+
+[node name="orders" type="Label" parent="CanvasLayer/stats"]
+margin_top = 59.0
+margin_right = 256.0
+margin_bottom = 78.0
+theme = ExtResource( 1 )
+custom_fonts/font = SubResource( 7 )
+text = "0 выполненых заказов"
+
+[node name="canceled" type="Label" parent="CanvasLayer/stats"]
+margin_top = 82.0
+margin_right = 256.0
+margin_bottom = 101.0
+theme = ExtResource( 1 )
+custom_fonts/font = SubResource( 7 )
+text = "0/3 отмен заказа"
+
+[node name="title" type="VBoxContainer" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -329.0
+margin_top = -111.0
+margin_right = -6.0
+margin_bottom = -6.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/title"]
+margin_right = 323.0
+margin_bottom = 33.0
+theme = ExtResource( 1 )
+custom_fonts/font = SubResource( 14 )
+text = "Состояние отношений с"
+
+[node name="tag1" type="HBoxContainer" parent="CanvasLayer/title"]
+margin_top = 37.0
+margin_right = 323.0
+margin_bottom = 57.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/title/tag1"]
+margin_right = 169.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "Знакомыми"
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/title/tag1"]
+margin_left = 173.0
+margin_right = 323.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 150, 20 )
+mouse_filter = 2
+max_value = 30.0
+step = 1.0
+percent_visible = false
+
+[node name="tag2" type="HBoxContainer" parent="CanvasLayer/title"]
+margin_top = 61.0
+margin_right = 323.0
+margin_bottom = 81.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/title/tag2"]
+margin_right = 169.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "Случайными людьми"
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/title/tag2"]
+margin_left = 173.0
+margin_right = 323.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 150, 20 )
+mouse_filter = 2
+max_value = 30.0
+step = 1.0
+percent_visible = false
+
+[node name="tag3" type="HBoxContainer" parent="CanvasLayer/title"]
+margin_top = 85.0
+margin_right = 323.0
+margin_bottom = 105.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/title/tag3"]
+margin_right = 169.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "Мировыми лидерами"
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/title/tag3"]
+margin_left = 173.0
+margin_right = 323.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 150, 20 )
+mouse_filter = 2
+max_value = 30.0
+step = 1.0
+percent_visible = false
+
+[node name="title image" type="TextureRect" parent="CanvasLayer"]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -70.0
+margin_top = 6.0
+margin_right = -6.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 64, 64 )
+texture = ExtResource( 10 )
+expand = true
+
+[node name="title end" type="Control" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="fade" type="TextureRect" parent="CanvasLayer/title end"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 11 )
+stretch_mode = 1
+
+[node name="effect" type="TextureRect" parent="CanvasLayer/title end"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -256.0
+margin_top = -256.0
+margin_right = 256.0
+margin_bottom = 256.0
+rect_pivot_offset = Vector2( 256, 256 )
+texture = ExtResource( 12 )
+script = SubResource( 17 )
+
+[node name="title icon" type="TextureRect" parent="CanvasLayer/title end"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = -128.0
+margin_right = 128.0
+margin_bottom = 128.0
+rect_pivot_offset = Vector2( 128, 128 )
+texture = ExtResource( 10 )
+
+[node name="Label" type="Label" parent="CanvasLayer/title end"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 15 )
+text = "ТИТУЛ"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Label2" type="Label" parent="CanvasLayer/title end"]
+visible = false
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -95.0
+custom_fonts/font = SubResource( 16 )
+text = "Поздравляю! Вы прошли игру! Не знаю что ещё сказать, вот ваш титул, спасибо за игру!"
+align = 1
+autowrap = true
+
+[node name="victory sound" type="AudioStreamPlayer" parent="CanvasLayer/title end"]
+stream = ExtResource( 11 )
+volume_db = -2.0
+
+[node name="fade" type="TextureRect" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 11 )
+stretch_mode = 1
+
+[node name="pause" type="Control" parent="CanvasLayer"]
+pause_mode = 2
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 13 )
+
+[node name="fade" type="TextureRect" parent="CanvasLayer/pause"]
+modulate = Color( 1, 1, 1, 0.392157 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 11 )
+stretch_mode = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/pause"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 18 )
+text = "ИГРА ПРИОСТАНОВЛЕНА"
+align = 1
+valign = 1
+
+[node name="timerSpawningOrders" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+
+[node name="timerCanceled" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+
+[node name="sound police" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+volume_db = -2.0

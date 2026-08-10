@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/whatsapp.mp3-00e7b5453a97a546c5276db7f5337e6b.mp3str"
+
+[deps]
+
+source_file="res://sounds/whatsapp.mp3"
+dest_files=[ "res://.import/whatsapp.mp3-00e7b5453a97a546c5276db7f5337e6b.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

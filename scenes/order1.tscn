@@ -1,0 +1,169 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://font/Ubuntu-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://defaulttheme.tres" type="Theme" id=2]
+[ext_resource path="res://scenes/order1.gd" type="Script" id=3]
+[ext_resource path="res://sprites/orderBG2.png" type="Texture" id=4]
+[ext_resource path="res://sprites/particle1.png" type="Texture" id=5]
+
+[sub_resource type="DynamicFont" id=2]
+size = 12
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 12
+outline_color = Color( 0.0431373, 0.0470588, 0.0470588, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="AudioStreamRandomPitch" id=3]
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.494565, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[node name="order1" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="bg" type="TextureRect" parent="."]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 4 )
+stretch_mode = 2
+
+[node name="ui" type="VBoxContainer" parent="."]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 197.0
+margin_bottom = 178.0
+rect_min_size = Vector2( 194, 94 )
+mouse_filter = 0
+theme = ExtResource( 2 )
+
+[node name="message" type="VBoxContainer" parent="ui"]
+margin_right = 194.0
+margin_bottom = 93.0
+rect_min_size = Vector2( 194, 93 )
+mouse_filter = 0
+
+[node name="time" type="ProgressBar" parent="ui/message"]
+margin_right = 194.0
+margin_bottom = 10.0
+rect_min_size = Vector2( 0, 10 )
+theme = ExtResource( 2 )
+custom_fonts/font = SubResource( 2 )
+max_value = 60.0
+step = 1.0
+value = 60.0
+percent_visible = false
+
+[node name="name money" type="HBoxContainer" parent="ui/message"]
+margin_top = 14.0
+margin_right = 194.0
+margin_bottom = 33.0
+
+[node name="name" type="Label" parent="ui/message/name money"]
+margin_right = 40.0
+margin_bottom = 19.0
+theme = ExtResource( 2 )
+text = "name"
+align = 1
+
+[node name="money" type="Label" parent="ui/message/name money"]
+margin_left = 44.0
+margin_right = 194.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+theme = ExtResource( 2 )
+text = "????$"
+align = 2
+
+[node name="sepr1" type="HSeparator" parent="ui/message"]
+margin_top = 37.0
+margin_right = 194.0
+margin_bottom = 37.0
+theme = ExtResource( 2 )
+
+[node name="desc" type="RichTextLabel" parent="ui/message"]
+margin_top = 41.0
+margin_right = 194.0
+margin_bottom = 61.0
+mouse_filter = 1
+theme = ExtResource( 2 )
+bbcode_enabled = true
+bbcode_text = "text"
+text = "text"
+fit_content_height = true
+scroll_active = false
+
+[node name="sepr2" type="HSeparator" parent="ui"]
+margin_top = 97.0
+margin_right = 194.0
+margin_bottom = 105.0
+theme = ExtResource( 2 )
+custom_constants/separation = 8
+
+[node name="blocks" type="VBoxContainer" parent="ui"]
+margin_top = 109.0
+margin_right = 194.0
+margin_bottom = 109.0
+
+[node name="sepr3" type="HSeparator" parent="ui"]
+margin_top = 113.0
+margin_right = 194.0
+margin_bottom = 117.0
+theme = ExtResource( 2 )
+custom_constants/separation = 4
+
+[node name="ready" type="Button" parent="ui"]
+margin_top = 121.0
+margin_right = 194.0
+margin_bottom = 146.0
+custom_colors/font_color = Color( 0.490196, 1, 0.490196, 1 )
+text = "READY"
+
+[node name="cancel" type="Button" parent="ui"]
+margin_top = 150.0
+margin_right = 194.0
+margin_bottom = 175.0
+custom_colors/font_color = Color( 1, 0.490196, 0.490196, 1 )
+text = "CANCEL"
+
+[node name="sepr4" type="HSeparator" parent="ui"]
+margin_top = 179.0
+margin_right = 194.0
+margin_bottom = 183.0
+theme = ExtResource( 2 )
+custom_constants/separation = 4
+
+[node name="tags" type="Label" parent="ui"]
+margin_top = 187.0
+margin_right = 194.0
+margin_bottom = 202.0
+size_flags_horizontal = 3
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 0.392157 )
+custom_fonts/font = SubResource( 5 )
+align = 1
+autowrap = true
+
+[node name="time" type="Timer" parent="."]
+one_shot = true
+
+[node name="TweenCompleteOrder" type="Tween" parent="."]
+
+[node name="sounds" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 3 )
+
+[node name="rareParticles" type="CPUParticles2D" parent="."]
+position = Vector2( 102, 153 )
+emitting = false
+lifetime = 0.5
+preprocess = 0.5
+fixed_fps = 30
+texture = ExtResource( 5 )
+emission_shape = 2
+emission_rect_extents = Vector2( 100, 150 )
+gravity = Vector2( 0, -128 )
+angle_random = 1.0
+scale_amount = 1.25
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 4 )
