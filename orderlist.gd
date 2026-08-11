@@ -1,5 +1,39 @@
 extends Node
 
+var customOrder: Dictionary = {
+	"name": "Drimer544 (создатель игры)",
+	"desc": "[center][b][wave]ВЫБОР МЕЖДУ 3 ПУТЯМИ[/wave]![/b][/center]",
+	"good review": ".",
+	"bad review": "[color=#ff8880]Провалить первый заказ?.. Ты серьёзно?..[/color]",
+	"time": 145,
+	"money": 5000,
+	"ready text": "КРУТЯЯЯК!",
+	"cancel text": "ТЫ КТО ТАКОЙ?!",
+	"tags": -1,
+	"prms": [
+#		{
+#			"type": "check",
+#			"text": "Мне в жизни уже хватает хаоса.",
+#			"stat": true
+#		},
+#		{
+#			"type": "option",
+#			"text": "Пункт N2",
+#			"items": ["1", "2", "3", "4", "5", "6"],
+#			"indx": 2
+#		},
+#		{
+#			"type": "slider",
+#			"text": "Пункт N3",
+#			"step": 1,
+#			"min value": 3,
+#			"max value": 6,
+#			"min d value": 5,
+#			"max d value": 5
+#		}
+	]
+}
+
 # ---------- ПЕРВЫЙ ЗАКАЗ (обучающий) ----------
 var startOrder: Dictionary = {
 	"name": "Drimer544 (создатель игры)",

@@ -13,8 +13,8 @@ onready var title_image = $"CanvasLayer/title image"
 onready var sound_police = $"sound police"
 
 var money: int = 0
-var minTimerWaitTime: float = 30.0
-var maxTimerWaitTime: float = 60.0
+var minTimerWaitTime: float = 15.0
+var maxTimerWaitTime: float = 40.0
 var orderScene = preload("res://scenes/order1.tscn")
 var canceledCount: int = 0
 var completeOrders: int = 0

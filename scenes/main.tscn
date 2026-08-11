@@ -431,7 +431,7 @@ align = 1
 valign = 1
 
 [node name="timerSpawningOrders" type="Timer" parent="."]
-wait_time = 60.0
+wait_time = 30.0
 autostart = true
 
 [node name="timerCanceled" type="Timer" parent="."]

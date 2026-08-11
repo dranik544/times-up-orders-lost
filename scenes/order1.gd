@@ -28,7 +28,7 @@ var random_order: Dictionary
 var isCompleted: bool = false
 var is_dragging = false
 var drag_offset = Vector2()   # смещение между центром заказа и курсором
-enum typeOrder {DEFAULT, START, RARE, MESSAGE, EMERGENCY, BEGIN, DARKNET}
+enum typeOrder {DEFAULT, START, RARE, MESSAGE, EMERGENCY, BEGIN, DARKNET, CUSTOM}
 export var currentTypeOrder = -1
 var tags: Array = []
 
@@ -45,6 +45,8 @@ func _ready():
 		random_order = OrderList.startOrder
 	elif currentTypeOrder == typeOrder.BEGIN:
 		random_order = OrderList.beginOrder
+	elif currentTypeOrder == typeOrder.CUSTOM:
+		random_order = OrderList.customOrder
 	else:
 		# 1. Выбираем тег (1, 2 или 3) с учётом весов
 		var chosen_tag: int = Global.get_weighted_tag()
@@ -404,7 +406,7 @@ func _add_money(count: int):
 	get_tree().current_scene._add_money(count)
 
 func _try_spawn_order():
-	if get_tree().get_nodes_in_group("order").size() < 2:
+	if get_tree().get_nodes_in_group("order").size() < 3:
 		get_tree().current_scene._spawn_order()
 
 func _play_sound(sound: AudioStreamMP3):
