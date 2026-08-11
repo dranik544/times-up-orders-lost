@@ -19,6 +19,7 @@ onready var canvas_modulate = $"../CanvasModulate"
 onready var sounds = $"sounds"
 onready var rare_particles = $rareParticles
 onready var tags_label = $ui/tags
+onready var main: Node2D = get_tree().current_scene
 
 onready var time = $time
 onready var tween_complete_order = $TweenCompleteOrder
@@ -35,6 +36,8 @@ var tags: Array = []
 func _ready():
 	add_to_group("order")
 	
+	yield(get_tree().create_timer(0.05, false), "timeout")
+	
 	ui.connect("gui_input", self, "_on_ui_gui_input")
 	message.connect("gui_input", self, "_on_ui_gui_input")
 	
@@ -50,7 +53,7 @@ func _ready():
 	else:
 		# 1. Выбираем тег (1, 2 или 3) с учётом весов
 		var chosen_tag: int = Global.get_weighted_tag()
-		var thsh: int = get_tree().current_scene.completeOrders
+		var thsh: int = Global.completedOrders
 		
 		# 2. Собираем все заказы из всех списков, у которых tags == chosen_tag
 		var candidates = []
@@ -61,17 +64,17 @@ func _ready():
 			if i.get("tags", -1) == chosen_tag:
 				candidates.append(i)
 		
-		if thsh >= 7:
+		if thsh >= 0:
 			for i in OrderList.rareOrders:
 				if i.get("tags", -1) == chosen_tag:
 					candidates.append(i)
 		
-		if thsh >= 20:
+		if thsh >= 0:
 			for i in OrderList.darknetOrders:
 				if i.get("tags", -1) == chosen_tag:
 					candidates.append(i)
 		
-		if thsh >= 30:
+		if thsh >= 0:
 			for i in OrderList.emergencyOrders:
 				if i.get("tags", -1) == chosen_tag:
 					candidates.append(i)
@@ -102,7 +105,7 @@ func _ready():
 		else:
 			currentTypeOrder = typeOrder.DEFAULT
 	
-	print(currentTypeOrder)
+	print("Тип этого заказа: " + str(currentTypeOrder))
 	if currentTypeOrder != typeOrder.START && currentTypeOrder != typeOrder.BEGIN:
 		random_order["prms"].shuffle()
 	
@@ -113,12 +116,14 @@ func _ready():
 	time_progress_bar.value = random_order["time"]
 	time.wait_time = random_order["time"]
 	money_label.text = str(random_order["money"]) + "$"
+	
 	if random_order.has("ready text"):
 		ready_button.text = random_order["ready text"]
 	else: ready_button.text = "READY"
 	if random_order.has("cancel text"):
 		cancel_button.text = random_order["cancel text"]
 	else: cancel_button.text = "CANCEL"
+	
 	if currentTypeOrder == typeOrder.RARE:
 		rare_particles.restart()
 		bg.texture = load("res://sprites/orderBG2_rare.png")
@@ -127,18 +132,29 @@ func _ready():
 	if currentTypeOrder == typeOrder.MESSAGE:
 		bg.texture = load("res://sprites/orderBG2_message.png")
 	if currentTypeOrder == typeOrder.EMERGENCY:
-		cancel_button.hide()
 		bg.texture = load("res://sprites/orderBG2_emergency.png")
 		_play_sound(load("res://sounds/EMERGENCY ORDER.mp3"))
 		get_tree().get_first_node_in_group("camera")._shake_camera(0.5, 150)
 		canvas_modulate._flash(Color.red, 45.0)
 	if currentTypeOrder == typeOrder.DARKNET:
 		bg.texture = load("res://sprites/orderBG2_darknet_2.png")
-		get_tree().current_scene.get_node("CanvasLayer/shading1")._flash()
-	if random_order.has("safe cancel"): tags.append("Безопасный отказ")
-	if random_order.has("safe skip"): tags.append("Безопасный пропуск")
-	if random_order.has("safe rep"): tags.append("Без отзыва")
-	if random_order.has("multiple review"): tags.append("Несколько отзывов")
+		main.get_node("CanvasLayer/shading1")._flash()
+	
+	if random_order.has("mods"):
+		var m = random_order["mods"]
+		if m.has("safe cancel"):
+			tags.append("Безопасный отказ")
+		if m.has("safe skip"):
+			tags.append("Безопасный пропуск")
+		if m.has("safe rep"):
+			tags.append("Без отзыва")
+		if m.has("disable cancel"):
+			cancel_button.hide()
+			tags.append("Нет отмены")
+		if m.has("police count"):
+			tags.append("+" + str(m["police count"]) + " к преступности")
+		if m.has("multiple review"):
+			tags.append("Сразу " + str(m["multiple review"]) + " отзывов")
 	if tags.empty():
 		tags_label.hide()
 		sepr_4.hide()
@@ -155,7 +171,8 @@ func _ready():
 			"check":
 				var cb = CheckBox.new()
 				cb.text = p["text"]
-				cb.pressed = false
+				randomize()
+				cb.pressed = true if randi()%2 == 1 else false
 				cb.align = Button.ALIGN_CENTER
 				blocks_container.add_child(cb)
 				param_widgets.append({
@@ -263,9 +280,8 @@ func _on_time_timeout():
 	if random_order.get("tags", -1) != -1:
 		Global.decrease_weight(random_order.get("tags", -1))
 	
-	if random_order.has("safe skip"):
-		if random_order["safe skip"] != true:
-			if isCompleted: return
+	if random_order.has("mods") and random_order["mods"].has("safe skip"):
+		if isCompleted: return
 	else: if isCompleted: return
 	
 	remove_from_group("order")
@@ -305,24 +321,31 @@ func _on_ready_pressed():
 	
 	if all_ok:
 		print("pass (все верно)")
-		if random_order.has("police count"): get_tree().current_scene._add_police_count(random_order["police count"])
-		get_tree().current_scene._update_complete_orders_count(1)
+		remove_from_group("order")
+		
+		if random_order.has("mods") and random_order["mods"].has("police count"):
+			Global._change_police_count(random_order["mods"]["police count"])
+		
+		Global._change_completed_orders_count(1)
+		
 		if random_order.get("tags", -1) != -1:
 			Global.update_weights(random_order.get("tags", -1))
-		remove_from_group("order")
 		
 		canvas_modulate._flash(Color.green)
 		_play_sound(load("res://sounds/succesfly.mp3"))
 		yield(_show_review(true), "completed")
 		
-		_add_money(random_order["money"])
+		Global._change_money_count(random_order["money"])
 		yield(_play_sound(load("res://sounds/money.mp3")), "completed")
 	else:
 		print("pass (не все верно)")
-		if random_order.has("police count"): get_tree().current_scene._add_police_count(random_order["police count"])
+		remove_from_group("order")
+		
+		if random_order.has("mods") and random_order["mods"].has("police count"):
+			Global._change_police_count(random_order["mods"]["police count"])
+		
 		if random_order.get("tags", -1) != -1:
 			Global.decrease_weight(random_order.get("tags", -1))
-		remove_from_group("order")
 		
 		money_label.text = str(random_order["money"] / 2) + "$"
 		canvas_modulate._flash(Color.crimson)
@@ -331,7 +354,7 @@ func _on_ready_pressed():
 		
 		yield(_show_review(false), "completed")
 		
-		_add_money(random_order["money"] / 2)
+		Global._change_money_count(random_order["money"] / 2)
 		yield(_play_sound(load("res://sounds/money.mp3")), "completed")
 		
 	
@@ -341,16 +364,15 @@ func _on_ready_pressed():
 
 # Обработчик кнопки Cancel
 func _on_cancel_pressed():
-	if random_order.has("safe cancel"):
-		if random_order["safe cancel"] != true:
-			if get_tree().current_scene.canceledCount == 3: return
-	else: if get_tree().current_scene.canceledCount == 3: return
+	if !random_order.has("mods") || random_order.has("mods") && random_order["mods"].has("safe cancel"):
+		if Global.canceledOrders >= Global.MAX_CANCELED_ORDERS: return
 	
 	isCompleted = true
 	time.stop()
 	
 	remove_from_group("order")
-	if !random_order.has("safe cancel"): get_tree().current_scene._canceled_change(1)
+	if !random_order.has("mods") || random_order.has("mods") && !random_order["mods"].has("safe cancel"):
+		Global._change_canceled_orders_count(1)
 	yield(_hide_with_animation(), "completed")
 	_try_spawn_order()
 	
@@ -378,11 +400,11 @@ func _show_review(good: bool):
 	desc_label.bbcode_text = random_order["good review"] if good else random_order["bad review"]
 	
 	var o: int = 1
-	if random_order.has("multiple review"):
-		o = random_order["multiple review"]
+	if random_order.has("mods") && random_order["mods"].has("multiple review"):
+		o = random_order["mods"]["multiple review"]
 	for i in range(o):
-		if !random_order.has("safe rep"):
-			get_tree().current_scene._add_review(
+		if !random_order.has("mods") || random_order.has("mods") && !random_order["mods"].has("safe rep"):
+			Global._add_review(
 				5.0 if good else 1.0
 			)
 	
@@ -402,12 +424,9 @@ func _show_review(good: bool):
 	
 	return true
 
-func _add_money(count: int):
-	get_tree().current_scene._add_money(count)
-
 func _try_spawn_order():
 	if get_tree().get_nodes_in_group("order").size() < 3:
-		get_tree().current_scene._spawn_order()
+		main._spawn_order()
 
 func _play_sound(sound: AudioStreamMP3):
 	sounds.stream.audio_stream = sound

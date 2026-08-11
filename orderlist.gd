@@ -79,9 +79,7 @@ var beginOrder: Dictionary = {
 	"money": 0,
 	"ready text": "Принял!",
 	"cancel text": "Ой, чепуха.",
-	"safe skip": true,
-	"safe cancel": true,
-	"safe rep": true,
+	"mods": {"safe skip": true, "safe cancel": true, "safe rep": true},
 	"tags": -1,
 	"prms": []
 }
@@ -97,9 +95,7 @@ var darknetOrders: Array = [
 		"money": 10000,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 2,
 		"prms": [
 			{
@@ -124,9 +120,7 @@ var darknetOrders: Array = [
 		"money": 8500,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 3,
 		"prms": [
 			{
@@ -151,9 +145,7 @@ var darknetOrders: Array = [
 		"money": 7000,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 2,
 		"prms": [
 			{
@@ -178,9 +170,7 @@ var darknetOrders: Array = [
 		"money": 9000,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 3,
 		"prms": [
 			{
@@ -209,9 +199,7 @@ var darknetOrders: Array = [
 		"money": 4000,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 2,
 		"prms": [
 			{
@@ -240,9 +228,7 @@ var darknetOrders: Array = [
 		"money": 8000,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 3,
 		"prms": [
 			{
@@ -270,9 +256,7 @@ var darknetOrders: Array = [
 		"money": 5500,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 2,
 		"prms": [
 			{
@@ -297,9 +281,7 @@ var darknetOrders: Array = [
 		"money": 7500,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 3,
 		"prms": [
 			{
@@ -327,9 +309,7 @@ var darknetOrders: Array = [
 		"money": 6200,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 2,
 		"prms": [
 			{
@@ -358,9 +338,7 @@ var darknetOrders: Array = [
 		"money": 6800,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 2,
 		"prms": [
 			{
@@ -386,9 +364,7 @@ var darknetOrders: Array = [
 		"money": 9000,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 3,
 		"prms": [
 			{
@@ -413,9 +389,7 @@ var darknetOrders: Array = [
 		"money": 8000,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 3,
 		"prms": [
 			{
@@ -443,9 +417,7 @@ var darknetOrders: Array = [
 		"money": 7200,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 2,
 		"prms": [
 			{
@@ -474,9 +446,7 @@ var darknetOrders: Array = [
 		"money": 4500,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 2,
 		"prms": [
 			{
@@ -504,9 +474,7 @@ var darknetOrders: Array = [
 		"money": 6000,
 		"ready text": "ГОТОВО!",
 		"cancel text": "Пропустить",
-		"safe skip": true,
-		"safe rep": true,
-		"police count": 1,
+		"mods": {"safe skip": true, "safe rep": true, "police count": 1},
 		"tags": 2,
 		"prms": [
 			{
@@ -526,7 +494,7 @@ var darknetOrders: Array = [
 
 # ---------- СООБЩЕНИЯ ОТ РОДНЫХ/ЗНАКОМЫХ (40 заказов) ----------
 var messageOrders: Array = [
-	# 1 - Валера (пьяный)
+	# 1 - Валера (без модов)
 	{
 		"name": "Валера 18кв (постоянно бухает)",
 		"desc": "[wave]аааываэ фыАВЫ[/wave]  сделйа МНЕ САЙт авгде ртппо вфыфыв колчре [color=#ff0000]с#ка[/color] мдепл!Ц!1!!цвы",
@@ -536,8 +504,6 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Чего? Ты опять нажрался до верху?!",
 		"cancel text": "ПОШЁЛ НА#УЙ! НЕ МЕШАЙ РАБОТАТЬ!",
-		"safe cancel": true,
-		"safe skip": true,
 		"tags": 1,
 		"prms": []
 	},
@@ -551,9 +517,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Всё готово, бабуль!",
 		"cancel text": "Прости, бабуль, я занят",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -579,8 +543,7 @@ var messageOrders: Array = [
 		"money": 500,
 		"ready text": "Готово!",
 		"cancel text": "Это слишком сложно для меня",
-		"safe cancel": true,
-		"safe skip": true,
+		"mods": {"safe cancel": true, "safe skip": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -609,9 +572,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Всё сделал, братан!",
 		"cancel text": "Извини, у меня своих дел полно",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -637,9 +598,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, мам!",
 		"cancel text": "Мам, я не могу, это сложно",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -668,9 +627,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Сайт готов, дядя Петя!",
 		"cancel text": "Я не буду участвовать в этом!",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -696,9 +653,7 @@ var messageOrders: Array = [
 		"money": 300,
 		"ready text": "Готово, сестрёнка!",
 		"cancel text": "Лен, извини, не успеваю",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -728,9 +683,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Система готова, сэр!",
 		"cancel text": "Простите, я не потяну",
-		"safe cancel": true,
-		"safe skip": true,
-		"multiple review": 3,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true, "multiple review": 3},
 		"tags": 1,
 		"prms": [
 			{
@@ -756,9 +709,7 @@ var messageOrders: Array = [
 		"money": 200,
 		"ready text": "Игра готова, Кирилл!",
 		"cancel text": "Прости, Кирюха, нет времени",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -787,9 +738,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Всё готово, любимая!",
 		"cancel text": "Прости, я не могу, это сложно",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -805,7 +754,7 @@ var messageOrders: Array = [
 			}
 		]
 	},
-	# 11 - Серёга пьяный
+	# 11 - Серёга
 	{
 		"name": "Серёга (пьяный в стельку)",
 		"desc": "[wave]слышь чёл[/wave] сделай мне програму штоб я мог взламывать компы друзей\nа то они меня бесят я хочу видеть их пароли и переписки\n[color=#880000]и ещё штоб я мог удалять их игры[/color] ага\nи чтобы она была невидимая, никаких следов\n[shake]сделай за час а то я приду и вылью пиво на твой ноут[/shake]\nИ используй брутфорс, он самый надёжный.",
@@ -815,9 +764,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Сделано, но это незаконно!",
 		"cancel text": "Пошёл на#уй, я не хакер!",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -843,9 +790,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово!",
 		"cancel text": "Это бред, я не буду",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -870,9 +815,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, ищи предателя!",
 		"cancel text": "Я не буду делать игры про животных",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -898,9 +841,7 @@ var messageOrders: Array = [
 		"money": 200,
 		"ready text": "Червяки готовы!",
 		"cancel text": "Я не буду делать игры с червяками",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -935,9 +876,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, дед!",
 		"cancel text": "Прости, дед, я не рыбак",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -966,9 +905,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Оля!",
 		"cancel text": "Оль, я не модельер, извини",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -994,9 +931,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, тёть Галя!",
 		"cancel text": "Простите, я не умею торговать",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1025,9 +960,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "О, кошечка Неко Арк!",
 		"cancel text": "НЕ МЕШАЙ!!!",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1037,7 +970,6 @@ var messageOrders: Array = [
 			}
 		]
 	},
-	# ---- НОВЫЕ СООБЩЕНИЯ (до 40) ----
 	# 19 - Двоюродный брат Коля
 	{
 		"name": "Двоюродный брат Коля (дальнобойщик)",
@@ -1048,9 +980,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, братан!",
 		"cancel text": "Извини, я не разбираюсь в логистике",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1075,9 +1005,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, тёть Рая!",
 		"cancel text": "Простите, я не бухгалтер",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1102,9 +1030,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Лена!",
 		"cancel text": "Извини, я не блогер",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1130,9 +1056,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Ваня!",
 		"cancel text": "Извини, я не разбираюсь в стримах",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1157,9 +1081,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, бабуль!",
 		"cancel text": "Прости, бабуль, я не агроном",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1184,9 +1106,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Дима!",
 		"cancel text": "Извини, я не механик",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1211,9 +1131,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Серёжа!",
 		"cancel text": "Прости, я не умею делать игры про динозавров",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1242,9 +1160,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, тёть Зоя!",
 		"cancel text": "Простите, я не кондитер",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1269,9 +1185,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Паша!",
 		"cancel text": "Извини, я не звукорежиссёр",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1296,9 +1210,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Галя!",
 		"cancel text": "Извини, я не умею делать программы для уборки",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1323,9 +1235,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Настя!",
 		"cancel text": "Извини, я не художник",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1350,9 +1260,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Сергей!",
 		"cancel text": "Извини, я не сантехник",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1377,9 +1285,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Вова!",
 		"cancel text": "Извини, я не тайм-менеджер",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1404,9 +1310,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, бабуль!",
 		"cancel text": "Простите, я не вяжу",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1431,9 +1335,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Андрей!",
 		"cancel text": "Извини, я не могу сделать IDE",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1458,9 +1360,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, тёть Нина!",
 		"cancel text": "Простите, я не библиотекарь",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1485,9 +1385,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Даша!",
 		"cancel text": "Прости, я не умею делать игры про единорогов",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1512,9 +1410,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Стас!",
 		"cancel text": "Извини, я не тренер",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1539,9 +1435,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Аня!",
 		"cancel text": "Извини, я не парикмахер",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1566,9 +1460,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, дядя Фёдор!",
 		"cancel text": "Простите, я не фермер",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1593,9 +1485,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, Леша!",
 		"cancel text": "Извини, я не фотограф",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1620,9 +1510,7 @@ var messageOrders: Array = [
 		"money": 0,
 		"ready text": "Готово, бабуль!",
 		"cancel text": "Прости, я не люблю пазлы",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"safe cancel": true, "safe skip": true, "safe rep": true},
 		"tags": 1,
 		"prms": [
 			{
@@ -1686,7 +1574,7 @@ var rareOrders: Array = [
 		"money": -5000,
 		"ready text": "Оплатить",
 		"cancel text": "Не оплачивать",
-		"safe cancel": true,
+		"mods": {"disable cancel": true, "safe rep": true},
 		"tags": 2,
 		"prms": []
 	},
@@ -1700,7 +1588,7 @@ var rareOrders: Array = [
 		"money": -8450,
 		"ready text": "Оплатить налог",
 		"cancel text": "Оспорить",
-		"safe cancel": true,
+		"mods": {"disable cancel": true, "safe rep": true},
 		"tags": 2,
 		"prms": [
 			{
@@ -1729,7 +1617,7 @@ var rareOrders: Array = [
 		"money": -1000,
 		"ready text": "Подтверждаю",
 		"cancel text": "Отказ",
-		"safe cancel": true,
+		"mods": {"disable cancel": true, "safe rep": true},
 		"tags": 2,
 		"prms": [
 			{
@@ -1752,15 +1640,13 @@ var rareOrders: Array = [
 	{
 		"name": "Военкомат (повестка)",
 		"desc": "[shake]Гражданин! Вам необходимо явиться в военкомат для уточнения данных.[/shake]\nВыберите дату явки – удобно будет в районе 3–5 дня, я выберу 3-й.\nОтметьте причину отсрочки, если есть — у меня её нет.\n[color=#ff0000]Если не явитесь, будет штраф.[/color]",
-		"good review": "Явился вовремя, всё уладил, отсрочка оформлена.",
+		"good review": "Не явился, получил штраф и повестку насильно.",
 		"bad review": "Не явился, получил штраф и повестку насильно.",
 		"time": 30,
 		"money": -5000,
-		"ready text": "Явиться",
+		"ready text": "Ха, не явлюсь!",
 		"cancel text": "Проигнорировать",
-		"safe cancel": true,
-		"safe skip": true,
-		"safe rep": true,
+		"mods": {"disable cancel": true, "safe rep": true},
 		"tags": 2,
 		"prms": [
 			{
@@ -1791,7 +1677,7 @@ var rareOrders: Array = [
 		"ready text": "Готово, господин!",
 		"cancel text": "Это не моя компетенция",
 		"tags": 2,
-		"multiple review": 10,
+		"mods": {"multiple review": 10},
 		"prms": [
 			{
 				"type": "slider",
@@ -2004,6 +1890,7 @@ var rareOrders: Array = [
 		"money": 40000,
 		"ready text": "Готово!",
 		"cancel text": "Слишком сложно",
+		"mods": {"safe cancel": true, "safe rep": true, "safe skip": true, "disable cancel": true, "police count": 1, "multiple review": 3},
 		"tags": 2,
 		"prms": [
 			{
@@ -2945,8 +2832,8 @@ var emergencyOrders: Array = [
 		"money": 100000,
 		"ready text": "Запуск!",
 		"cancel text": "Отказ от миссии",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "slider",
@@ -2979,8 +2866,8 @@ var emergencyOrders: Array = [
 		"time": 135,
 		"money": 500000,
 		"ready text": "ГОТОВО, СЭР!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3023,8 +2910,8 @@ var emergencyOrders: Array = [
 		"time": 195,
 		"money": 200000,
 		"ready text": "ГОТОВО, МИСТЕР МАСК!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3072,8 +2959,8 @@ var emergencyOrders: Array = [
 		"time": 255,
 		"money": 1000000,
 		"ready text": "ГОТОВО, ВАШЕ ВЕЛИЧЕСТВО!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3121,8 +3008,8 @@ var emergencyOrders: Array = [
 		"time": 240,
 		"money": 800000,
 		"ready text": "ГОТОВО, МИСТЕР НАДЕЛЛА!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3151,8 +3038,8 @@ var emergencyOrders: Array = [
 		"time": 300,
 		"money": 1200000,
 		"ready text": "ГОТОВО, ГОСПОДА!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3184,8 +3071,8 @@ var emergencyOrders: Array = [
 		"time": 360,
 		"money": 1500000,
 		"ready text": "ГОТОВО, ДЖЕФФ!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3214,8 +3101,8 @@ var emergencyOrders: Array = [
 		"time": 480,
 		"money": 2000000,
 		"ready text": "ГОТОВО, КАПИТАН!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3247,8 +3134,8 @@ var emergencyOrders: Array = [
 		"time": 360,
 		"money": 1800000,
 		"ready text": "ГОТОВО, ГАБЕН!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3277,8 +3164,8 @@ var emergencyOrders: Array = [
 		"time": 240,
 		"money": 1000000,
 		"ready text": "ГОТОВО, ТИМ!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3307,8 +3194,8 @@ var emergencyOrders: Array = [
 		"time": 180,
 		"money": 1200000,
 		"ready text": "ГОТОВО, НЕТФЛИКС!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3342,8 +3229,8 @@ var emergencyOrders: Array = [
 		"time": 300,
 		"money": 2500000,
 		"ready text": "ГОТОВО, БОИНГ!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3376,8 +3263,8 @@ var emergencyOrders: Array = [
 		"time": 240,
 		"money": 3000000,
 		"ready text": "ГОТОВО, ИЛОН!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3411,8 +3298,8 @@ var emergencyOrders: Array = [
 		"time": 180,
 		"money": 1500000,
 		"ready text": "ГОТОВО, TENCENT!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3445,8 +3332,8 @@ var emergencyOrders: Array = [
 		"time": 120,
 		"money": 1000000,
 		"ready text": "ГОТОВО, NINTENDO!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3480,8 +3367,8 @@ var emergencyOrders: Array = [
 		"time": 180,
 		"money": 1800000,
 		"ready text": "ГОТОВО, SONY!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3514,8 +3401,8 @@ var emergencyOrders: Array = [
 		"time": 120,
 		"money": 1000000,
 		"ready text": "ГОТОВО, SAMSUNG!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3549,8 +3436,8 @@ var emergencyOrders: Array = [
 		"time": 240,
 		"money": 2000000,
 		"ready text": "ГОТОВО, HUAWEI!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3587,8 +3474,8 @@ var emergencyOrders: Array = [
 		"time": 120,
 		"money": 1500000,
 		"ready text": "ГОТОВО, INTEL!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3622,8 +3509,8 @@ var emergencyOrders: Array = [
 		"time": 120,
 		"money": 1200000,
 		"ready text": "ГОТОВО, AMD!",
+		"mods": {"multiple review": 5, "disable cancel": true},
 		"tags": 3,
-		"multiple review": 5,
 		"prms": [
 			{
 				"type": "check",
@@ -3737,7 +3624,7 @@ var orders: Array = [
 		"money": 15000,
 		"ready text": "Готово, ловите котиков!",
 		"cancel text": "Это безумие, я пас",
-		"safe cancel": true,
+		"mods": {"safe cancel": true},
 		"tags": 2,
 		"prms": [
 			{
@@ -3772,7 +3659,7 @@ var orders: Array = [
 		"money": 22000,
 		"ready text": "Сайт доставки готов!",
 		"cancel text": "Слишком много правок, отказываюсь",
-		"safe cancel": true,
+		"mods": {"safe cancel": true},
 		"tags": 2,
 		"prms": [
 			{
@@ -4214,7 +4101,7 @@ var orders: Array = [
 		"money": 5000,
 		"ready text": "Готово, Рик!",
 		"cancel text": "Я не буду делать это, Рик, это опасно!",
-		"safe cancel": true,
+		"mods": {"safe cancel": true},
 		"tags": 2,
 		"prms": [
 			{

@@ -12,17 +12,9 @@ onready var title_end = $"CanvasLayer/title end"
 onready var title_image = $"CanvasLayer/title image"
 onready var sound_police = $"sound police"
 
-var money: int = 0
 var minTimerWaitTime: float = 15.0
 var maxTimerWaitTime: float = 40.0
 var orderScene = preload("res://scenes/order1.tscn")
-var canceledCount: int = 0
-var completeOrders: int = 0
-var reviews: Array = []
-var rep: float = 5.0
-var ended: bool = false
-var begined: bool = false
-var policeCount: int = 0
 
 
 func _ready():
@@ -30,11 +22,14 @@ func _ready():
 	timer_spawning_orders.connect("timeout", self, "_on_timer_spawning_orders_timeout")
 	timer_canceled.connect("timeout", self, "_on_timer_canceled_timeout")
 	Global.connect("updateWeights", self, "_update_title_status")
+	Global.connect("updateCanceledOrders", self, "_update_canceled_orders_counter")
+	Global.connect("updateCompletedOrders", self, "_update_completed_orders_counter")
+	Global.connect("updateMoney", self, "_update_money_counter")
+	Global.connect("updatePoliceCount", self, "_update_police_count")
+	Global.connect("updateReputation", self, "_update_reputation")
 
-func _add_money(count: int):
-	money += count
-	print("Сейчас на балансе " + str(money) + "$")
-	money_label.text = str(money) + "$ на балансе"
+func _update_money_counter():
+	money_label.text = str(Global.money) + "$ на балансе"
 
 func _on_timer_spawning_orders_timeout():
 	_spawn_order()
@@ -42,16 +37,9 @@ func _on_timer_spawning_orders_timeout():
 	_reroll_timer_spawning_orders()
 	timer_spawning_orders.start()
 
-func _on_timer_canceled_timeout():
-	_canceled_change(-1)
-
-func _canceled_change(count: int):
-	canceledCount = clamp(canceledCount + count, 0, 3)
-	canceled_label.text = str(canceledCount) + "/3 отмен заказа"
-
 func _reroll_timer_spawning_orders():
 	randomize()
-	timer_spawning_orders.wait_time = rand_range(minTimerWaitTime, maxTimerWaitTime)
+	timer_spawning_orders.wait_time = rand_range(minTimerWaitTime * Global.timerSpawnOrdersWaitTimeMod, maxTimerWaitTime * Global.timerSpawnOrdersWaitTimeMod)
 
 func _spawn_order(oType: int = -1):
 	print("Спавн заказа с типом: ", oType)   # <-- добавь
@@ -62,32 +50,23 @@ func _spawn_order(oType: int = -1):
 	add_child(newOrder)
 	newOrder.position = Vector2(rand_range(0+32, viewport.x-viewport.x/2), rand_range(0+32, viewport.y-viewport.y/2))
 
-func _update_complete_orders_count(count: int):
-	completeOrders += count
-	orders.text = str(completeOrders) + " Выполненых заказов"
+func _on_timer_canceled_timeout():
+	Global._canceled_change(-1)
 
-func _add_review(num: float):
-	print("Добавлено " + str(num) + " звёзд")
-	reviews.append(num)
-	_get_review_average()
+func _update_canceled_orders_counter():
+	canceled_label.text = str(Global.canceledOrders) + "/3 отмен заказа"
 
-func _get_review_average():
-	if reviews.empty(): return
-	var sum: float = 0.0
-	for i in reviews:
-		sum += i
-	
-	rep = sum / reviews.size()
-	print("Текущая репутация: " + str(rep))
-	
-	stars.get_node("count reviews").text = str(reviews.size()) + " отзывов"
+func _update_completed_orders_counter():
+	orders.text = str(Global.completedOrders) + " выполненых заказов"
+
+func _update_reputation():
+	stars.get_node("count reviews").text = str(Global.reviews.size()) + " отзывов"
 	for i in stars.get_child_count() - 1:
 		stars.get_node("star" + str(i + 1)).hide()
-	for i in int(rep):
+	for i in int(Global.reputation):
 		stars.get_node("star" + str(i + 1)).show()
 	
-	if rep < 3:
-		_end()
+	if Global.reputation < Global.MIN_REPUTATION: _end()
 
 func _end():
 	# Концовка
@@ -106,9 +85,9 @@ func _update_title_status():
 	title.get_node("tag3/ProgressBar").value = Global.faction_counts[2]
 	
 	if Global.faction_counts[0] >= 30 || Global.faction_counts[1] >= 30 || Global.faction_counts[2] >= 30:
-		if ended: return
+		if Global.unlockedElement2: return
 		print("ended")
-		ended = true
+		Global.unlockedElement2 = true
 		
 		title.hide()
 		
@@ -163,8 +142,8 @@ func _update_title_status():
 		title_end.hide()
 	
 	if Global.faction_counts[0] >= 7 || Global.faction_counts[1] >= 7 || Global.faction_counts[2] >= 7:
-		if begined: return
-		begined = true
+		if Global.unlockedElement1: return
+		Global.unlockedElement2 = true
 		
 		_spawn_order(5)
 		title.show()
@@ -175,10 +154,9 @@ func _update_title_status():
 		yield(tween, "tween_completed")
 		tween.queue_free()
 
-func _add_police_count(count: int):
-	policeCount += 1
-	
-	if policeCount >= 8:
+func _update_police_count():
+	if Global.policeCount >= 8:
+		print("АРЕСТ!")
 		sound_police.play()
 		yield(sound_police, "finished")
 		_end()

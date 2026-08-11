@@ -2,7 +2,8 @@ extends Camera2D
 
 var shakespeed: float = 0.0
 var shakesensitivity: float = 0.0
-var shakeinterpolate: float = 20.0
+var shakeinterpolate: float = 25.0
+export(Vector2) var basePosition = position
 
 var time: float = 0.0
 
@@ -27,11 +28,11 @@ func _process(delta):
 #	print(wPosition)
 	
 	if shakesensitivity > 0:
-		var nPosition = Vector2.ZERO + Vector2(
+		var nPosition = basePosition + Vector2(
 			rand_range(-shakesensitivity, shakesensitivity),
 			rand_range(-shakesensitivity, shakesensitivity)
 		) #+ wPosition
-		var nRotation = rand_range(-shakesensitivity, shakesensitivity) * 0.05
+		var nRotation = rand_range(-shakesensitivity, shakesensitivity) * 0.06
 		
 		position = lerp(position, nPosition, shakeinterpolate * delta)
 		rotation_degrees = lerp(rotation_degrees, nRotation, shakeinterpolate * delta)
@@ -39,5 +40,5 @@ func _process(delta):
 		
 		shakesensitivity -= shakespeed
 	else:
-		position = Vector2.ZERO #+ wPosition
+		position = basePosition #+ wPosition
 		rotation_degrees = 0.0

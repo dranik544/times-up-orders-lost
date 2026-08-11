@@ -108,16 +108,9 @@ position = Vector2( 371, 153 )
 currentTypeOrder = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
-anchor_mode = 0
+position = Vector2( 480, 360 )
 rotating = true
 current = true
-limit_smoothed = true
-drag_margin_h_enabled = true
-drag_margin_v_enabled = true
-smoothing_speed = 10.0
-drag_margin_left = 0.75
-drag_margin_top = 0.75
-drag_margin_right = 0.75
 drag_margin_bottom = 0.75
 script = ExtResource( 7 )
 
