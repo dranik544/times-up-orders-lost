@@ -53,7 +53,6 @@ func _ready():
 	else:
 		# 1. Выбираем тег (1, 2 или 3) с учётом весов
 		var chosen_tag: int = Global.get_weighted_tag()
-		var thsh: int = Global.completedOrders
 		
 		# 2. Собираем все заказы из всех списков, у которых tags == chosen_tag
 		var candidates = []
@@ -64,17 +63,17 @@ func _ready():
 			if i.get("tags", -1) == chosen_tag:
 				candidates.append(i)
 		
-		if thsh >= 0:
+		if Global.completedOrders >= 7:
 			for i in OrderList.rareOrders:
 				if i.get("tags", -1) == chosen_tag:
 					candidates.append(i)
 		
-		if thsh >= 0:
+		if Global.completedOrders >= 20:
 			for i in OrderList.darknetOrders:
 				if i.get("tags", -1) == chosen_tag:
 					candidates.append(i)
 		
-		if thsh >= 0:
+		if Global.completedOrders >= 35:
 			for i in OrderList.emergencyOrders:
 				if i.get("tags", -1) == chosen_tag:
 					candidates.append(i)
@@ -94,16 +93,17 @@ func _ready():
 		# 5. ОПРЕДЕЛЯЕМ ТИП ЗАКАЗА ПО ТОМУ, В КАКОМ СПИСКЕ ОН ЛЕЖИТ
 		if random_order in OrderList.emergencyOrders:
 			currentTypeOrder = typeOrder.EMERGENCY
-			random_order["time"] /= 1.5
 		elif random_order in OrderList.rareOrders:
 			currentTypeOrder = typeOrder.RARE
 		elif random_order in OrderList.messageOrders:
 			currentTypeOrder = typeOrder.MESSAGE
 		elif random_order in OrderList.darknetOrders:
 			currentTypeOrder = typeOrder.DARKNET
-			random_order["time"] /= 1.25
 		else:
 			currentTypeOrder = typeOrder.DEFAULT
+	
+	random_order["time"] *= Global.timeToCompleteOrderMod
+	print("Время на выполнение заказа: " + str(random_order["time"]))
 	
 	print("Тип этого заказа: " + str(currentTypeOrder))
 	if currentTypeOrder != typeOrder.START && currentTypeOrder != typeOrder.BEGIN:
@@ -285,6 +285,12 @@ func _on_time_timeout():
 	else: if isCompleted: return
 	
 	remove_from_group("order")
+	
+	Global._change_timer_spawn_order_wait_time(1.05)
+	Global._change_max_count_orders_on_screen(0.95)
+	Global._change_completed_orders_count(1.05)
+	Global._change_time_to_complete_order(1.2)
+	
 	canvas_modulate._flash(Color.coral)
 	get_tree().get_first_node_in_group("camera")._shake_camera(5.0, 75.0)
 	yield(_show_review(false), "completed")
@@ -321,6 +327,11 @@ func _on_ready_pressed():
 	
 	if all_ok:
 		print("pass (все верно)")
+		
+		Global._change_timer_spawn_order_wait_time(0.97)
+		Global._change_max_count_orders_on_screen(1.05)
+		Global._change_completed_orders_count(0.97)
+		Global._change_time_to_complete_order(0.95)
 		remove_from_group("order")
 		
 		if random_order.has("mods") and random_order["mods"].has("police count"):
@@ -339,6 +350,11 @@ func _on_ready_pressed():
 		yield(_play_sound(load("res://sounds/money.mp3")), "completed")
 	else:
 		print("pass (не все верно)")
+		
+		Global._change_timer_spawn_order_wait_time(1.05)
+		Global._change_max_count_orders_on_screen(0.95)
+		Global._change_completed_orders_count(1.05)
+		Global._change_time_to_complete_order(0.98)
 		remove_from_group("order")
 		
 		if random_order.has("mods") and random_order["mods"].has("police count"):
@@ -425,7 +441,7 @@ func _show_review(good: bool):
 	return true
 
 func _try_spawn_order():
-	if get_tree().get_nodes_in_group("order").size() < 3:
+	if get_tree().get_nodes_in_group("order").size() < Global.maxCountOrdersOnScreen:
 		main._spawn_order()
 
 func _play_sound(sound: AudioStreamMP3):

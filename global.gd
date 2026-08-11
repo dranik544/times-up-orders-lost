@@ -10,7 +10,6 @@ signal updateReviews
 signal updatePoliceCount
 
 var money: int = 0
-var timerSpawnOrdersWaitTimeMod: float = 1.0
 var canceledOrders: int = 0
 var completedOrders: int = 0
 var reviews: Array = []
@@ -18,6 +17,12 @@ var reputation: float = 5.0
 var unlockedElement1: bool = false
 var unlockedElement2: bool = false
 var policeCount: int = 0
+var minTimerSpawnOrdersWaitTime: float = 40.0
+var maxTimerSpawnOrdersWaitTime: float = 60.0
+var timerSpawnOrdersWaitTimeMod: float = 1.0
+var maxCountOrdersOnScreen: int = 1
+var maxCountOrdersOnScreenMod: float = 1.0
+var timeToCompleteOrderMod: float = 1.0
 
 var faction_weights = [5, 5, 5]
 var faction_counts = [0, 0, 0]
@@ -25,7 +30,10 @@ var faction_counts = [0, 0, 0]
 const MAX_CANCELED_ORDERS: int = 2
 const MAX_POLICE_COUNT: int = 5
 const MIN_REPUTATION: float = 3.0
-const MAX_MONEY_COUNT: int = 999999999999   # 999.999.999.999
+const MAX_MONEY_COUNT: int = 999999999999999999   # 999.999.999.999.999.999
+const DEFAULT_MIN_TIMER_SPAWN_ORDERS_WAIT_TIME: float = 40.0
+const DEFAULT_MAX_TIMER_SPAWN_ORDERS_WAIT_TIME: float = 60.0
+const DEFAULT_MAX_COUNT_ORDERS_ON_SCREEN: int = 1
 
 const MIN_WEIGHT = 2.0
 const MAX_WEIGHT = 12.0
@@ -61,6 +69,8 @@ func update_weights(tag: int):
 			faction_weights[i] = max(faction_weights[i] - DECREMENT, MIN_WEIGHT)
 	faction_counts[idx] += 1
 	
+	print("Состояние весов: " + str(faction_weights))
+	
 	emit_signal("updateWeights")
 
 # Вызывается при провале заказа (таймаут или неправильное выполнение)
@@ -72,6 +82,8 @@ func decrease_weight(tag: int):
 		if i != idx:
 			faction_weights[i] = min(faction_weights[i] + 0.1, MAX_WEIGHT)
 	# Не увеличиваем счётчик выполненных, но сигнал можно послать для обновления UI
+	
+	print("Состояние весов: " + str(faction_weights))
 	
 	emit_signal("updateWeights")
 
@@ -115,3 +127,25 @@ func _change_police_count(count: int):
 	print("Текущий уровень полиции: " + str(policeCount))
 	
 	emit_signal("updatePoliceCount")
+
+func _change_timer_spawn_order_wait_time(count: float):
+	timerSpawnOrdersWaitTimeMod *= count
+	minTimerSpawnOrdersWaitTime = DEFAULT_MIN_TIMER_SPAWN_ORDERS_WAIT_TIME * timerSpawnOrdersWaitTimeMod
+	maxTimerSpawnOrdersWaitTime = DEFAULT_MAX_TIMER_SPAWN_ORDERS_WAIT_TIME * timerSpawnOrdersWaitTimeMod
+	
+	print("Модификатор таймера создания заказов: " + str(timerSpawnOrdersWaitTimeMod))
+	print("Мин. время создания заказов: " + str(minTimerSpawnOrdersWaitTime) + ";   " + "Макс. время создания заказов: " + str(maxTimerSpawnOrdersWaitTime))
+	
+	emit_signal("updateTimerSpawnOrdersWaitTime")
+
+func _change_max_count_orders_on_screen(count: float):
+	maxCountOrdersOnScreenMod *= count
+	maxCountOrdersOnScreen = int(DEFAULT_MAX_COUNT_ORDERS_ON_SCREEN * maxCountOrdersOnScreenMod)
+	
+	print("Модификатор. кол-ва заказов на экране: " + str(maxCountOrdersOnScreenMod))
+	print("Макс. кол-во заказов на экране: " + str(maxCountOrdersOnScreen))
+
+func _change_time_to_complete_order(count: float):
+	timeToCompleteOrderMod *= count
+	
+	print("Модификатор на время выполнения заказа: " + str(timeToCompleteOrderMod))

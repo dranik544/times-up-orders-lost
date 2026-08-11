@@ -12,8 +12,6 @@ onready var title_end = $"CanvasLayer/title end"
 onready var title_image = $"CanvasLayer/title image"
 onready var sound_police = $"sound police"
 
-var minTimerWaitTime: float = 15.0
-var maxTimerWaitTime: float = 40.0
 var orderScene = preload("res://scenes/order1.tscn")
 
 
@@ -39,9 +37,11 @@ func _on_timer_spawning_orders_timeout():
 
 func _reroll_timer_spawning_orders():
 	randomize()
-	timer_spawning_orders.wait_time = rand_range(minTimerWaitTime * Global.timerSpawnOrdersWaitTimeMod, maxTimerWaitTime * Global.timerSpawnOrdersWaitTimeMod)
+	timer_spawning_orders.wait_time = rand_range(Global.minTimerSpawnOrdersWaitTime, Global.maxTimerSpawnOrdersWaitTime)
 
 func _spawn_order(oType: int = -1):
+	if Global.maxCountOrdersOnScreen < get_tree().get_nodes_in_group("order").size(): return
+	
 	print("Спавн заказа с типом: ", oType)   # <-- добавь
 	var viewport = get_viewport().get_visible_rect().size
 	
@@ -51,7 +51,7 @@ func _spawn_order(oType: int = -1):
 	newOrder.position = Vector2(rand_range(0+32, viewport.x-viewport.x/2), rand_range(0+32, viewport.y-viewport.y/2))
 
 func _on_timer_canceled_timeout():
-	Global._canceled_change(-1)
+	Global._change_canceled_orders_count(-1)
 
 func _update_canceled_orders_counter():
 	canceled_label.text = str(Global.canceledOrders) + "/3 отмен заказа"
@@ -86,8 +86,8 @@ func _update_title_status():
 	
 	if Global.faction_counts[0] >= 30 || Global.faction_counts[1] >= 30 || Global.faction_counts[2] >= 30:
 		if Global.unlockedElement2: return
-		print("ended")
 		Global.unlockedElement2 = true
+		print("ended")
 		
 		title.hide()
 		
@@ -143,7 +143,7 @@ func _update_title_status():
 	
 	if Global.faction_counts[0] >= 7 || Global.faction_counts[1] >= 7 || Global.faction_counts[2] >= 7:
 		if Global.unlockedElement1: return
-		Global.unlockedElement2 = true
+		Global.unlockedElement1 = true
 		
 		_spawn_order(5)
 		title.show()
