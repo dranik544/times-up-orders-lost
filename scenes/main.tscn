@@ -15,14 +15,7 @@
 [ext_resource path="res://scenes/pause.gd" type="Script" id=13]
 [ext_resource path="res://sounds/door police.mp3" type="AudioStream" id=14]
 [ext_resource path="res://scenes/shading1.gd" type="Script" id=15]
-
-[sub_resource type="GDScript" id=8]
-script/source = "extends TextureRect
-
-
-func _process(delta):
-	rect_position = Vector2(-6270, -4140.001) + get_global_mouse_position() * 0.05
-"
+[ext_resource path="res://scenes/bg.gd" type="Script" id=16]
 
 [sub_resource type="Gradient" id=12]
 offsets = PoolRealArray( 0, 0.422535, 1 )
@@ -37,7 +30,7 @@ fill_from = Vector2( 0.5, 0.5 )
 fill_to = Vector2( 0.5, -1 )
 
 [sub_resource type="Gradient" id=13]
-colors = PoolColorArray( 0, 0, 0, 0, 0, 0, 0, 0.0117647 )
+colors = PoolColorArray( 0, 0, 0, 0, 0, 0, 0, 0.0196078 )
 
 [sub_resource type="GradientTexture2D" id=10]
 gradient = SubResource( 13 )
@@ -92,16 +85,14 @@ font_data = ExtResource( 2 )
 script = ExtResource( 3 )
 
 [node name="bg" type="TextureRect" parent="."]
-margin_left = -6270.0
-margin_top = -4140.0
-margin_right = 7230.0
-margin_bottom = 4860.0
-rect_scale = Vector2( 0.3, 0.3 )
-rect_pivot_offset = Vector2( 6750, 4500 )
+margin_left = -1770.0
+margin_top = -1140.0
+margin_right = 2730.0
+margin_bottom = 1860.0
+rect_scale = Vector2( 0.4, 0.4 )
+rect_pivot_offset = Vector2( 2250, 1500 )
 texture = ExtResource( 5 )
-expand = true
-stretch_mode = 2
-script = SubResource( 8 )
+script = ExtResource( 16 )
 
 [node name="order1" parent="." instance=ExtResource( 6 )]
 position = Vector2( 371, 153 )

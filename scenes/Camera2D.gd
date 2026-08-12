@@ -20,7 +20,7 @@ func _shake_camera(speed: float = 3.0, sensitivity: float = 100.0):
 func _process(delta):
 #	time += delta
 	
-	offset = Vector2.ZERO + get_global_mouse_position() * 0.01
+	offset = Vector2.ZERO + get_global_mouse_position() * 0.015
 #	var wPosition: Vector2 = Vector2.ZERO + Vector2(
 #		sin(time * 0.9) * 3.0,
 #		cos(time * 0.9) * 2.0

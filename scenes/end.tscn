@@ -2,16 +2,14 @@
 
 [ext_resource path="res://font/Ubuntu-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://sprites/HVS.png" type="Texture" id=2]
-[ext_resource path="res://scenes/init.gd" type="Script" id=3]
+[ext_resource path="res://scenes/end.gd" type="Script" id=3]
 
 [sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0 )
-colors = PoolColorArray( 0, 0, 0, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.0380859, 0.0380859, 0.0380859, 1 )
 
 [sub_resource type="GradientTexture2D" id=2]
 gradient = SubResource( 1 )
-width = 1
-height = 1
+fill_to = Vector2( 0, 1 )
 
 [sub_resource type="Gradient" id=10]
 colors = PoolColorArray( 0, 0, 0, 0, 0, 0, 0, 1 )

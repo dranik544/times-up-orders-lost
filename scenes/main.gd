@@ -16,6 +16,7 @@ var orderScene = preload("res://scenes/order1.tscn")
 
 
 func _ready():
+	fade.show()
 	title.hide()
 	timer_spawning_orders.connect("timeout", self, "_on_timer_spawning_orders_timeout")
 	timer_canceled.connect("timeout", self, "_on_timer_canceled_timeout")
@@ -25,6 +26,14 @@ func _ready():
 	Global.connect("updateMoney", self, "_update_money_counter")
 	Global.connect("updatePoliceCount", self, "_update_police_count")
 	Global.connect("updateReputation", self, "_update_reputation")
+	
+	var tween: Tween = Tween.new()
+	add_child(tween)
+	tween.interpolate_property(fade, "modulate:a", 1.0, 0.0, 1.0)
+	tween.start()
+	yield(tween, "tween_completed")
+	fade.hide()
+	tween.queue_free()
 
 func _update_money_counter():
 	money_label.text = str(Global.money) + "$ на балансе"
@@ -138,6 +147,7 @@ func _update_title_status():
 		tween.interpolate_property(title_end, "modulate:a", 1.0, 0.0, 1.5)
 		tween.start()
 		yield(tween, "tween_completed")
+		tween.queue_free()
 		
 		title_end.hide()
 	

@@ -27,7 +27,7 @@ var timeToCompleteOrderMod: float = 1.0
 var faction_weights = [5, 5, 5]
 var faction_counts = [0, 0, 0]
 
-enum difficulty {ULRTAEASY, EASY, NORMAL, HARD, ULTRAHARD}
+enum difficulty {ULTRAEASY, EASY, NORMAL, HARD, ULTRAHARD}
 var currentDifficulty = difficulty.NORMAL
 
 const MAX_CANCELED_ORDERS: int = 2
@@ -131,12 +131,12 @@ func _auto_balance(positive: bool):
 			Global._change_timer_spawn_order_wait_time(0.98 if positive else 1.35)   # -0.02; +0.35
 			Global._change_max_count_orders_on_screen( 0.98 if positive else 1.25)   # -0.02; +0.25
 			Global._change_completed_orders_count(     0.98 if positive else 1.25)   # -0.02; +0.25
-			Global._change_time_to_complete_order(     0.97 if positive else 1.35)   # -0.03; +0.35
+			Global._change_time_to_complete_order(     0.98 if positive else 1.35)   # -0.02; +0.35
 		difficulty.EASY:
 			Global._change_timer_spawn_order_wait_time(0.97 if positive else 1.15)   # -0.03; +0.15
 			Global._change_max_count_orders_on_screen( 0.97 if positive else 1.15)   # -0.03; +0.15
 			Global._change_completed_orders_count(     0.97 if positive else 1.15)   # -0.03; +0.15
-			Global._change_time_to_complete_order(     0.95 if positive else 1.20)   # -0.05; +0.20
+			Global._change_time_to_complete_order(     0.96 if positive else 1.20)   # -0.04; +0.20
 		difficulty.NORMAL:
 			Global._change_timer_spawn_order_wait_time(0.96 if positive else 1.05)   # -0.04; +0.05
 			Global._change_max_count_orders_on_screen( 0.95 if positive else 1.05)   # -0.05; +0.05
@@ -175,7 +175,7 @@ func _change_timer_spawn_order_wait_time(count: float):
 
 func _change_max_count_orders_on_screen(count: float):
 	maxCountOrdersOnScreenMod *= count
-	maxCountOrdersOnScreen = int(DEFAULT_MAX_COUNT_ORDERS_ON_SCREEN * maxCountOrdersOnScreenMod)
+	maxCountOrdersOnScreen = clamp(int(DEFAULT_MAX_COUNT_ORDERS_ON_SCREEN * maxCountOrdersOnScreenMod), 1, 999)
 	
 	print("Модификатор. кол-ва заказов на экране: " + str(maxCountOrdersOnScreenMod))
 	print("Макс. кол-во заказов на экране: " + str(maxCountOrdersOnScreen))
