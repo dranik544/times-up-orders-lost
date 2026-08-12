@@ -286,10 +286,7 @@ func _on_time_timeout():
 	
 	remove_from_group("order")
 	
-	Global._change_timer_spawn_order_wait_time(1.05)
-	Global._change_max_count_orders_on_screen(0.95)
-	Global._change_completed_orders_count(1.05)
-	Global._change_time_to_complete_order(1.2)
+	Global._auto_balance(false)
 	
 	canvas_modulate._flash(Color.coral)
 	get_tree().get_first_node_in_group("camera")._shake_camera(5.0, 75.0)
@@ -328,10 +325,8 @@ func _on_ready_pressed():
 	if all_ok:
 		print("pass (все верно)")
 		
-		Global._change_timer_spawn_order_wait_time(0.97)
-		Global._change_max_count_orders_on_screen(1.05)
-		Global._change_completed_orders_count(0.97)
-		Global._change_time_to_complete_order(0.95)
+		Global._auto_balance(true)
+		
 		remove_from_group("order")
 		
 		if random_order.has("mods") and random_order["mods"].has("police count"):
@@ -351,10 +346,8 @@ func _on_ready_pressed():
 	else:
 		print("pass (не все верно)")
 		
-		Global._change_timer_spawn_order_wait_time(1.05)
-		Global._change_max_count_orders_on_screen(0.95)
-		Global._change_completed_orders_count(1.05)
-		Global._change_time_to_complete_order(0.98)
+		Global._auto_balance(false)
+		
 		remove_from_group("order")
 		
 		if random_order.has("mods") and random_order["mods"].has("police count"):

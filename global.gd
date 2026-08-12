@@ -27,6 +27,9 @@ var timeToCompleteOrderMod: float = 1.0
 var faction_weights = [5, 5, 5]
 var faction_counts = [0, 0, 0]
 
+enum difficulty {ULRTAEASY, EASY, NORMAL, HARD, ULTRAHARD}
+var currentDifficulty = difficulty.NORMAL
+
 const MAX_CANCELED_ORDERS: int = 2
 const MAX_POLICE_COUNT: int = 5
 const MIN_REPUTATION: float = 3.0
@@ -121,6 +124,38 @@ func _get_review_average():
 	
 	emit_signal("updateReviews")
 	emit_signal("updateReputation")
+
+func _auto_balance(positive: bool):
+	match currentDifficulty:
+		difficulty.ULTRAEASY:
+			Global._change_timer_spawn_order_wait_time(0.98 if positive else 1.35)   # -0.02; +0.35
+			Global._change_max_count_orders_on_screen( 0.98 if positive else 1.25)   # -0.02; +0.25
+			Global._change_completed_orders_count(     0.98 if positive else 1.25)   # -0.02; +0.25
+			Global._change_time_to_complete_order(     0.97 if positive else 1.35)   # -0.03; +0.35
+		difficulty.EASY:
+			Global._change_timer_spawn_order_wait_time(0.97 if positive else 1.15)   # -0.03; +0.15
+			Global._change_max_count_orders_on_screen( 0.97 if positive else 1.15)   # -0.03; +0.15
+			Global._change_completed_orders_count(     0.97 if positive else 1.15)   # -0.03; +0.15
+			Global._change_time_to_complete_order(     0.95 if positive else 1.20)   # -0.05; +0.20
+		difficulty.NORMAL:
+			Global._change_timer_spawn_order_wait_time(0.96 if positive else 1.05)   # -0.04; +0.05
+			Global._change_max_count_orders_on_screen( 0.95 if positive else 1.05)   # -0.05; +0.05
+			Global._change_completed_orders_count(     0.97 if positive else 1.05)   # -0.03; +0.05
+			Global._change_time_to_complete_order(     0.95 if positive else 1.20)   # -0.05; +0.20
+		difficulty.HARD:
+			Global._change_timer_spawn_order_wait_time(0.94 if positive else 1.02)   # -0.06; +0.02
+			Global._change_max_count_orders_on_screen( 0.94 if positive else 1.02)   # -0.06; +0.02
+			Global._change_completed_orders_count(     0.95 if positive else 1.02)   # -0.05; +0.02
+			Global._change_time_to_complete_order(     0.92 if positive else 1.05)   # -0.08; +0.05
+		difficulty.ULTRAHARD:
+			Global._change_timer_spawn_order_wait_time(0.90 if positive else 1.00)   # -0.10; +0.00
+			Global._change_max_count_orders_on_screen( 0.90 if positive else 1.00)   # -0.10; +0.00
+			Global._change_completed_orders_count(     0.92 if positive else 1.00)   # -0.08; +0.00
+			Global._change_time_to_complete_order(     0.85 if positive else 1.00)   # -0.15; +0.00
+
+
+
+
 
 func _change_police_count(count: int):
 	policeCount += count
