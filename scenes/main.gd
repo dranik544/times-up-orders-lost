@@ -11,6 +11,7 @@ onready var title = $CanvasLayer/title
 onready var title_end = $"CanvasLayer/title end"
 onready var title_image = $"CanvasLayer/title image"
 onready var sound_police = $"sound police"
+onready var orders_layer = $ordersLayer
 
 var orderScene = preload("res://scenes/order1.tscn")
 
@@ -26,6 +27,8 @@ func _ready():
 	Global.connect("updateMoney", self, "_update_money_counter")
 	Global.connect("updatePoliceCount", self, "_update_police_count")
 	Global.connect("updateReputation", self, "_update_reputation")
+	
+	_spawn_order(1, Vector2(340, 120))
 	
 	var tween: Tween = Tween.new()
 	add_child(tween)
@@ -48,16 +51,25 @@ func _reroll_timer_spawning_orders():
 	randomize()
 	timer_spawning_orders.wait_time = rand_range(Global.minTimerSpawnOrdersWaitTime, Global.maxTimerSpawnOrdersWaitTime)
 
-func _spawn_order(oType: int = -1):
-	if Global.maxCountOrdersOnScreen < get_tree().get_nodes_in_group("order").size(): return
-	
-	print("Спавн заказа с типом: ", oType)   # <-- добавь
-	var viewport = get_viewport().get_visible_rect().size
+func _spawn_order(oType: int = -1, oPosition: Vector2 = Vector2.ZERO):
+	if get_tree().get_nodes_in_group("order").size() >= Global.maxCountOrdersOnScreen: return
 	
 	var newOrder = orderScene.instance()
 	newOrder.currentTypeOrder = oType
-	add_child(newOrder)
-	newOrder.position = Vector2(rand_range(0+32, viewport.x-viewport.x/2), rand_range(0+32, viewport.y-viewport.y/2))
+	orders_layer.add_child(newOrder)
+	
+	for i in range(6): yield(get_tree(), "idle_frame")
+	
+	var randomPosition: Vector2 = Vector2.ZERO if oPosition == Vector2.ZERO else oPosition
+	if oPosition == Vector2.ZERO:
+		randomPosition = Vector2(
+			rand_range(32, get_viewport().get_visible_rect().size.x - 240),
+			rand_range(32, get_viewport().get_visible_rect().size.y - 320)
+		)
+	newOrder.position = randomPosition
+	newOrder.basePosition = randomPosition
+	
+	print("Спавн заказа с типом: ", oType, " на позиции ", randomPosition)
 
 func _on_timer_canceled_timeout():
 	Global._change_canceled_orders_count(-1)

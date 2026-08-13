@@ -2,6 +2,7 @@ extends Node2D
 
 # Основные элементы интерфейса (они статичны)
 onready var bg = $bg
+onready var shadow = $shadow
 onready var ui = $ui
 onready var message = $ui/message
 onready var name_label = $"ui/message/name money/name"
@@ -15,7 +16,7 @@ onready var sepr_1 = $ui/message/sepr1
 onready var sepr_2 = $ui/sepr2
 onready var sepr_3 = $ui/sepr3
 onready var sepr_4 = $ui/sepr4
-onready var canvas_modulate = $"../CanvasModulate"
+onready var canvas_modulate = $"../../CanvasModulate"
 onready var sounds = $"sounds"
 onready var rare_particles = $rareParticles
 onready var tags_label = $ui/tags
@@ -24,6 +25,7 @@ onready var main: Node2D = get_tree().current_scene
 onready var time = $time
 onready var tween_complete_order = $TweenCompleteOrder
 
+var basePosition: Vector2 = position
 var param_widgets: Array = []  # каждый элемент: словарь с типом, виджетом и ожидаемыми значениями
 var random_order: Dictionary
 var isCompleted: bool = false
@@ -46,6 +48,7 @@ func _ready():
 	# Если это стартовый заказ
 	if currentTypeOrder == typeOrder.START:
 		random_order = OrderList.startOrder
+		
 	elif currentTypeOrder == typeOrder.BEGIN:
 		random_order = OrderList.beginOrder
 	elif currentTypeOrder == typeOrder.CUSTOM:
@@ -174,6 +177,7 @@ func _ready():
 				randomize()
 				cb.pressed = true if randi()%2 == 1 else false
 				cb.align = Button.ALIGN_CENTER
+				cb.rect_min_size.x = 200
 				blocks_container.add_child(cb)
 				param_widgets.append({
 					"type": "check",
@@ -191,6 +195,7 @@ func _ready():
 				for item in p["items"]:
 					opt.add_item(item)
 				hbox.add_child(opt)
+				opt.rect_min_size.x = 200
 				opt.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 				opt.selected = rand_range(0, p["items"].size() - 1)
 				blocks_container.add_child(hbox)
@@ -208,7 +213,7 @@ func _ready():
 				hbox.add_child(label)
 				var slider = HSlider.new()
 				slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-				slider.rect_min_size.x = 100
+				slider.rect_min_size.x = 200
 				slider.min_value = p["min value"]
 				slider.max_value = p["max value"]
 				slider.step = p["step"]
@@ -229,13 +234,37 @@ func _ready():
 				param_widgets.append(widget_data)
 				# Подключаем сигнал изменения значения слайдера
 				slider.connect("value_changed", self, "_on_slider_value_changed", [val_label])
+			
+			"line":
+				# Создаём HBox с подписью и лайнэдитом
+				var hbox = HBoxContainer.new()
+				var label = Label.new()
+				label.text = p["text"] + ":"
+				hbox.add_child(label)
+				var le = LineEdit.new()
+				le.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				le.rect_min_size.x = 200
+				le.context_menu_enabled = false
+				le.caret_blink = true
+				le.clear_button_enabled = true
+				le.placeholder_alpha = 0.4
+				le.placeholder_text = p["ph text"]
+				hbox.add_child(le)
+				blocks_container.add_child(hbox)
+				# Сохраняем данные для проверки и обновления
+				var widget_data = {
+					"type": "line",
+					"widget": le,
+					"expected": p["correct"]
+				}
+				param_widgets.append(widget_data)
 	
 	# Обновляем размер фона
 	yield(get_tree(), "idle_frame")
 	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
 	
 	bg.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
+	shadow.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
 	if currentTypeOrder == typeOrder.RARE:
 		rare_particles.emission_rect_extents = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
 		rare_particles.position = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
@@ -265,7 +294,7 @@ func _on_ui_gui_input(event):
 			is_dragging = true
 			# Вычисляем смещение от позиции заказа до курсора
 			var mouse_global = get_global_mouse_position()
-			drag_offset = position - mouse_global
+			drag_offset = basePosition - mouse_global
 		else:
 			# Заканчиваем перетаскивание
 			is_dragging = false
@@ -273,8 +302,14 @@ func _on_ui_gui_input(event):
 	if event is InputEventMouseMotion and is_dragging:
 		# Перемещаем заказ
 		var mouse_global = get_global_mouse_position()
-		position = mouse_global + drag_offset
+		basePosition = mouse_global + drag_offset
 
+func _process(delta):
+	# Лёгкое смещение от мыши (экранные координаты)
+	var offset = (get_viewport().get_mouse_position() - get_viewport().get_visible_rect().size / 2) * 0.03 if !is_dragging else Vector2(-16.0, -16.0)
+	var shadowOffset = Vector2(4.0, 4.0) if !is_dragging else Vector2(12.0, 12.0)
+	position = lerp(position, basePosition + offset, 40 * delta)
+	shadow.rect_position = lerp(shadow.rect_position, shadowOffset, 40 * delta)
 
 func _on_time_timeout():
 	if random_order.get("tags", -1) != -1:
@@ -299,7 +334,6 @@ func _on_time_timeout():
 func _on_slider_value_changed(value, val_label):
 	val_label.text = str(value)
 
-
 # Обработчик кнопки Ready
 func _on_ready_pressed():
 	isCompleted = true
@@ -319,6 +353,10 @@ func _on_ready_pressed():
 			"slider":
 				var val = data["widget"].value
 				if val < data["expected_min"] or val > data["expected_max"]:
+					all_ok = false
+					break
+			"line":
+				if data["widget"].text.to_lower() != data["expected"]:
 					all_ok = false
 					break
 	
@@ -424,6 +462,7 @@ func _show_review(good: bool):
 	time_progress_bar.hide()
 	yield(get_tree(), "idle_frame")
 	bg.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
+	shadow.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
 	
 	yield(_show_with_animation(), "completed")
 	

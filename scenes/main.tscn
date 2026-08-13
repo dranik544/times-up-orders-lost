@@ -1,11 +1,10 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://defaulttheme.tres" type="Theme" id=1]
 [ext_resource path="res://font/Ubuntu-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://scenes/main.gd" type="Script" id=3]
 [ext_resource path="res://sprites/star2.png" type="Texture" id=4]
 [ext_resource path="res://sprites/wallpaper1.jpg" type="Texture" id=5]
-[ext_resource path="res://scenes/order1.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/Camera2D.gd" type="Script" id=7]
 [ext_resource path="res://scenes/CanvasModulate.gd" type="Script" id=8]
 [ext_resource path="res://sprites/HVS.png" type="Texture" id=9]
@@ -15,7 +14,6 @@
 [ext_resource path="res://scenes/pause.gd" type="Script" id=13]
 [ext_resource path="res://sounds/door police.mp3" type="AudioStream" id=14]
 [ext_resource path="res://scenes/shading1.gd" type="Script" id=15]
-[ext_resource path="res://scenes/bg.gd" type="Script" id=16]
 
 [sub_resource type="Gradient" id=12]
 offsets = PoolRealArray( 0, 0.422535, 1 )
@@ -89,14 +87,11 @@ margin_left = -1770.0
 margin_top = -1140.0
 margin_right = 2730.0
 margin_bottom = 1860.0
-rect_scale = Vector2( 0.4, 0.4 )
+rect_scale = Vector2( 0.35, 0.35 )
 rect_pivot_offset = Vector2( 2250, 1500 )
+mouse_filter = 2
 texture = ExtResource( 5 )
-script = ExtResource( 16 )
-
-[node name="order1" parent="." instance=ExtResource( 6 )]
-position = Vector2( 371, 153 )
-currentTypeOrder = 1
+expand = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 480, 360 )
@@ -104,6 +99,8 @@ rotating = true
 current = true
 drag_margin_bottom = 0.75
 script = ExtResource( 7 )
+
+[node name="ordersLayer" type="CanvasLayer" parent="."]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 script = ExtResource( 8 )
@@ -403,6 +400,7 @@ script = ExtResource( 13 )
 modulate = Color( 1, 1, 1, 0.392157 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 texture = SubResource( 11 )
 stretch_mode = 1
 
