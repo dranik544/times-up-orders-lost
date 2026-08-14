@@ -39,6 +39,17 @@ func _ready():
 	continue_button.connect("pressed", self, "_on_continue_button_pressed")
 	apply_button.connect("pressed", self, "_apply_settings")
 	window_fullscreen_check_button.connect("pressed", self, "_on_window_fullscreen_check_button_pressed")
+	
+	fade.show()
+	yield(get_tree().create_timer(0.4), "timeout")
+	
+	var tween: Tween = Tween.new()
+	add_child(tween)
+	tween.interpolate_property(fade, "modulate:a", 1.0, 0.0, 1.0)
+	tween.start()
+	yield(tween, "tween_completed")
+	fade.hide()
+	tween.queue_free()
 
 func _on_difficulty_option_button_item_selected(index: int):
 	Global.currentDifficulty = index

@@ -30,6 +30,8 @@ func _ready():
 	
 	_spawn_order(1, Vector2(340, 120))
 	
+	yield(get_tree().create_timer(0.4), "timeout")
+	
 	var tween: Tween = Tween.new()
 	add_child(tween)
 	tween.interpolate_property(fade, "modulate:a", 1.0, 0.0, 1.0)

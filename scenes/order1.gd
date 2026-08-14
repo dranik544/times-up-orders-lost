@@ -137,7 +137,7 @@ func _ready():
 	if currentTypeOrder == typeOrder.EMERGENCY:
 		bg.texture = load("res://sprites/orderBG2_emergency.png")
 		_play_sound(load("res://sounds/EMERGENCY ORDER.mp3"))
-		get_tree().get_first_node_in_group("camera")._shake_camera(0.5, 150)
+		main.get_node("bg")._shake_camera(0.5, 150)
 		canvas_modulate._flash(Color.red, 45.0)
 	if currentTypeOrder == typeOrder.DARKNET:
 		bg.texture = load("res://sprites/orderBG2_darknet_2.png")
@@ -288,7 +288,7 @@ func _ready():
 	cancel_button.connect("pressed", self, "_on_cancel_pressed")
 
 func _on_ui_gui_input(event):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
+	if event is InputEventMouseButton && event.button_index == BUTTON_LEFT:
 		if event.pressed:
 			# Начинаем перетаскивание
 			is_dragging = true
@@ -299,7 +299,7 @@ func _on_ui_gui_input(event):
 			# Заканчиваем перетаскивание
 			is_dragging = false
 	
-	if event is InputEventMouseMotion and is_dragging:
+	if event is InputEventMouseMotion && is_dragging:
 		# Перемещаем заказ
 		var mouse_global = get_global_mouse_position()
 		basePosition = mouse_global + drag_offset
@@ -324,7 +324,7 @@ func _on_time_timeout():
 	Global._auto_balance(false)
 	
 	canvas_modulate._flash(Color.coral)
-	get_tree().get_first_node_in_group("camera")._shake_camera(5.0, 75.0)
+	main.get_node("bg")._shake_camera(5.0, 75.0)
 	yield(_show_review(false), "completed")
 	_try_spawn_order()
 	
@@ -397,7 +397,7 @@ func _on_ready_pressed():
 		money_label.text = str(random_order["money"] / 2) + "$"
 		canvas_modulate._flash(Color.crimson)
 		_play_sound(load("res://sounds/damage.mp3"))
-		get_tree().get_first_node_in_group("camera")._shake_camera()
+		main.get_node("bg")._shake_camera()
 		
 		yield(_show_review(false), "completed")
 		

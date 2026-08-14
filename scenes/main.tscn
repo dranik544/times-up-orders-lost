@@ -5,7 +5,7 @@
 [ext_resource path="res://scenes/main.gd" type="Script" id=3]
 [ext_resource path="res://sprites/star2.png" type="Texture" id=4]
 [ext_resource path="res://sprites/wallpaper1.jpg" type="Texture" id=5]
-[ext_resource path="res://scenes/Camera2D.gd" type="Script" id=7]
+[ext_resource path="res://scenes/bg.gd" type="Script" id=6]
 [ext_resource path="res://scenes/CanvasModulate.gd" type="Script" id=8]
 [ext_resource path="res://sprites/HVS.png" type="Texture" id=9]
 [ext_resource path="res://sprites/titul_1.png" type="Texture" id=10]
@@ -87,18 +87,12 @@ margin_left = -1770.0
 margin_top = -1140.0
 margin_right = 2730.0
 margin_bottom = 1860.0
-rect_scale = Vector2( 0.35, 0.35 )
 rect_pivot_offset = Vector2( 2250, 1500 )
 mouse_filter = 2
 texture = ExtResource( 5 )
 expand = true
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 480, 360 )
-rotating = true
-current = true
-drag_margin_bottom = 0.75
-script = ExtResource( 7 )
+stretch_mode = 7
+script = ExtResource( 6 )
 
 [node name="ordersLayer" type="CanvasLayer" parent="."]
 
@@ -119,11 +113,12 @@ stretch_mode = 1
 script = ExtResource( 15 )
 
 [node name="shading2" type="TextureRect" parent="CanvasLayer"]
-modulate = Color( 1, 1, 1, 0.0313726 )
+modulate = Color( 1, 1, 1, 0.0392157 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 texture = ExtResource( 9 )
+expand = true
 stretch_mode = 1
 
 [node name="shading3" type="TextureRect" parent="CanvasLayer"]
@@ -131,6 +126,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 texture = SubResource( 10 )
+expand = true
 stretch_mode = 2
 
 [node name="stats" type="VBoxContainer" parent="CanvasLayer"]
