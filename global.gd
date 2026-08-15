@@ -1,4 +1,5 @@
 extends Node
+# Global.gd (AutoLoad)
 
 signal updateWeights
 signal updateMoney
@@ -8,6 +9,8 @@ signal updateCompletedOrders
 signal updateReputation
 signal updateReviews
 signal updatePoliceCount
+
+var system: int = 0   # 0 - ПК, 1 - ТЕЛЕФОН
 
 var money: int = 0
 var canceledOrders: int = 0
@@ -30,6 +33,8 @@ var faction_counts = [0, 0, 0]
 enum difficulty {ULTRAEASY, EASY, NORMAL, HARD, ULTRAHARD}
 var currentDifficulty = difficulty.NORMAL
 
+enum typeOrder {DEFAULT, START, RARE, MESSAGE, EMERGENCY, BEGIN, DARKNET, CUSTOM}
+
 const MAX_CANCELED_ORDERS: int = 2
 const MAX_POLICE_COUNT: int = 5
 const MIN_REPUTATION: float = 3.0
@@ -43,6 +48,11 @@ const MAX_WEIGHT = 12.0
 const INCREMENT = 0.5          # насколько увеличиваем вес при успехе
 const DECREMENT = 0.1          # насколько уменьшаем остальные при успехе
 const PENALTY = 0.5            # насколько уменьшаем вес при провале
+
+
+func _ready():
+	if OS.has_feature("pc"): system = 0
+	elif OS.has_feature("mobile"): system = 1
 
 # Выбор тега с вероятностью, пропорциональной весам + случайный бонус
 func get_weighted_tag() -> int:
@@ -89,6 +99,10 @@ func decrease_weight(tag: int):
 	print("Состояние весов: " + str(faction_weights))
 	
 	emit_signal("updateWeights")
+
+
+
+
 
 func _change_money_count(count: int):
 	Global.money += count

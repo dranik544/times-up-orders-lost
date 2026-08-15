@@ -16,8 +16,9 @@ config/icon="res://icon.png"
 
 [autoload]
 
-OrderList="*res://orderlist.gd"
 Global="*res://global.gd"
+OrderGenerator="*res://ordergenerator.gd"
+OrderList="*res://orderlist.gd"
 
 [display]
 
@@ -38,11 +39,6 @@ mp3={
 "loop": false,
 "loop_offset": 0
 }
-
-[input_devices]
-
-pointing/emulate_touch_from_mouse=true
-pointing/emulate_mouse_from_touch=false
 
 [physics]
 

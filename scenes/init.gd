@@ -19,6 +19,11 @@ var currentWindowFullscreen: bool = false
 
 
 func _ready():
+	if Global.system == 1:
+		currentWindowScale = 2.4
+		window_scale_slider.value = currentWindowScale
+		_apply_settings()
+	
 	for i in Global.difficulty:
 		difficulty_option_button.add_item(i)
 	difficulty_option_button.selected = Global.currentDifficulty

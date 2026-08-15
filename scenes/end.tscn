@@ -76,3 +76,4 @@ custom_fonts/font = SubResource( 9 )
 text = "ВЫ ПРОИГРАЛИ!"
 align = 1
 valign = 1
+autowrap = true

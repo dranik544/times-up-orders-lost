@@ -21,8 +21,7 @@ func _on_viewport_size_changed():
 	rect_pivot_offset = rect_size * 0.5
 
 func _process(delta):
-	var mouse_offset = get_viewport().get_mouse_position() * 0.015
-	var target_pos = basePosition + mouse_offset
+	var mouseoffset = get_viewport().get_mouse_position() * 0.015 if Global.system == 0 else Vector2.ZERO
 	
 	if shakesensitivity > 0:
 		var shake_offset = Vector2(
@@ -30,10 +29,10 @@ func _process(delta):
 			rand_range(-shakesensitivity, shakesensitivity)
 		)
 		var shake_rotation = rand_range(-shakesensitivity, shakesensitivity) * 0.1
-		var nPosition = target_pos + shake_offset
+		var nPosition = basePosition + mouseoffset + shake_offset
 		rect_position = lerp(rect_position, nPosition, shakeinterpolate * delta)
 		rect_rotation = lerp(rect_rotation, shake_rotation, shakeinterpolate * delta)
 		shakesensitivity -= shakespeed
 	else:
-		rect_position = lerp(rect_position, target_pos, shakeinterpolate * delta)
+		rect_position = lerp(rect_position, basePosition + mouseoffset, shakeinterpolate * delta)
 		rect_rotation = lerp(rect_rotation, 0.0, shakeinterpolate * delta)

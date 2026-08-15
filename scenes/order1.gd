@@ -1,4 +1,5 @@
 extends Node2D
+# Order.gd
 
 # Основные элементы интерфейса (они статичны)
 onready var bg = $bg
@@ -31,7 +32,6 @@ var random_order: Dictionary
 var isCompleted: bool = false
 var is_dragging = false
 var drag_offset = Vector2()   # смещение между центром заказа и курсором
-enum typeOrder {DEFAULT, START, RARE, MESSAGE, EMERGENCY, BEGIN, DARKNET, CUSTOM}
 export var currentTypeOrder = -1
 var tags: Array = []
 
@@ -45,71 +45,36 @@ func _ready():
 	
 	randomize()
 	
-	# Если это стартовый заказ
-	if currentTypeOrder == typeOrder.START:
-		random_order = OrderList.startOrder
-		
-	elif currentTypeOrder == typeOrder.BEGIN:
-		random_order = OrderList.beginOrder
-	elif currentTypeOrder == typeOrder.CUSTOM:
-		random_order = OrderList.customOrder
+	if currentTypeOrder == Global.typeOrder.START:
+		random_order = OrderGenerator.generate_start_order()
+	elif currentTypeOrder == Global.typeOrder.BEGIN:
+		random_order = OrderGenerator.generate_order_by_type(6)  # если есть BEGIN
+	elif currentTypeOrder == Global.typeOrder.CUSTOM:
+		random_order = OrderList.customOrder   # если остался кастомный
+	elif currentTypeOrder == Global.typeOrder.RARE:
+		random_order = OrderGenerator.generate_order_by_type(2)
+	elif currentTypeOrder == Global.typeOrder.MESSAGE:
+		random_order = OrderGenerator.generate_order_by_type(5)
+	elif currentTypeOrder == Global.typeOrder.EMERGENCY:
+		random_order = OrderGenerator.generate_order_by_type(3)
+	elif currentTypeOrder == Global.typeOrder.DARKNET:
+		random_order = OrderGenerator.generate_order_by_type(4)
 	else:
-		# 1. Выбираем тег (1, 2 или 3) с учётом весов
-		var chosen_tag: int = Global.get_weighted_tag()
-		
-		# 2. Собираем все заказы из всех списков, у которых tags == chosen_tag
-		var candidates = []
-		for i in OrderList.orders:
-			if i.get("tags", -1) == chosen_tag:
-				candidates.append(i)
-		for i in OrderList.messageOrders:
-			if i.get("tags", -1) == chosen_tag:
-				candidates.append(i)
-		
-		if Global.completedOrders >= 7:
-			for i in OrderList.rareOrders:
-				if i.get("tags", -1) == chosen_tag:
-					candidates.append(i)
-		
-		if Global.completedOrders >= 20:
-			for i in OrderList.darknetOrders:
-				if i.get("tags", -1) == chosen_tag:
-					candidates.append(i)
-		
-		if Global.completedOrders >= 35:
-			for i in OrderList.emergencyOrders:
-				if i.get("tags", -1) == chosen_tag:
-					candidates.append(i)
-		
-		# 3. Если подходящих нет — берём любой из DEFAULT (или fallback)
-		if candidates.empty():
-			if not OrderList.orders.empty():
-				candidates = OrderList.orders
-			else:
-				print("Нет доступных заказов")
-				return
-		
-		# 4. Выбираем случайный заказ
-		randomize()
-		random_order = candidates[randi() % candidates.size()]
-		
-		# 5. ОПРЕДЕЛЯЕМ ТИП ЗАКАЗА ПО ТОМУ, В КАКОМ СПИСКЕ ОН ЛЕЖИТ
-		if random_order in OrderList.emergencyOrders:
-			currentTypeOrder = typeOrder.EMERGENCY
-		elif random_order in OrderList.rareOrders:
-			currentTypeOrder = typeOrder.RARE
-		elif random_order in OrderList.messageOrders:
-			currentTypeOrder = typeOrder.MESSAGE
-		elif random_order in OrderList.darknetOrders:
-			currentTypeOrder = typeOrder.DARKNET
-		else:
-			currentTypeOrder = typeOrder.DEFAULT
+		random_order = OrderGenerator.generate_order()
+	
+	# Если заказ пустой — выходим
+	if random_order.empty():
+		print("Ошибка: не удалось сгенерировать заказ")
+		queue_free()
+		return
+	
+	currentTypeOrder = random_order["type"]
 	
 	random_order["time"] *= Global.timeToCompleteOrderMod
 	print("Время на выполнение заказа: " + str(random_order["time"]))
 	
 	print("Тип этого заказа: " + str(currentTypeOrder))
-	if currentTypeOrder != typeOrder.START && currentTypeOrder != typeOrder.BEGIN:
+	if currentTypeOrder != Global.typeOrder.START && currentTypeOrder != Global.typeOrder.BEGIN:
 		random_order["prms"].shuffle()
 	
 	# Заполняем статическую информацию
@@ -127,19 +92,19 @@ func _ready():
 		cancel_button.text = random_order["cancel text"]
 	else: cancel_button.text = "CANCEL"
 	
-	if currentTypeOrder == typeOrder.RARE:
+	if currentTypeOrder == Global.typeOrder.RARE:
 		rare_particles.restart()
 		bg.texture = load("res://sprites/orderBG2_rare.png")
-	if currentTypeOrder == typeOrder.START || currentTypeOrder == typeOrder.BEGIN:
+	if currentTypeOrder == Global.typeOrder.START || currentTypeOrder == Global.typeOrder.BEGIN:
 		bg.texture = load("res://sprites/orderBG2_start.png")
-	if currentTypeOrder == typeOrder.MESSAGE:
+	if currentTypeOrder == Global.typeOrder.MESSAGE:
 		bg.texture = load("res://sprites/orderBG2_message.png")
-	if currentTypeOrder == typeOrder.EMERGENCY:
+	if currentTypeOrder == Global.typeOrder.EMERGENCY:
 		bg.texture = load("res://sprites/orderBG2_emergency.png")
 		_play_sound(load("res://sounds/EMERGENCY ORDER.mp3"))
 		main.get_node("bg")._shake_camera(0.5, 150)
 		canvas_modulate._flash(Color.red, 45.0)
-	if currentTypeOrder == typeOrder.DARKNET:
+	if currentTypeOrder == Global.typeOrder.DARKNET:
 		bg.texture = load("res://sprites/orderBG2_darknet_2.png")
 		main.get_node("CanvasLayer/shading1")._flash()
 	
@@ -179,14 +144,25 @@ func _ready():
 				cb.align = Button.ALIGN_CENTER
 				cb.rect_min_size.x = 200
 				blocks_container.add_child(cb)
+				# Принудительно приводим expected к bool
+				var expc = p["stat"]
+				
+				print(expc)
+				
+				if typeof(expc) == TYPE_STRING:
+					expc = expc.to_lower() == "true"
+				else:
+					expc = bool(expc)  # на случай других типов
+				
+				print(expc)
+				
 				param_widgets.append({
 					"type": "check",
 					"widget": cb,
-					"expected": p["stat"]
+					"expected": expc
 				})
 				
 			"option":
-				# Создаём HBox с подписью и OptionButton
 				var hbox = HBoxContainer.new()
 				var label = Label.new()
 				label.text = p["text"] + ":"
@@ -206,7 +182,6 @@ func _ready():
 				})
 				
 			"slider":
-				# Создаём HBox с подписью, слайдером и индикатором значения
 				var hbox = HBoxContainer.new()
 				var label = Label.new()
 				label.text = p["text"] + ":"
@@ -223,7 +198,6 @@ func _ready():
 				hbox.add_child(slider)
 				hbox.add_child(val_label)
 				blocks_container.add_child(hbox)
-				# Сохраняем данные для проверки и обновления
 				var widget_data = {
 					"type": "slider",
 					"widget": slider,
@@ -232,11 +206,9 @@ func _ready():
 					"expected_max": p["max d value"]
 				}
 				param_widgets.append(widget_data)
-				# Подключаем сигнал изменения значения слайдера
 				slider.connect("value_changed", self, "_on_slider_value_changed", [val_label])
 			
 			"line":
-				# Создаём HBox с подписью и лайнэдитом
 				var hbox = HBoxContainer.new()
 				var label = Label.new()
 				label.text = p["text"] + ":"
@@ -251,7 +223,6 @@ func _ready():
 				le.placeholder_text = p["ph text"]
 				hbox.add_child(le)
 				blocks_container.add_child(hbox)
-				# Сохраняем данные для проверки и обновления
 				var widget_data = {
 					"type": "line",
 					"widget": le,
@@ -265,13 +236,13 @@ func _ready():
 	
 	bg.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
 	shadow.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
-	if currentTypeOrder == typeOrder.RARE:
+	if currentTypeOrder == Global.typeOrder.RARE:
 		rare_particles.emission_rect_extents = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
 		rare_particles.position = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
 	
 	# Анимация появления заказа
 	scale.y = 0.0
-	if currentTypeOrder != typeOrder.EMERGENCY: _play_sound(load("res://sounds/whatsapp.mp3"))
+	if currentTypeOrder != Global.typeOrder.EMERGENCY: _play_sound(load("res://sounds/whatsapp.mp3"))
 	yield(_show_with_animation(), "completed")
 	
 	# Делаем анимацию утекающего времени
@@ -343,11 +314,19 @@ func _on_ready_pressed():
 	for data in param_widgets:
 		match data["type"]:
 			"check":
-				if data["widget"].pressed != data["expected"]:
+				var expected = data["expected"]
+				if typeof(expected) == TYPE_STRING:
+					expected = expected.to_lower() == "true"
+				var user_value = data["widget"].pressed
+				print("Check: user=", user_value, " expected=", expected)
+				if user_value != expected:
 					all_ok = false
 					break
 			"option":
-				if data["widget"].selected != data["expected"]:
+				var expected = data["expected"]
+				if typeof(expected) == TYPE_STRING:
+					expected = int(expected) if expected.is_valid_integer() else 0
+				if data["widget"].selected != expected:
 					all_ok = false
 					break
 			"slider":
