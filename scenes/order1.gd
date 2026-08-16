@@ -359,7 +359,7 @@ func _on_ready_pressed():
 					all_ok = false
 					break
 			"line":
-				if data["widget"].text.to_lower() != data["expected"]:
+				if data["widget"].text.to_lower() != data["expected"].to_lower():
 					all_ok = false
 					break
 	
