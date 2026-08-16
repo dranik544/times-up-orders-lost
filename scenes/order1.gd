@@ -221,6 +221,9 @@ func _ready():
 				le.clear_button_enabled = true
 				le.placeholder_alpha = 0.4
 				le.placeholder_text = p["ph text"]
+				if Global.upOrderIfLineEditFocusEntered:
+					le.connect("focus_entered", self, "_on_line_edit_focus_entered", [le])
+					le.connect("focus_exited", self, "_on_line_edit_focus_exited")
 				hbox.add_child(le)
 				blocks_container.add_child(hbox)
 				var widget_data = {
@@ -277,7 +280,11 @@ func _on_ui_gui_input(event):
 
 func _process(delta):
 	# Лёгкое смещение от мыши (экранные координаты)
-	var offset = (get_viewport().get_mouse_position() - get_viewport().get_visible_rect().size / 2) * 0.03 if !is_dragging else Vector2(-16.0, -16.0)
+	var offset: Vector2
+	if Global.system == 0:
+		offset = (get_viewport().get_mouse_position() - get_viewport().get_visible_rect().size / 2) * 0.03 if !is_dragging else Vector2(-16.0, -16.0)
+	else:
+		offset = Vector2.ZERO if !is_dragging else Vector2(-16.0, -16.0)
 	var shadowOffset = Vector2(4.0, 4.0) if !is_dragging else Vector2(12.0, 12.0)
 	position = lerp(position, basePosition + offset, 40 * delta)
 	shadow.rect_position = lerp(shadow.rect_position, shadowOffset, 40 * delta)
@@ -300,6 +307,23 @@ func _on_time_timeout():
 	_try_spawn_order()
 	
 	queue_free()
+
+func _on_line_edit_focus_entered(line_edit: LineEdit):
+	# Только для мобильных устройств
+	if Global.upOrderIfLineEditFocusEntered:
+		# Запоминаем исходную позицию, если ещё не запомнили
+		if not has_meta("original_base_position"):
+			set_meta("original_base_position", basePosition)
+		# Если поле ниже середины экрана, поднимаем на разницу
+		var offset_y = max(0, line_edit.get_global_position().y - get_viewport().get_visible_rect().size.y * 0.4)
+		basePosition.y -= offset_y
+		basePosition = get_meta("original_base_position") - Vector2(0, offset_y)
+
+func _on_line_edit_focus_exited():
+	# Возвращаем окно на место, когда фокус потерян
+	if Global.upOrderIfLineEditFocusEntered && has_meta("original_base_position"):
+		basePosition = get_meta("original_base_position")
+		remove_meta("original_base_position")
 
 # Обновление лейбла при движении слайдера
 func _on_slider_value_changed(value, val_label):

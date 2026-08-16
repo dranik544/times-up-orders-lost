@@ -72,10 +72,11 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -160.0
-margin_top = -60.0
+margin_top = -144.5
 margin_right = 160.0
-margin_bottom = 60.0
+margin_bottom = 144.5
 rect_min_size = Vector2( 320, 0 )
+alignment = 1
 
 [node name="difficulty" type="HBoxContainer" parent="buttons/VBoxContainer"]
 margin_right = 320.0
@@ -172,21 +173,29 @@ margin_right = 320.0
 margin_bottom = 177.0
 text = "Полный экран: "
 
-[node name="apply" type="Button" parent="buttons/VBoxContainer"]
+[node name="uporderiflineeditfocusentered" type="CheckButton" parent="buttons/VBoxContainer"]
 margin_top = 181.0
 margin_right = 320.0
-margin_bottom = 206.0
+margin_bottom = 227.0
+pressed = true
+text = "Поднимать вверх заказ, если
+строка ввода была нажата: "
+
+[node name="apply" type="Button" parent="buttons/VBoxContainer"]
+margin_top = 231.0
+margin_right = 320.0
+margin_bottom = 256.0
 text = "Применить настройки"
 
 [node name="sepr2" type="HSeparator" parent="buttons/VBoxContainer"]
-margin_top = 210.0
+margin_top = 260.0
 margin_right = 320.0
-margin_bottom = 210.0
+margin_bottom = 260.0
 
 [node name="continue" type="Button" parent="buttons/VBoxContainer"]
-margin_top = 214.0
+margin_top = 264.0
 margin_right = 320.0
-margin_bottom = 239.0
+margin_bottom = 289.0
 text = "Начать игру"
 
 [node name="shading1" type="TextureRect" parent="."]

@@ -407,6 +407,7 @@ custom_fonts/font = SubResource( 18 )
 text = "ИГРА ПРИОСТАНОВЛЕНА"
 align = 1
 valign = 1
+autowrap = true
 
 [node name="timerSpawningOrders" type="Timer" parent="."]
 wait_time = 30.0

@@ -26,12 +26,16 @@ var timerSpawnOrdersWaitTimeMod: float = 1.0
 var maxCountOrdersOnScreen: int = 1
 var maxCountOrdersOnScreenMod: float = 1.0
 var timeToCompleteOrderMod: float = 1.0
+var minCountGroupsInOrder: int = 1
+var maxCountGroupsInOrder: int = 4
+var countGroupsInOrderMod: float = 1.0
 
 var faction_weights = [5, 5, 5]
 var faction_counts = [0, 0, 0]
 
 enum difficulty {ULTRAEASY, EASY, NORMAL, HARD, ULTRAHARD}
 var currentDifficulty = difficulty.NORMAL
+var upOrderIfLineEditFocusEntered: bool = false
 
 enum typeOrder {DEFAULT, START, RARE, MESSAGE, EMERGENCY, BEGIN, DARKNET, CUSTOM}
 
@@ -42,6 +46,8 @@ const MAX_MONEY_COUNT: int = 999999999999999999   # 999.999.999.999.999.999
 const DEFAULT_MIN_TIMER_SPAWN_ORDERS_WAIT_TIME: float = 40.0
 const DEFAULT_MAX_TIMER_SPAWN_ORDERS_WAIT_TIME: float = 60.0
 const DEFAULT_MAX_COUNT_ORDERS_ON_SCREEN: int = 1
+const DEFAULT_MIN_COUNT_GROUPS_IN_ORDER: int = 1
+const DEFAULT_MAX_COUNT_GROUPS_IN_ORDER: int = 4
 
 const MIN_WEIGHT = 2.0
 const MAX_WEIGHT = 12.0
@@ -146,26 +152,31 @@ func _auto_balance(positive: bool):
 			Global._change_max_count_orders_on_screen( 1.00 if positive else 1.00)   # +0.02; -0.25
 			Global._change_completed_orders_count(     0.98 if positive else 1.25)   # -0.02; +0.25
 			Global._change_time_to_complete_order(     0.98 if positive else 1.35)   # -0.02; +0.35
+			Global._change_count_groups_in_order(      1.00 if positive else 1.00)   # +0.00; -0.00
 		difficulty.EASY:
 			Global._change_timer_spawn_order_wait_time(0.97 if positive else 1.15)   # -0.03; +0.15
 			Global._change_max_count_orders_on_screen( 1.03 if positive else 0.85)   # +0.03; -0.15
 			Global._change_completed_orders_count(     0.97 if positive else 1.15)   # -0.03; +0.15
 			Global._change_time_to_complete_order(     0.96 if positive else 1.20)   # -0.04; +0.20
+			Global._change_count_groups_in_order(      1.02 if positive else 0.90)   # +0.02; -0.05
 		difficulty.NORMAL:
 			Global._change_timer_spawn_order_wait_time(0.96 if positive else 1.05)   # -0.04; +0.05
-			Global._change_max_count_orders_on_screen( 1.05 if positive else 0.95)   # +0.05; -0.05
+			Global._change_max_count_orders_on_screen( 1.15 if positive else 0.95)   # +0.05; -0.05
 			Global._change_completed_orders_count(     0.97 if positive else 1.05)   # -0.03; +0.05
 			Global._change_time_to_complete_order(     0.95 if positive else 1.20)   # -0.05; +0.20
+			Global._change_count_groups_in_order(      1.05 if positive else 0.95)   # +0.02; -0.05
 		difficulty.HARD:
 			Global._change_timer_spawn_order_wait_time(0.94 if positive else 1.02)   # -0.06; +0.02
-			Global._change_max_count_orders_on_screen( 1.15 if positive else 1.02)   # -0.06; +0.02
+			Global._change_max_count_orders_on_screen( 1.20 if positive else 1.02)   # -0.06; +0.02
 			Global._change_completed_orders_count(     0.95 if positive else 1.02)   # -0.05; +0.02
 			Global._change_time_to_complete_order(     0.92 if positive else 1.05)   # -0.08; +0.05
+			Global._change_count_groups_in_order(      1.10 if positive else 0.95)   # +0.02; -0.05
 		difficulty.ULTRAHARD:
 			Global._change_timer_spawn_order_wait_time(0.85 if positive else 1.05)   # -0.10; +0.00
-			Global._change_max_count_orders_on_screen( 1.30 if positive else 1.00)   # -0.10; +0.00
+			Global._change_max_count_orders_on_screen( 1.35 if positive else 1.00)   # -0.10; +0.00
 			Global._change_completed_orders_count(     0.92 if positive else 1.00)   # -0.08; +0.00
 			Global._change_time_to_complete_order(     0.85 if positive else 1.00)   # -0.15; +0.00
+			Global._change_count_groups_in_order(      1.20 if positive else 0.97)   # +0.02; -0.05
 
 
 
@@ -198,3 +209,11 @@ func _change_time_to_complete_order(count: float):
 	timeToCompleteOrderMod *= count
 	
 	print("Модификатор на время выполнения заказа: " + str(timeToCompleteOrderMod))
+
+func _change_count_groups_in_order(count: float):
+	countGroupsInOrderMod *= count
+	maxCountGroupsInOrder = clamp(DEFAULT_MAX_COUNT_GROUPS_IN_ORDER * countGroupsInOrderMod, 1, 10)
+	minCountGroupsInOrder = clamp(DEFAULT_MIN_COUNT_GROUPS_IN_ORDER * countGroupsInOrderMod, 1, 10)
+	
+	print("Модификатор кол-ва групп на заказ: " + str(countGroupsInOrderMod))
+	print("Мин. кол-во групп на заказ: " + str(minCountGroupsInOrder) + "Макс. кол-во групп на заказ: " + str(maxCountGroupsInOrder))

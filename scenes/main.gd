@@ -28,9 +28,9 @@ func _ready():
 	Global.connect("updatePoliceCount", self, "_update_police_count")
 	Global.connect("updateReputation", self, "_update_reputation")
 	
-	_spawn_order(-1, Vector2(
-		get_viewport().size.x / 2,
-		get_viewport().size.x / 3
+	_spawn_order(1, Vector2(
+		get_viewport().get_visible_rect().size.x / 2,
+		get_viewport().get_visible_rect().size.x / 3
 	))
 	
 	yield(get_tree().create_timer(0.4), "timeout")

@@ -6,6 +6,7 @@ onready var window_mode_option_button = $"buttons/VBoxContainer/window mode/Opti
 onready var window_scale_slider = $"buttons/VBoxContainer/window scale/HSlider"
 onready var window_fullscreen_check_button = $"buttons/VBoxContainer/window fullscreen"
 onready var window_scale_value_label = $"buttons/VBoxContainer/window scale/valueLabel"
+onready var uporderiflineeditfocusentered_check_button = $buttons/VBoxContainer/uporderiflineeditfocusentered
 onready var apply_button = $buttons/VBoxContainer/apply
 
 onready var continue_button = $buttons/VBoxContainer/continue
@@ -20,9 +21,16 @@ var currentWindowFullscreen: bool = false
 
 func _ready():
 	if Global.system == 1:
-		currentWindowScale = 2.4
+		currentWindowScale = 2.2
 		window_scale_slider.value = currentWindowScale
 		_apply_settings()
+		uporderiflineeditfocusentered_check_button.show()
+		window_fullscreen_check_button.hide()
+		Global.upOrderIfLineEditFocusEntered = true
+	else:
+		uporderiflineeditfocusentered_check_button.hide()
+		window_fullscreen_check_button.show()
+		Global.upOrderIfLineEditFocusEntered = false
 	
 	for i in Global.difficulty:
 		difficulty_option_button.add_item(i)
@@ -44,6 +52,7 @@ func _ready():
 	continue_button.connect("pressed", self, "_on_continue_button_pressed")
 	apply_button.connect("pressed", self, "_apply_settings")
 	window_fullscreen_check_button.connect("pressed", self, "_on_window_fullscreen_check_button_pressed")
+	uporderiflineeditfocusentered_check_button.connect("pressed", self, "_on_uporderiflineeditfocusentered_check_button_pressed")
 	
 	fade.show()
 	yield(get_tree().create_timer(0.4), "timeout")
@@ -71,6 +80,9 @@ func _on_window_scale_slider_value_changed(value: float):
 
 func _on_window_fullscreen_check_button_pressed():
 	currentWindowFullscreen = window_fullscreen_check_button.pressed
+
+func _on_uporderiflineeditfocusentered_check_button_pressed():
+	Global.upOrderIfLineEditFocusEntered = uporderiflineeditfocusentered_check_button.pressed
 
 func _apply_settings():
 	# Определяем размер и аспект в зависимости от выбора
