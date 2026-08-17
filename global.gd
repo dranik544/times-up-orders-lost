@@ -30,12 +30,18 @@ var minCountGroupsInOrder: int = 1
 var maxCountGroupsInOrder: int = 4
 var countGroupsInOrderMod: float = 1.0
 
-var faction_weights = [5, 5, 5]
+var faction_weights = [5.0, 5.0, 5.0]
 var faction_counts = [0, 0, 0]
 
 enum difficulty {ULTRAEASY, EASY, NORMAL, HARD, ULTRAHARD}
 var currentDifficulty = difficulty.NORMAL
 var upOrderIfLineEditFocusEntered: bool = false
+var events: Dictionary = {
+	"ad": false,
+	"boss": false,
+	"virus": false,
+}
+var soundsVolume: float = 1.0
 
 enum typeOrder {DEFAULT, START, RARE, MESSAGE, EMERGENCY, BEGIN, DARKNET, CUSTOM}
 
@@ -59,6 +65,27 @@ const PENALTY = 0.5            # насколько уменьшаем вес п
 func _ready():
 	if OS.has_feature("pc"): system = 0
 	elif OS.has_feature("mobile"): system = 1
+
+func _reset():
+	money = 0
+	canceledOrders = 0
+	completedOrders = 0
+	reviews.clear()
+	reputation = 5.0
+	unlockedElement1 = false
+	unlockedElement2 = false
+	policeCount = 0
+	minTimerSpawnOrdersWaitTime = 40.0
+	maxTimerSpawnOrdersWaitTime = 60.0
+	timerSpawnOrdersWaitTimeMod = 1.0
+	maxCountOrdersOnScreen = 1
+	maxCountOrdersOnScreenMod = 1.0
+	timeToCompleteOrderMod = 1.0
+	minCountGroupsInOrder = 1
+	maxCountGroupsInOrder = 4
+	countGroupsInOrderMod = 1.0
+	faction_counts = [0, 0, 0]
+	faction_weights = [5.0, 5.0, 5.0]
 
 # Выбор тега с вероятностью, пропорциональной весам + случайный бонус
 func get_weighted_tag() -> int:

@@ -72,7 +72,7 @@ func _spawn_order(oType: int = -1, oPosition: Vector2 = Vector2.ZERO):
 			rand_range(32, get_viewport().get_visible_rect().size.y - 320)
 		)
 	newOrder.position = randomPosition
-	newOrder.basePosition = randomPosition
+	newOrder.movement.basePosition = randomPosition
 	
 	print("Спавн заказа с типом: ", oType, " на позиции ", randomPosition)
 

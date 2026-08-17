@@ -99,58 +99,81 @@ margin_top = 29.0
 margin_right = 320.0
 margin_bottom = 29.0
 
-[node name="Label" type="Label" parent="buttons/VBoxContainer"]
+[node name="settings" type="VBoxContainer" parent="buttons/VBoxContainer"]
 margin_top = 33.0
 margin_right = 320.0
-margin_bottom = 52.0
+margin_bottom = 279.0
+alignment = 1
+
+[node name="Label" type="Label" parent="buttons/VBoxContainer/settings"]
+margin_right = 320.0
+margin_bottom = 19.0
 text = "НАСТРОЙКИ"
 align = 1
 
-[node name="window aspect" type="HBoxContainer" parent="buttons/VBoxContainer"]
-margin_top = 56.0
+[node name="sounds volume" type="HBoxContainer" parent="buttons/VBoxContainer/settings"]
+margin_top = 23.0
 margin_right = 320.0
-margin_bottom = 81.0
+margin_bottom = 42.0
 
-[node name="Label" type="Label" parent="buttons/VBoxContainer/window aspect"]
+[node name="Label" type="Label" parent="buttons/VBoxContainer/settings/sounds volume"]
+margin_right = 128.0
+margin_bottom = 19.0
+text = "Громкость игры: "
+
+[node name="HSlider" type="HSlider" parent="buttons/VBoxContainer/settings/sounds volume"]
+margin_left = 132.0
+margin_right = 320.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+min_value = -24.0
+max_value = 24.0
+
+[node name="window aspect" type="HBoxContainer" parent="buttons/VBoxContainer/settings"]
+margin_top = 46.0
+margin_right = 320.0
+margin_bottom = 71.0
+
+[node name="Label" type="Label" parent="buttons/VBoxContainer/settings/window aspect"]
 margin_top = 3.0
 margin_right = 165.0
 margin_bottom = 22.0
 text = "Соотношение сторон: "
 
-[node name="OptionButton" type="OptionButton" parent="buttons/VBoxContainer/window aspect"]
+[node name="OptionButton" type="OptionButton" parent="buttons/VBoxContainer/settings/window aspect"]
 margin_left = 169.0
 margin_right = 320.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 
-[node name="window mode" type="HBoxContainer" parent="buttons/VBoxContainer"]
-margin_top = 85.0
+[node name="window mode" type="HBoxContainer" parent="buttons/VBoxContainer/settings"]
+margin_top = 75.0
 margin_right = 320.0
-margin_bottom = 110.0
+margin_bottom = 100.0
 
-[node name="Label" type="Label" parent="buttons/VBoxContainer/window mode"]
+[node name="Label" type="Label" parent="buttons/VBoxContainer/settings/window mode"]
 margin_top = 3.0
 margin_right = 160.0
 margin_bottom = 22.0
 text = "Режим изобржения: "
 
-[node name="OptionButton" type="OptionButton" parent="buttons/VBoxContainer/window mode"]
+[node name="OptionButton" type="OptionButton" parent="buttons/VBoxContainer/settings/window mode"]
 margin_left = 164.0
 margin_right = 320.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 
-[node name="window scale" type="HBoxContainer" parent="buttons/VBoxContainer"]
-margin_top = 114.0
+[node name="window scale" type="HBoxContainer" parent="buttons/VBoxContainer/settings"]
+margin_top = 104.0
 margin_right = 320.0
-margin_bottom = 133.0
+margin_bottom = 123.0
 
-[node name="Label" type="Label" parent="buttons/VBoxContainer/window scale"]
+[node name="Label" type="Label" parent="buttons/VBoxContainer/settings/window scale"]
 margin_right = 158.0
 margin_bottom = 19.0
 text = "Размер интерфейса: "
 
-[node name="HSlider" type="HSlider" parent="buttons/VBoxContainer/window scale"]
+[node name="HSlider" type="HSlider" parent="buttons/VBoxContainer/settings/window scale"]
 margin_left = 162.0
 margin_right = 292.0
 margin_bottom = 16.0
@@ -160,42 +183,67 @@ max_value = 3.0
 step = 0.1
 value = 1.0
 
-[node name="valueLabel" type="Label" parent="buttons/VBoxContainer/window scale"]
+[node name="valueLabel" type="Label" parent="buttons/VBoxContainer/settings/window scale"]
 margin_left = 296.0
 margin_right = 320.0
 margin_bottom = 19.0
 text = "X.X"
 align = 2
 
-[node name="window fullscreen" type="CheckButton" parent="buttons/VBoxContainer"]
-margin_top = 137.0
+[node name="window fullscreen" type="CheckButton" parent="buttons/VBoxContainer/settings"]
+margin_top = 127.0
 margin_right = 320.0
-margin_bottom = 177.0
+margin_bottom = 167.0
 text = "Полный экран: "
 
-[node name="uporderiflineeditfocusentered" type="CheckButton" parent="buttons/VBoxContainer"]
-margin_top = 181.0
+[node name="uporderiflineeditfocusentered" type="CheckButton" parent="buttons/VBoxContainer/settings"]
+margin_top = 171.0
 margin_right = 320.0
-margin_bottom = 227.0
+margin_bottom = 217.0
 pressed = true
 text = "Поднимать вверх заказ, если
 строка ввода была нажата: "
 
-[node name="apply" type="Button" parent="buttons/VBoxContainer"]
-margin_top = 231.0
+[node name="apply" type="Button" parent="buttons/VBoxContainer/settings"]
+margin_top = 221.0
 margin_right = 320.0
-margin_bottom = 256.0
+margin_bottom = 246.0
 text = "Применить настройки"
 
-[node name="sepr2" type="HSeparator" parent="buttons/VBoxContainer"]
-margin_top = 260.0
+[node name="events" type="VBoxContainer" parent="buttons/VBoxContainer"]
+visible = false
+margin_top = 283.0
 margin_right = 320.0
-margin_bottom = 260.0
+margin_bottom = 333.0
+
+[node name="Label" type="Label" parent="buttons/VBoxContainer/events"]
+margin_right = 320.0
+margin_bottom = 19.0
+text = "ИСПЫТАНИЯ"
+align = 1
+
+[node name="event ad" type="CheckBox" parent="buttons/VBoxContainer/events"]
+margin_top = 23.0
+margin_right = 320.0
+margin_bottom = 50.0
+text = "Рекламные баннеры"
+align = 1
+
+[node name="sepr2" type="HSeparator" parent="buttons/VBoxContainer"]
+margin_top = 283.0
+margin_right = 320.0
+margin_bottom = 283.0
+
+[node name="SEtoggle" type="Button" parent="buttons/VBoxContainer"]
+margin_top = 287.0
+margin_right = 320.0
+margin_bottom = 312.0
+text = "Переключиться на испытания"
 
 [node name="continue" type="Button" parent="buttons/VBoxContainer"]
-margin_top = 264.0
+margin_top = 316.0
 margin_right = 320.0
-margin_bottom = 289.0
+margin_bottom = 341.0
 text = "Начать игру"
 
 [node name="shading1" type="TextureRect" parent="."]

@@ -113,14 +113,13 @@ func _process_template(template: Dictionary) -> Dictionary:
 		if group.has("frmt"):
 			for key in group["frmt"]:
 				var value = _generate_value(group["frmt"][key])
-				# Если это rand_option, раскладываем на два ключа
 				if typeof(value) == TYPE_DICTIONARY and value.has("text") and value.has("index"):
 					generated[key + "_text"] = value["text"]
 					generated[key + "_index"] = value["index"]
 				else:
 					generated[key] = value
 
-		# Формируем текст группы с подстановкой значений (ДА/НЕТ для булевых)
+		# Формируем текст группы (используем ДА/НЕТ для булевых)
 		var group_desc = group.get("desc", "")
 		for key in generated:
 			group_desc = group_desc.replace("{" + key + "}", _format_value_for_text(generated[key]))
@@ -129,11 +128,20 @@ func _process_template(template: Dictionary) -> Dictionary:
 		# Обрабатываем блоки параметров
 		for block in group.get("blck", []):
 			var b = block.duplicate()
-			# Подставляем значения во все строковые поля блока
+
+			# Подстановка значений в строковые поля (кроме stat)
 			for field in b.keys():
-				if typeof(b[field]) == TYPE_STRING:
+				if typeof(b[field]) == TYPE_STRING and field != "stat":
 					for key in generated:
 						b[field] = b[field].replace("{" + key + "}", _format_value_for_text(generated[key]))
+
+			# Подстановка в stat отдельно (сырое значение, чтобы потом преобразовать в bool)
+			if b.has("stat") and typeof(b["stat"]) == TYPE_STRING:
+				for key in generated:
+					b["stat"] = b["stat"].replace("{" + key + "}", str(generated[key]))
+				# Преобразуем строку "true"/"false" в булево
+				b["stat"] = b["stat"].to_lower() == "true"
+
 			# Преобразуем числовые поля, если они стали строками
 			var numeric_fields = ["min value", "max value", "step", "min d value", "max d value", "indx"]
 			for field in numeric_fields:
@@ -142,9 +150,7 @@ func _process_template(template: Dictionary) -> Dictionary:
 						b[field] = int(b[field])
 					elif b[field].is_valid_float():
 						b[field] = float(b[field])
-			# Преобразуем булево поле stat
-			if b.has("stat") and typeof(b["stat"]) == TYPE_STRING:
-				b["stat"] = b["stat"].to_lower() == "true"
+
 			flat_prms.append(b)
 
 	result["prms"] = flat_prms

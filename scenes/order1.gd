@@ -22,16 +22,14 @@ onready var sounds = $"sounds"
 onready var rare_particles = $rareParticles
 onready var tags_label = $ui/tags
 onready var main: Node2D = get_tree().current_scene
+onready var movement: Node2D = get_node("windowMovement")
 
 onready var time = $time
 onready var tween_complete_order = $TweenCompleteOrder
 
-var basePosition: Vector2 = position
 var param_widgets: Array = []  # каждый элемент: словарь с типом, виджетом и ожидаемыми значениями
 var random_order: Dictionary
 var isCompleted: bool = false
-var is_dragging = false
-var drag_offset = Vector2()   # смещение между центром заказа и курсором
 export var currentTypeOrder = -1
 var tags: Array = []
 
@@ -101,7 +99,7 @@ func _ready():
 		bg.texture = load("res://sprites/orderBG2_message.png")
 	if currentTypeOrder == Global.typeOrder.EMERGENCY:
 		bg.texture = load("res://sprites/orderBG2_emergency.png")
-		_play_sound(load("res://sounds/EMERGENCY ORDER.mp3"))
+		sounds._play_sound(load("res://sounds/EMERGENCY ORDER.mp3"))
 		main.get_node("bg")._shake_camera(0.5, 150)
 		canvas_modulate._flash(Color.red, 45.0)
 	if currentTypeOrder == Global.typeOrder.DARKNET:
@@ -245,7 +243,7 @@ func _ready():
 	
 	# Анимация появления заказа
 	scale.y = 0.0
-	if currentTypeOrder != Global.typeOrder.EMERGENCY: _play_sound(load("res://sounds/whatsapp.mp3"))
+	if currentTypeOrder != Global.typeOrder.EMERGENCY: sounds._play_sound(load("res://sounds/whatsapp.mp3"))
 	yield(_show_with_animation(), "completed")
 	
 	# Делаем анимацию утекающего времени
@@ -260,34 +258,6 @@ func _ready():
 	# Подключаем кнопки
 	ready_button.connect("pressed", self, "_on_ready_pressed")
 	cancel_button.connect("pressed", self, "_on_cancel_pressed")
-
-func _on_ui_gui_input(event):
-	if event is InputEventMouseButton && event.button_index == BUTTON_LEFT:
-		if event.pressed:
-			# Начинаем перетаскивание
-			is_dragging = true
-			# Вычисляем смещение от позиции заказа до курсора
-			var mouse_global = get_global_mouse_position()
-			drag_offset = basePosition - mouse_global
-		else:
-			# Заканчиваем перетаскивание
-			is_dragging = false
-	
-	if event is InputEventMouseMotion && is_dragging:
-		# Перемещаем заказ
-		var mouse_global = get_global_mouse_position()
-		basePosition = mouse_global + drag_offset
-
-func _process(delta):
-	# Лёгкое смещение от мыши (экранные координаты)
-	var offset: Vector2
-	if Global.system == 0:
-		offset = (get_viewport().get_mouse_position() - get_viewport().get_visible_rect().size / 2) * 0.03 if !is_dragging else Vector2(-16.0, -16.0)
-	else:
-		offset = Vector2.ZERO if !is_dragging else Vector2(-16.0, -16.0)
-	var shadowOffset = Vector2(4.0, 4.0) if !is_dragging else Vector2(12.0, 12.0)
-	position = lerp(position, basePosition + offset, 40 * delta)
-	shadow.rect_position = lerp(shadow.rect_position, shadowOffset, 40 * delta)
 
 func _on_time_timeout():
 	if random_order.get("tags", -1) != -1:
@@ -313,16 +283,16 @@ func _on_line_edit_focus_entered(line_edit: LineEdit):
 	if Global.upOrderIfLineEditFocusEntered:
 		# Запоминаем исходную позицию, если ещё не запомнили
 		if not has_meta("original_base_position"):
-			set_meta("original_base_position", basePosition)
+			set_meta("original_base_position", movement.basePosition)
 		# Если поле ниже середины экрана, поднимаем на разницу
 		var offset_y = max(0, line_edit.get_global_position().y - get_viewport().get_visible_rect().size.y * 0.4)
-		basePosition.y -= offset_y
-		basePosition = get_meta("original_base_position") - Vector2(0, offset_y)
+		movement.basePosition.y -= offset_y
+		movement.basePosition = get_meta("original_base_position") - Vector2(0, offset_y)
 
 func _on_line_edit_focus_exited():
 	# Возвращаем окно на место, когда фокус потерян
 	if Global.upOrderIfLineEditFocusEntered && has_meta("original_base_position"):
-		basePosition = get_meta("original_base_position")
+		movement.basePosition = get_meta("original_base_position")
 		remove_meta("original_base_position")
 
 # Обновление лейбла при движении слайдера
@@ -379,11 +349,11 @@ func _on_ready_pressed():
 			Global.update_weights(random_order.get("tags", -1))
 		
 		canvas_modulate._flash(Color.green)
-		_play_sound(load("res://sounds/succesfly.mp3"))
+		sounds._play_sound(load("res://sounds/succesfly.mp3"))
 		yield(_show_review(true), "completed")
 		
 		Global._change_money_count(random_order["money"])
-		yield(_play_sound(load("res://sounds/money.mp3")), "completed")
+		yield(sounds._play_sound(load("res://sounds/money.mp3")), "completed")
 	else:
 		print("pass (не все верно)")
 		
@@ -399,13 +369,13 @@ func _on_ready_pressed():
 		
 		money_label.text = str(random_order["money"] / 2) + "$"
 		canvas_modulate._flash(Color.crimson)
-		_play_sound(load("res://sounds/damage.mp3"))
+		sounds._play_sound(load("res://sounds/damage.mp3"))
 		main.get_node("bg")._shake_camera()
 		
 		yield(_show_review(false), "completed")
 		
 		Global._change_money_count(random_order["money"] / 2)
-		yield(_play_sound(load("res://sounds/money.mp3")), "completed")
+		yield(sounds._play_sound(load("res://sounds/money.mp3")), "completed")
 		
 	
 	_try_spawn_order()
@@ -478,11 +448,3 @@ func _show_review(good: bool):
 func _try_spawn_order():
 	if get_tree().get_nodes_in_group("order").size() < Global.maxCountOrdersOnScreen:
 		main._spawn_order()
-
-func _play_sound(sound: AudioStreamMP3):
-	sounds.stream.audio_stream = sound
-	
-	sounds.play()
-	yield(sounds, "finished")
-	
-	return true

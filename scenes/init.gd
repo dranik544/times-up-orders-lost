@@ -1,14 +1,21 @@
 extends CanvasLayer
 
 onready var difficulty_option_button = $buttons/VBoxContainer/difficulty/OptionButton
-onready var window_aspect_option_button = $"buttons/VBoxContainer/window aspect/OptionButton"
-onready var window_mode_option_button = $"buttons/VBoxContainer/window mode/OptionButton"
-onready var window_scale_slider = $"buttons/VBoxContainer/window scale/HSlider"
-onready var window_fullscreen_check_button = $"buttons/VBoxContainer/window fullscreen"
-onready var window_scale_value_label = $"buttons/VBoxContainer/window scale/valueLabel"
-onready var uporderiflineeditfocusentered_check_button = $buttons/VBoxContainer/uporderiflineeditfocusentered
-onready var apply_button = $buttons/VBoxContainer/apply
+onready var window_aspect_option_button = $"buttons/VBoxContainer/settings/window aspect/OptionButton"
+onready var window_mode_option_button = $"buttons/VBoxContainer/settings/window mode/OptionButton"
+onready var window_scale_slider = $"buttons/VBoxContainer/settings/window scale/HSlider"
+onready var window_fullscreen_check_button = $"buttons/VBoxContainer/settings/window fullscreen"
+onready var window_scale_value_label = $"buttons/VBoxContainer/settings/window scale/valueLabel"
+onready var uporderiflineeditfocusentered_check_button = $buttons/VBoxContainer/settings/uporderiflineeditfocusentered
+onready var apply_button = $buttons/VBoxContainer/settings/apply
+onready var sounds_volume_slider = $"buttons/VBoxContainer/settings/sounds volume/HSlider"
 
+onready var event_ad = $"buttons/VBoxContainer/events/event ad"
+
+onready var settings = $buttons/VBoxContainer/settings
+onready var events = $buttons/VBoxContainer/events
+
+onready var SEtoggle_button = $buttons/VBoxContainer/SEtoggle
 onready var continue_button = $buttons/VBoxContainer/continue
 onready var fade = $fade
 
@@ -17,6 +24,7 @@ var currentWindowMode: int = 0
 var currentWindowSize: Vector2 = Vector2.ZERO
 var currentWindowScale: float = 1.0
 var currentWindowFullscreen: bool = false
+var SEtoggle: bool = false
 
 
 func _ready():
@@ -53,6 +61,8 @@ func _ready():
 	apply_button.connect("pressed", self, "_apply_settings")
 	window_fullscreen_check_button.connect("pressed", self, "_on_window_fullscreen_check_button_pressed")
 	uporderiflineeditfocusentered_check_button.connect("pressed", self, "_on_uporderiflineeditfocusentered_check_button_pressed")
+	sounds_volume_slider.connect("value_changed", self, "_on_sounds_volume_slider_value_changed")
+	SEtoggle_button.connect("pressed", self, "_on_SEtoggle_button_pressed")
 	
 	fade.show()
 	yield(get_tree().create_timer(0.4), "timeout")
@@ -78,11 +88,25 @@ func _on_window_scale_slider_value_changed(value: float):
 	currentWindowScale = value
 	window_scale_value_label.text = str(value)
 
+func _on_sounds_volume_slider_value_changed(value: float):
+	Global.soundsVolume = value
+
 func _on_window_fullscreen_check_button_pressed():
 	currentWindowFullscreen = window_fullscreen_check_button.pressed
 
 func _on_uporderiflineeditfocusentered_check_button_pressed():
 	Global.upOrderIfLineEditFocusEntered = uporderiflineeditfocusentered_check_button.pressed
+
+func _on_SEtoggle_button_pressed():
+	SEtoggle = not SEtoggle
+	settings.visible = not SEtoggle
+	events.visible = SEtoggle
+	SEtoggle_button.text = "Переключиться на " + ("настройки" if SEtoggle else "испытания")
+
+func _apply_events():
+	Global.events["ad"] = event_ad.pressed
+	
+	print(Global.events)
 
 func _apply_settings():
 	# Определяем размер и аспект в зависимости от выбора
@@ -110,6 +134,8 @@ func _apply_settings():
 	OS.window_fullscreen = currentWindowFullscreen
 
 func _on_continue_button_pressed():
+	_apply_events()
+	
 	fade.show()
 	var tween: Tween = Tween.new()
 	add_child(tween)

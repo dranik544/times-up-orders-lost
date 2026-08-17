@@ -21,7 +21,7 @@ func _on_viewport_size_changed():
 	rect_pivot_offset = rect_size * 0.5
 
 func _process(delta):
-	var mouseoffset = get_viewport().get_mouse_position() * 0.015
+	var mouseoffset = -get_viewport().get_mouse_position() * 0.025
 	
 	if shakesensitivity > 0:
 		var shake_offset = Vector2(

@@ -2221,13 +2221,13 @@ var orders: Array = [
 	},
 	{
 		"name": "3.14door games",
-		"desc": "[center][b]Привет![/b][/center]\nНадо сделать игру для геймджема, прям срочно, а то сроки поджимают! Выигрыш подил на пополам.",
+		"desc": "[center][b]Привет![/b][/center]\nНадо сделать игру для геймджема, [shake]прям срочно[/shake], а то сроки поджимают! [wave][color=#82ffbe]Выигрыш[color=] поделим на пополам[/wave].",
 		"good review": "Офигенно! Я победил в геймджеме! Советую!",
 		"bad review": "МУДАК, МЕНЯ ВЫГНАЛИ С ГЕЙМДЖЕМА!",
 		"time": 40,
 		"money": 3000,
-		"ready text": "ГОТОВО",
-		"cancel text": "Я не буду помогать империи!",
+		"ready text": "Забирайте!",
+		"cancel text": "НЕТ! Это нечестно.",
 		"tags": 2,
 		"type": 0,
 		"mods": {"safe cancel": true},
@@ -2263,7 +2263,7 @@ var orders: Array = [
 			},
 			{
 				"desc": "Ну и пусть игра называется как нибудь в роде {name}. МЫ ДОЛЖНЫ ПОБЕДИТЬ С ТАКИМ НАЗВАНИЕМ!!!",
-				"frmt": {"name": {"type": "rand_text", "pool": ["KFC HORROR", "В поисках бургера", "Макдональд уже идёт за тобой..."]}},
+				"frmt": {"name": {"type": "rand_text", "pool": ["kfc horror", "в поисках бургера", "макдональд уже идёт за тобой..."]}},
 				"blck": [
 					{
 						"type": "line",
@@ -2272,7 +2272,32 @@ var orders: Array = [
 						"correct": "{name}"
 					}
 				]
+			},
+			{
+				"desc": "Так, нужен ли мобильный порт? Конечно {c}",
+				"frmt": {"c": {"type": "rand_bool"}},
+				"blck": [
+					{
+						"type": "check",
+						"text": "Мобильный порт",
+						"stat": "{c}"
+					}
+				]
 			}
 		]
+	},
+	{
+		"name": "Aboba",
+		"desc": "[center][b]Здравствуйте![/b][/center]\nПросим вас оплатить подписку на Aboba Photozhop, стоящую 5000$!\n[center][b]С уважением, Aboba![/b][/center]",
+		"good review": "Подписка успешно оплачена!",
+		"bad review": "Подписка не была оплачена вовремя!",
+		"time": 30,
+		"money": -5000,
+		"ready text": "Оплатить",
+		"cancel text": "",
+		"tags": -1,
+		"type": 0,
+		"mods": {"disable cancel": true, "safe rep": true},
+		"groups": []
 	}
 ]
