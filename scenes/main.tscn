@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://defaulttheme.tres" type="Theme" id=1]
 [ext_resource path="res://font/Ubuntu-Regular.ttf" type="DynamicFontData" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://scenes/shading1.gd" type="Script" id=15]
 [ext_resource path="res://scenes/sounds.gd" type="Script" id=16]
 [ext_resource path="res://sprites/pause_icon1.png" type="Texture" id=17]
+[ext_resource path="res://scenes/event_without_mistakes1.tscn" type="PackedScene" id=18]
 
 [sub_resource type="Gradient" id=12]
 offsets = PoolRealArray( 0, 0.422535, 1 )
@@ -387,6 +388,9 @@ autowrap = true
 [node name="victory sound" type="AudioStreamPlayer" parent="CanvasLayer/title end"]
 stream = ExtResource( 11 )
 volume_db = -2.0
+
+[node name="event_without_mistakes1" parent="CanvasLayer" instance=ExtResource( 18 )]
+visible = false
 
 [node name="fade" type="TextureRect" parent="CanvasLayer"]
 visible = false

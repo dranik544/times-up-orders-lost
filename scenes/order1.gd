@@ -267,6 +267,7 @@ func _on_time_timeout():
 		if isCompleted: return
 	else: if isCompleted: return
 	
+	Global.emit_signal("updateFailedOrders")
 	remove_from_group("order")
 	
 	Global._auto_balance(false)
@@ -357,6 +358,7 @@ func _on_ready_pressed():
 	else:
 		print("pass (не все верно)")
 		
+		Global.emit_signal("updateFailedOrders")
 		Global._auto_balance(false)
 		
 		remove_from_group("order")

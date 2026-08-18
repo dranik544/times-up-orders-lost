@@ -9,8 +9,10 @@ onready var window_scale_value_label = $"buttons/VBoxContainer/settings/window s
 onready var uporderiflineeditfocusentered_check_button = $buttons/VBoxContainer/settings/uporderiflineeditfocusentered
 onready var apply_button = $buttons/VBoxContainer/settings/apply
 onready var sounds_volume_slider = $"buttons/VBoxContainer/settings/sounds volume/HSlider"
+onready var all_content_at_start_check_button = $"buttons/VBoxContainer/settings/all content at start"
 
 onready var event_ad = $"buttons/VBoxContainer/events/event ad"
+onready var event_without_mistakes = $"buttons/VBoxContainer/events/event without mistakes"
 
 onready var settings = $buttons/VBoxContainer/settings
 onready var events = $buttons/VBoxContainer/events
@@ -63,6 +65,7 @@ func _ready():
 	uporderiflineeditfocusentered_check_button.connect("pressed", self, "_on_uporderiflineeditfocusentered_check_button_pressed")
 	sounds_volume_slider.connect("value_changed", self, "_on_sounds_volume_slider_value_changed")
 	SEtoggle_button.connect("pressed", self, "_on_SEtoggle_button_pressed")
+	all_content_at_start_check_button.connect("pressed", self, "_on_all_content_at_start_check_button_pressed")
 	
 	fade.show()
 	yield(get_tree().create_timer(0.4), "timeout")
@@ -97,6 +100,9 @@ func _on_window_fullscreen_check_button_pressed():
 func _on_uporderiflineeditfocusentered_check_button_pressed():
 	Global.upOrderIfLineEditFocusEntered = uporderiflineeditfocusentered_check_button.pressed
 
+func _on_all_content_at_start_check_button_pressed():
+	Global.allContentAtStart = all_content_at_start_check_button.pressed
+
 func _on_SEtoggle_button_pressed():
 	SEtoggle = not SEtoggle
 	settings.visible = not SEtoggle
@@ -105,6 +111,7 @@ func _on_SEtoggle_button_pressed():
 
 func _apply_events():
 	Global.events["ad"] = event_ad.pressed
+	Global.events["without mistakes"] = event_without_mistakes.pressed
 	
 	print(Global.events)
 

@@ -9,6 +9,7 @@ signal updateCompletedOrders
 signal updateReputation
 signal updateReviews
 signal updatePoliceCount
+signal updateFailedOrders
 
 var system: int = 0   # 0 - ПК, 1 - ТЕЛЕФОН
 
@@ -38,14 +39,16 @@ var currentDifficulty = difficulty.NORMAL
 var upOrderIfLineEditFocusEntered: bool = false
 var events: Dictionary = {
 	"ad": false,
+	"without mistakes": false,
 	"boss": false,
 	"virus": false,
 }
 var soundsVolume: float = 1.0
+var allContentAtStart: bool = false
 
 enum typeOrder {DEFAULT, START, RARE, MESSAGE, EMERGENCY, BEGIN, DARKNET, CUSTOM}
 
-const MAX_CANCELED_ORDERS: int = 2
+const MAX_CANCELED_ORDERS: int = 3
 const MAX_POLICE_COUNT: int = 5
 const MIN_REPUTATION: float = 3.0
 const MAX_MONEY_COUNT: int = 999999999999999999   # 999.999.999.999.999.999

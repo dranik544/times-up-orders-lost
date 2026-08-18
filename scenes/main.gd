@@ -19,6 +19,7 @@ var orderScene = preload("res://scenes/order1.tscn")
 func _ready():
 	fade.show()
 	title.hide()
+	if Global.allContentAtStart: title.show()
 	timer_spawning_orders.connect("timeout", self, "_on_timer_spawning_orders_timeout")
 	timer_canceled.connect("timeout", self, "_on_timer_canceled_timeout")
 	Global.connect("updateWeights", self, "_update_title_status")
@@ -80,7 +81,7 @@ func _on_timer_canceled_timeout():
 	Global._change_canceled_orders_count(-1)
 
 func _update_canceled_orders_counter():
-	canceled_label.text = str(Global.canceledOrders) + "/3 отмен заказа"
+	canceled_label.text = str(Global.canceledOrders) + "/" + str(Global.MAX_CANCELED_ORDERS) + " отмен заказа"
 
 func _update_completed_orders_counter():
 	orders.text = str(Global.completedOrders) + " выполненых заказов"

@@ -102,7 +102,7 @@ margin_bottom = 29.0
 [node name="settings" type="VBoxContainer" parent="buttons/VBoxContainer"]
 margin_top = 33.0
 margin_right = 320.0
-margin_bottom = 279.0
+margin_bottom = 323.0
 alignment = 1
 
 [node name="Label" type="Label" parent="buttons/VBoxContainer/settings"]
@@ -204,17 +204,23 @@ pressed = true
 text = "Поднимать вверх заказ, если
 строка ввода была нажата: "
 
-[node name="apply" type="Button" parent="buttons/VBoxContainer/settings"]
+[node name="all content at start" type="CheckButton" parent="buttons/VBoxContainer/settings"]
 margin_top = 221.0
 margin_right = 320.0
-margin_bottom = 246.0
+margin_bottom = 261.0
+text = "Весь контент со старта: "
+
+[node name="apply" type="Button" parent="buttons/VBoxContainer/settings"]
+margin_top = 265.0
+margin_right = 320.0
+margin_bottom = 290.0
 text = "Применить настройки"
 
 [node name="events" type="VBoxContainer" parent="buttons/VBoxContainer"]
 visible = false
 margin_top = 283.0
 margin_right = 320.0
-margin_bottom = 333.0
+margin_bottom = 364.0
 
 [node name="Label" type="Label" parent="buttons/VBoxContainer/events"]
 margin_right = 320.0
@@ -229,21 +235,28 @@ margin_bottom = 50.0
 text = "Рекламные баннеры"
 align = 1
 
-[node name="sepr2" type="HSeparator" parent="buttons/VBoxContainer"]
-margin_top = 283.0
+[node name="event without mistakes" type="CheckBox" parent="buttons/VBoxContainer/events"]
+margin_top = 54.0
 margin_right = 320.0
-margin_bottom = 283.0
+margin_bottom = 81.0
+text = "Ни единой ошибки"
+align = 1
+
+[node name="sepr2" type="HSeparator" parent="buttons/VBoxContainer"]
+margin_top = 327.0
+margin_right = 320.0
+margin_bottom = 327.0
 
 [node name="SEtoggle" type="Button" parent="buttons/VBoxContainer"]
-margin_top = 287.0
+margin_top = 331.0
 margin_right = 320.0
-margin_bottom = 312.0
+margin_bottom = 356.0
 text = "Переключиться на испытания"
 
 [node name="continue" type="Button" parent="buttons/VBoxContainer"]
-margin_top = 316.0
+margin_top = 360.0
 margin_right = 320.0
-margin_bottom = 341.0
+margin_bottom = 385.0
 text = "Начать игру"
 
 [node name="shading1" type="TextureRect" parent="."]

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/ankh1.mp3-4823439e2ecbefae7e92618630c5c337.mp3str"
+
+[deps]
+
+source_file="res://sounds/ankh1.mp3"
+dest_files=[ "res://.import/ankh1.mp3-4823439e2ecbefae7e92618630c5c337.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -25,40 +25,51 @@ func _pick_template() -> Dictionary:
 	var chosen_tag = Global.get_weighted_tag()
 	var candidates = []
 	var completed = Global.completedOrders
-	
+
 	for order in OrderList.orders:
 		var tags = order.get("tags", -1)
 		if tags != chosen_tag:
 			continue
-	
+
 		var otype = order.get("type", null)
-		match otype:
-			null, 0, 3, 7:   # DEFAULT, MESSAGE, CUSTOM — всегда доступны
-				candidates.append(order)
-			1:               # START — не спавним в обычной генерации
+
+		# Если включён флаг — игнорируем прогресс (кроме START/BEGIN)
+		if Global.allContentAtStart:
+			# START (1) и BEGIN (5) не спавним случайно
+			if otype == 1 or otype == 5:
 				continue
-			6:               # BEGIN — только по принудительному вызову
-				continue
-			2:               # RARE — после 7
-				if completed >= 7:
-					candidates.append(order)
-			4:               # EMERGENCY — после 35
-				if completed >= 35:
-					candidates.append(order)
-			5:               # DARKNET — после 20
-				if completed >= 20:
-					candidates.append(order)
-			_:
-				pass  # неизвестный тип — игнорируем
-	
+			# Все остальные типы (включая null) доступны
+			candidates.append(order)
+			continue
+
+		# --- Обычная логика (без флага) ---
+		# Доступны всегда
+		if otype == null or otype == 0 or otype == 3 or otype == 7:
+			candidates.append(order)
+		# START и BEGIN – не для случайной генерации
+		elif otype == 1 or otype == 5:
+			continue
+		# RARE (2) – после 7 заказов
+		elif otype == 2 and completed >= 7:
+			candidates.append(order)
+		# DARKNET (6) – после 20 заказов
+		elif otype == 6 and completed >= 20:
+			candidates.append(order)
+		# EMERGENCY (4) – после 35 заказов
+		elif otype == 4 and completed >= 35:
+			candidates.append(order)
+		# Неизвестный тип – пропускаем
+		else:
+			pass
+
+	# Если кандидатов всё ещё нет – берём обычные заказы (без типа)
 	if candidates.empty():
 		for order in OrderList.orders:
-			if order.get("type", null) in [null, 0, 3, 7]:
+			if order.get("type", null) == null:
 				candidates.append(order)
-	
+
 	if candidates.empty():
 		return {}
-	
 	return candidates[randi() % candidates.size()]
 
 func _find_template_by_type(type_id: int) -> Dictionary:
