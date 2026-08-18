@@ -19,57 +19,61 @@ func generate_start_order() -> Dictionary:
 	return generate_order_by_type(1)
 
 # ------------------------------------------------------------
-# Выбор шаблона (как было, без изменений)
+# Выбор шаблона
 # ------------------------------------------------------------
 func _pick_template() -> Dictionary:
 	var chosen_tag = Global.get_weighted_tag()
 	var candidates = []
 	var completed = Global.completedOrders
 
+	# Проходим по всем заказам
 	for order in OrderList.orders:
 		var tags = order.get("tags", -1)
+		# Если тег не совпадает с выбранным — пропускаем (но если тег -1, то он не участвует в случайной генерации)
 		if tags != chosen_tag:
 			continue
 
 		var otype = order.get("type", null)
 
-		# Если включён флаг — игнорируем прогресс (кроме START/BEGIN)
+		# Если включён флаг — все заказы доступны (кроме START/BEGIN)
 		if Global.allContentAtStart:
-			# START (1) и BEGIN (5) не спавним случайно
 			if otype == 1 or otype == 5:
 				continue
-			# Все остальные типы (включая null) доступны
 			candidates.append(order)
 			continue
 
-		# --- Обычная логика (без флага) ---
-		# Доступны всегда
+		# --- Обычная логика ---
 		if otype == null or otype == 0 or otype == 3 or otype == 7:
 			candidates.append(order)
-		# START и BEGIN – не для случайной генерации
 		elif otype == 1 or otype == 5:
 			continue
-		# RARE (2) – после 7 заказов
-		elif otype == 2 and completed >= 7:
+		elif otype == 2 and completed >= 5:
 			candidates.append(order)
-		# DARKNET (6) – после 20 заказов
-		elif otype == 6 and completed >= 20:
+		elif otype == 6 and completed >= 15:
 			candidates.append(order)
-		# EMERGENCY (4) – после 35 заказов
-		elif otype == 4 and completed >= 35:
+		elif otype == 4 and completed >= 25:
 			candidates.append(order)
-		# Неизвестный тип – пропускаем
 		else:
-			pass
+			pass   # неизвестный тип — пропускаем
 
-	# Если кандидатов всё ещё нет – берём обычные заказы (без типа)
+	# Если кандидатов нет — пытаемся взять заказы с type == null (любого тега)
 	if candidates.empty():
 		for order in OrderList.orders:
 			if order.get("type", null) == null:
 				candidates.append(order)
 
+	# Если всё ещё пусто — берём вообще все заказы (кроме START/BEGIN, чтобы не сломать обучение)
 	if candidates.empty():
+		for order in OrderList.orders:
+			var otype = order.get("type", null)
+			if otype != 1 and otype != 6:
+				candidates.append(order)
+
+	# Если даже после этого пусто — выдаём ошибку (но такого быть не должно)
+	if candidates.empty():
+		print("OrderGenerator: НЕТ ДОСТУПНЫХ ЗАКАЗОВ! Возвращаю fallback.")
 		return {}
+
 	return candidates[randi() % candidates.size()]
 
 func _find_template_by_type(type_id: int) -> Dictionary:
@@ -225,7 +229,7 @@ func _format_value_for_text(value) -> String:
 func _fallback_order() -> Dictionary:
 	return {
 		"name": "Ошибка",
-		"desc": "[center][b]Ошибка генерации[/b][/center]",
+		"desc": "/n[center][b][wave]Ошибка генерации[/wave][/b][/center]",
 		"good review": "...",
 		"bad review": "...",
 		"time": 5,
@@ -234,5 +238,6 @@ func _fallback_order() -> Dictionary:
 		"cancel text": "Отмена",
 		"tags": -1,
 		"type": null,
+		"mods": {"safe skip": true, "safe rep": true},
 		"prms": []
 	}

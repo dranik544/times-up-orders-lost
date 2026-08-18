@@ -19,7 +19,6 @@ var orderScene = preload("res://scenes/order1.tscn")
 func _ready():
 	fade.show()
 	title.hide()
-	if Global.allContentAtStart: title.show()
 	timer_spawning_orders.connect("timeout", self, "_on_timer_spawning_orders_timeout")
 	timer_canceled.connect("timeout", self, "_on_timer_canceled_timeout")
 	Global.connect("updateWeights", self, "_update_title_status")
@@ -111,7 +110,7 @@ func _update_title_status():
 	title.get_node("tag2/ProgressBar").value = Global.faction_counts[1]
 	title.get_node("tag3/ProgressBar").value = Global.faction_counts[2]
 	
-	if Global.faction_counts[0] >= 30 || Global.faction_counts[1] >= 30 || Global.faction_counts[2] >= 30:
+	if Global.faction_counts[0] >= 25 || Global.faction_counts[1] >= 25 || Global.faction_counts[2] >= 25:
 		if Global.unlockedElement2: return
 		Global.unlockedElement2 = true
 		print("ended")
@@ -169,7 +168,7 @@ func _update_title_status():
 		
 		title_end.hide()
 	
-	if Global.faction_counts[0] >= 7 || Global.faction_counts[1] >= 7 || Global.faction_counts[2] >= 7:
+	if Global.faction_counts[0] >= 5 || Global.faction_counts[1] >= 5 || Global.faction_counts[2] >= 5:
 		if Global.unlockedElement1: return
 		Global.unlockedElement1 = true
 		

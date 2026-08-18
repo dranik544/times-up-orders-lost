@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://defaulttheme.tres" type="Theme" id=1]
 [ext_resource path="res://font/Ubuntu-Regular.ttf" type="DynamicFontData" id=2]
@@ -18,6 +18,8 @@
 [ext_resource path="res://scenes/sounds.gd" type="Script" id=16]
 [ext_resource path="res://sprites/pause_icon1.png" type="Texture" id=17]
 [ext_resource path="res://scenes/event_without_mistakes1.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scenes/flash.gd" type="Script" id=19]
+[ext_resource path="res://scenes/event_rain1.tscn" type="PackedScene" id=20]
 
 [sub_resource type="Gradient" id=12]
 offsets = PoolRealArray( 0, 0.422535, 1 )
@@ -110,9 +112,10 @@ script = ExtResource( 6 )
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 script = ExtResource( 8 )
 
-[node name="Tween" type="Tween" parent="CanvasModulate"]
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="event_rain1" parent="CanvasLayer" instance=ExtResource( 20 )]
+visible = false
 
 [node name="shading1" type="TextureRect" parent="CanvasLayer"]
 modulate = Color( 1, 1, 1, 0.2 )
@@ -263,7 +266,7 @@ margin_right = 323.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 150, 20 )
 mouse_filter = 2
-max_value = 30.0
+max_value = 25.0
 step = 1.0
 percent_visible = false
 
@@ -286,7 +289,7 @@ margin_right = 323.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 150, 20 )
 mouse_filter = 2
-max_value = 30.0
+max_value = 25.0
 step = 1.0
 percent_visible = false
 
@@ -309,7 +312,7 @@ margin_right = 323.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 150, 20 )
 mouse_filter = 2
-max_value = 30.0
+max_value = 25.0
 step = 1.0
 percent_visible = false
 
@@ -392,6 +395,15 @@ volume_db = -2.0
 [node name="event_without_mistakes1" parent="CanvasLayer" instance=ExtResource( 18 )]
 visible = false
 
+[node name="flash" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 19 )
+
+[node name="Tween" type="Tween" parent="CanvasLayer/flash"]
+
 [node name="fade" type="TextureRect" parent="CanvasLayer"]
 visible = false
 anchor_right = 1.0
@@ -407,7 +419,7 @@ anchor_bottom = 1.0
 script = ExtResource( 13 )
 
 [node name="fade" type="TextureRect" parent="CanvasLayer/pause"]
-modulate = Color( 1, 1, 1, 0.392157 )
+modulate = Color( 1, 1, 1, 0.588235 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -446,5 +458,7 @@ autostart = true
 
 [node name="sound police" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 14 )
-volume_db = -2.0
+volume_db = -4.0
 script = ExtResource( 16 )
+
+[node name="music" type="AudioStreamPlayer" parent="."]

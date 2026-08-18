@@ -13,6 +13,7 @@ onready var all_content_at_start_check_button = $"buttons/VBoxContainer/settings
 
 onready var event_ad = $"buttons/VBoxContainer/events/event ad"
 onready var event_without_mistakes = $"buttons/VBoxContainer/events/event without mistakes"
+onready var event_rain = $"buttons/VBoxContainer/events/event rain"
 
 onready var settings = $buttons/VBoxContainer/settings
 onready var events = $buttons/VBoxContainer/events
@@ -112,6 +113,7 @@ func _on_SEtoggle_button_pressed():
 func _apply_events():
 	Global.events["ad"] = event_ad.pressed
 	Global.events["without mistakes"] = event_without_mistakes.pressed
+	Global.events["rain"] = event_rain.pressed
 	
 	print(Global.events)
 

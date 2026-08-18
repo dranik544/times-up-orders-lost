@@ -17,9 +17,11 @@ func _ready():
 	Global.connect("updateTimerSpawnOrdersWaitTime", self, "timer_update_waittime")
 
 func timer_update_waittime():
+	randomize()
 	timer.wait_time = rand_range(Global.minTimerSpawnOrdersWaitTime, Global.maxTimerSpawnOrdersWaitTime)
 
 func _on_timer_timeout():
+	randomize()
 	var randevent: int = (randi() % events.size())
 	match randevent:
 		events.ad:

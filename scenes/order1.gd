@@ -17,7 +17,7 @@ onready var sepr_1 = $ui/message/sepr1
 onready var sepr_2 = $ui/sepr2
 onready var sepr_3 = $ui/sepr3
 onready var sepr_4 = $ui/sepr4
-onready var canvas_modulate = $"../../CanvasModulate"
+onready var flash: ColorRect = get_tree().current_scene.get_node("CanvasLayer/flash")
 onready var sounds = $"sounds"
 onready var rare_particles = $rareParticles
 onready var tags_label = $ui/tags
@@ -46,7 +46,7 @@ func _ready():
 	if currentTypeOrder == Global.typeOrder.START:
 		random_order = OrderGenerator.generate_start_order()
 	elif currentTypeOrder == Global.typeOrder.BEGIN:
-		random_order = OrderGenerator.generate_order_by_type(6)  # если есть BEGIN
+		random_order = OrderGenerator.generate_order_by_type(5)  # если есть BEGIN
 	elif currentTypeOrder == Global.typeOrder.CUSTOM:
 		random_order = OrderList.customOrder   # если остался кастомный
 	elif currentTypeOrder == Global.typeOrder.RARE:
@@ -101,7 +101,7 @@ func _ready():
 		bg.texture = load("res://sprites/orderBG2_emergency.png")
 		sounds._play_sound(load("res://sounds/EMERGENCY ORDER.mp3"))
 		main.get_node("bg")._shake_camera(0.5, 150)
-		canvas_modulate._flash(Color.red, 45.0)
+		flash._flash(Color.red, 45.0)
 	if currentTypeOrder == Global.typeOrder.DARKNET:
 		bg.texture = load("res://sprites/orderBG2_darknet_2.png")
 		main.get_node("CanvasLayer/shading1")._flash()
@@ -272,7 +272,7 @@ func _on_time_timeout():
 	
 	Global._auto_balance(false)
 	
-	canvas_modulate._flash(Color.coral)
+	flash._flash(Color.red)
 	main.get_node("bg")._shake_camera(5.0, 75.0)
 	yield(_show_review(false), "completed")
 	_try_spawn_order()
@@ -349,7 +349,7 @@ func _on_ready_pressed():
 		if random_order.get("tags", -1) != -1:
 			Global.update_weights(random_order.get("tags", -1))
 		
-		canvas_modulate._flash(Color.green)
+		flash._flash(Color.green)
 		sounds._play_sound(load("res://sounds/succesfly.mp3"))
 		yield(_show_review(true), "completed")
 		
@@ -370,7 +370,7 @@ func _on_ready_pressed():
 			Global.decrease_weight(random_order.get("tags", -1))
 		
 		money_label.text = str(random_order["money"] / 2) + "$"
-		canvas_modulate._flash(Color.crimson)
+		flash._flash(Color.crimson)
 		sounds._play_sound(load("res://sounds/damage.mp3"))
 		main.get_node("bg")._shake_camera()
 		

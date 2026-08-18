@@ -1,9 +1,5 @@
 extends CanvasModulate
 
-onready var tween = $Tween
 
-
-func _flash(_color: Color, speed: float = 1.0):
-	color = _color
-	tween.interpolate_property(self, "color", color, Color.white, speed)
-	tween.start()
+func _ready():
+	if Global.events["rain"]: color = Color(0.035294, 0.203922, 0.384314)

@@ -153,12 +153,12 @@ margin_bottom = 100.0
 
 [node name="Label" type="Label" parent="buttons/VBoxContainer/settings/window mode"]
 margin_top = 3.0
-margin_right = 160.0
+margin_right = 168.0
 margin_bottom = 22.0
-text = "Режим изобржения: "
+text = "Режим изображения: "
 
 [node name="OptionButton" type="OptionButton" parent="buttons/VBoxContainer/settings/window mode"]
-margin_left = 164.0
+margin_left = 172.0
 margin_right = 320.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
@@ -240,6 +240,13 @@ margin_top = 54.0
 margin_right = 320.0
 margin_bottom = 81.0
 text = "Ни единой ошибки"
+align = 1
+
+[node name="event rain" type="CheckBox" parent="buttons/VBoxContainer/events"]
+margin_top = 54.0
+margin_right = 320.0
+margin_bottom = 81.0
+text = "Дождливый день"
 align = 1
 
 [node name="sepr2" type="HSeparator" parent="buttons/VBoxContainer"]
