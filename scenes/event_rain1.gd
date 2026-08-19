@@ -27,7 +27,6 @@ func _on_update_timer_spawn_orders_wait_time():
 	timer.wait_time = rand_range(Global.minTimerSpawnOrdersWaitTime / 1.5, Global.maxTimerSpawnOrdersWaitTime / 1.5)
 
 func _on_timer_timeout():
-	print("dsaas")
 	randomize()
 	flash._flash(Color.white, rand_range(5.0, 12.5), 1.0)
 	bg._shake_camera(0.1, 50.0)

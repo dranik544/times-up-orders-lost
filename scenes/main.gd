@@ -185,7 +185,7 @@ func _update_title_status():
 		tween.queue_free()
 
 func _update_police_count():
-	if Global.policeCount >= 8:
+	if Global.policeCount >= Global.MAX_POLICE_COUNT:
 		print("АРЕСТ!")
 		sound_police.play()
 		yield(sound_police, "finished")

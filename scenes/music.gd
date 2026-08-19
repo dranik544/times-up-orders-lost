@@ -4,6 +4,8 @@ var current_index: int = 0
 onready var music_label = $"../CanvasLayer/musicLabel"
 onready var tween = $"../CanvasLayer/musicLabel/Tween"
 
+var spectrum: AudioEffectSpectrumAnalyzerInstance
+var amp
 
 func _ready():
 	if Global.music.empty():
@@ -13,8 +15,6 @@ func _ready():
 	
 	volume_db += Global.soundsVolume
 	connect("finished", self, "_on_music_finished")
-	
-	for i in 3: yield(get_tree(), "idle_frame")
 	
 	randomize()
 	current_index = randi() % Global.music.size() - 1

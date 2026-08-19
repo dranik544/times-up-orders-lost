@@ -24,6 +24,8 @@ var textures: Array = [
 	preload("res://sprites/event_ad10.png"),
 	preload("res://sprites/event_ad11.png"),
 	preload("res://sprites/event_ad12.png"),
+	preload("res://sprites/event_ad13.png"),
+	preload("res://sprites/event_ad14.png"),
 ]
 var triesclose: int = 5
 

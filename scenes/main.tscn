@@ -484,4 +484,5 @@ script = ExtResource( 16 )
 
 [node name="music" type="AudioStreamPlayer" parent="."]
 volume_db = -10.0
+bus = "MusicBus"
 script = ExtResource( 21 )

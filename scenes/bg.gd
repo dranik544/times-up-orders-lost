@@ -4,6 +4,7 @@ var shakespeed: float = 0.0
 var shakesensitivity: float = 0.0
 var shakeinterpolate: float = 15.0
 var basePosition: Vector2
+var spectrum: AudioEffectSpectrumAnalyzerInstance
 
 func _ready():
 	_on_update_image_bg()
@@ -11,6 +12,8 @@ func _ready():
 	yield(get_tree(), "idle_frame")
 	_on_viewport_size_changed()
 	Global.connect("updateImageBG", self, "_on_update_image_bg")
+	spectrum = AudioServer.get_bus_effect_instance(AudioServer.get_bus_index("MusicBus"), 0)
+
 
 func _on_update_image_bg():
 	if Global.imageBG: texture = Global.imageBG
@@ -27,6 +30,9 @@ func _on_viewport_size_changed():
 
 func _process(delta):
 	var mouseoffset = -get_viewport().get_mouse_position() * 0.025
+	
+	var bass_level = spectrum.get_magnitude_for_frequency_range(20, 500).length()
+	rect_scale = lerp(rect_scale, Vector2.ONE * (1.0 + bass_level * 0.6), 20 * delta)
 	
 	if shakesensitivity > 0:
 		var shake_offset = Vector2(

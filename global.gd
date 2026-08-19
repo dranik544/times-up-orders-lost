@@ -42,6 +42,7 @@ var events: Dictionary = {
 	"ad": false,
 	"without mistakes": false,
 	"rain": false,
+	"extra costs": false,
 }
 var soundsVolume: float = 1.0
 var allContentAtStart: bool = false
@@ -51,7 +52,7 @@ var music: Array = []
 enum typeOrder {DEFAULT, START, RARE, MESSAGE, EMERGENCY, BEGIN, DARKNET, CUSTOM}
 
 const MAX_CANCELED_ORDERS: int = 3
-const MAX_POLICE_COUNT: int = 5
+const MAX_POLICE_COUNT: int = 6
 const MIN_REPUTATION: float = 3.0
 const MAX_MONEY_COUNT: int = 999999999999999999   # 999.999.999.999.999.999
 const DEFAULT_MIN_TIMER_SPAWN_ORDERS_WAIT_TIME: float = 40.0
@@ -62,9 +63,9 @@ const DEFAULT_MAX_COUNT_GROUPS_IN_ORDER: int = 2
 
 const MIN_WEIGHT = 2.0
 const MAX_WEIGHT = 12.0
-const INCREMENT = 0.5          # насколько увеличиваем вес при успехе
-const DECREMENT = 0.1          # насколько уменьшаем остальные при успехе
-const PENALTY = 0.5            # насколько уменьшаем вес при провале
+const INCREMENT = 0.2          # насколько увеличиваем вес при успехе
+const DECREMENT = 0.05          # насколько уменьшаем остальные при успехе
+const PENALTY = 0.2            # насколько уменьшаем вес при провале
 
 
 func _ready():
