@@ -10,6 +10,10 @@ onready var uporderiflineeditfocusentered_check_button = $buttons/VBoxContainer/
 onready var apply_button = $buttons/VBoxContainer/settings/apply
 onready var sounds_volume_slider = $"buttons/VBoxContainer/settings/sounds volume/HSlider"
 onready var all_content_at_start_check_button = $"buttons/VBoxContainer/settings/all content at start"
+onready var select_image_bg_button = $"buttons/VBoxContainer/settings/select image bg"
+onready var select_music_button = $"buttons/VBoxContainer/settings/select music"
+onready var open_image_bg_fileopen = $buttons/openImageBG
+onready var open_music_fileopen = $buttons/openMusic
 
 onready var event_ad = $"buttons/VBoxContainer/events/event ad"
 onready var event_without_mistakes = $"buttons/VBoxContainer/events/event without mistakes"
@@ -67,6 +71,10 @@ func _ready():
 	sounds_volume_slider.connect("value_changed", self, "_on_sounds_volume_slider_value_changed")
 	SEtoggle_button.connect("pressed", self, "_on_SEtoggle_button_pressed")
 	all_content_at_start_check_button.connect("pressed", self, "_on_all_content_at_start_check_button_pressed")
+	select_image_bg_button.connect("pressed", self, "_on_select_image_bg_button_pressed")
+	open_image_bg_fileopen.connect("file_selected", self, "_on_open_image_bg_fileopen_file_selected")
+	select_music_button.connect("pressed", self, "_on_select_music_button_pressed")
+	open_music_fileopen.connect("files_selected", self, "_on_open_music_fileopen_files_selected")
 	
 	fade.show()
 	yield(get_tree().create_timer(0.4), "timeout")
@@ -103,6 +111,32 @@ func _on_uporderiflineeditfocusentered_check_button_pressed():
 
 func _on_all_content_at_start_check_button_pressed():
 	Global.allContentAtStart = all_content_at_start_check_button.pressed
+
+func _on_select_music_button_pressed():
+	open_music_fileopen.popup_centered()
+
+func _on_select_image_bg_button_pressed():
+	open_image_bg_fileopen.popup_centered()
+
+func _on_open_image_bg_fileopen_file_selected(path: String):
+	var image = Image.new()
+	var err = image.load(path)
+	if err != OK:
+		print("Ошибка загрузки изображения: ", err)
+		return
+	
+	var texture = ImageTexture.new()
+	texture.create_from_image(image)
+	
+	Global.imageBG = texture
+	Global.emit_signal("updateImageBG")
+	
+	print("Успешно загружены обои " + str(Global.imageBG))
+
+func _on_open_music_fileopen_files_selected(paths: PoolStringArray):
+	Global.music = paths
+	
+	print("Успешно загружен список музыки " + str(Global.music))
 
 func _on_SEtoggle_button_pressed():
 	SEtoggle = not SEtoggle

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://defaulttheme.tres" type="Theme" id=1]
 [ext_resource path="res://font/Ubuntu-Regular.ttf" type="DynamicFontData" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://scenes/event_without_mistakes1.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scenes/flash.gd" type="Script" id=19]
 [ext_resource path="res://scenes/event_rain1.tscn" type="PackedScene" id=20]
+[ext_resource path="res://scenes/music.gd" type="Script" id=21]
 
 [sub_resource type="Gradient" id=12]
 offsets = PoolRealArray( 0, 0.422535, 1 )
@@ -81,6 +82,12 @@ font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=18]
 size = 48
+outline_size = 1
+outline_color = Color( 0.0431373, 0.0470588, 0.0470588, 0.392157 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=19]
+size = 32
 outline_size = 1
 outline_color = Color( 0.0431373, 0.0470588, 0.0470588, 0.392157 )
 font_data = ExtResource( 2 )
@@ -435,6 +442,20 @@ align = 1
 valign = 1
 autowrap = true
 
+[node name="musicLabel" type="Label" parent="CanvasLayer"]
+visible = false
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -64.0
+rect_min_size = Vector2( 0, 64 )
+custom_fonts/font = SubResource( 19 )
+text = "Сейчас играет: "
+align = 1
+autowrap = true
+
+[node name="Tween" type="Tween" parent="CanvasLayer/musicLabel"]
+
 [node name="pause button" type="Button" parent="CanvasLayer"]
 pause_mode = 2
 anchor_left = 1.0
@@ -462,3 +483,5 @@ volume_db = -4.0
 script = ExtResource( 16 )
 
 [node name="music" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
+script = ExtResource( 21 )

@@ -12,8 +12,10 @@ func _ready():
 	if !Global.events["rain"]: queue_free()
 	show()
 	
-	rain.emission_rect_extents.x = get_viewport().get_visible_rect().size.x / 1.5
-	lighting.emission_rect_extents.x = get_viewport().get_visible_rect().size.x / 2
+	rain.emission_rect_extents = get_viewport().get_visible_rect().size / 1.5
+	lighting.emission_rect_extents = get_viewport().get_visible_rect().size / 2
+	rain.position = get_viewport().get_visible_rect().size / 2
+	lighting.position = get_viewport().get_visible_rect().size / 2
 	
 	Global.connect("updateTimerSpawnOrdersWaitTime", self, "_on_update_timer_spawn_orders_wait_time")
 	timer.connect("timeout", self, "_on_timer_timeout")

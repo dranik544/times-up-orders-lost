@@ -17,6 +17,9 @@ var orderScene = preload("res://scenes/order1.tscn")
 
 
 func _ready():
+	if Global.allContentAtStart:
+		Global.unlockedElement1 = true
+		Global.unlockedElement2 = true
 	fade.show()
 	title.hide()
 	timer_spawning_orders.connect("timeout", self, "_on_timer_spawning_orders_timeout")

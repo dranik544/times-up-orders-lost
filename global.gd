@@ -10,6 +10,7 @@ signal updateReputation
 signal updateReviews
 signal updatePoliceCount
 signal updateFailedOrders
+signal updateImageBG
 
 var system: int = 0   # 0 - ПК, 1 - ТЕЛЕФОН
 
@@ -44,6 +45,8 @@ var events: Dictionary = {
 }
 var soundsVolume: float = 1.0
 var allContentAtStart: bool = false
+var imageBG: Texture = null
+var music: Array = []
 
 enum typeOrder {DEFAULT, START, RARE, MESSAGE, EMERGENCY, BEGIN, DARKNET, CUSTOM}
 
@@ -55,7 +58,7 @@ const DEFAULT_MIN_TIMER_SPAWN_ORDERS_WAIT_TIME: float = 40.0
 const DEFAULT_MAX_TIMER_SPAWN_ORDERS_WAIT_TIME: float = 60.0
 const DEFAULT_MAX_COUNT_ORDERS_ON_SCREEN: int = 1
 const DEFAULT_MIN_COUNT_GROUPS_IN_ORDER: int = 1
-const DEFAULT_MAX_COUNT_GROUPS_IN_ORDER: int = 4
+const DEFAULT_MAX_COUNT_GROUPS_IN_ORDER: int = 2
 
 const MIN_WEIGHT = 2.0
 const MAX_WEIGHT = 12.0
@@ -67,6 +70,16 @@ const PENALTY = 0.5            # насколько уменьшаем вес п
 func _ready():
 	if OS.has_feature("pc"): system = 0
 	elif OS.has_feature("mobile"): system = 1
+
+func _input(event):
+	if event.is_action_pressed("RESTART"):
+		Global._reset()
+		get_tree().reload_current_scene()
+	if event.is_action_pressed("FULL RESTART"):
+		Global._reset()
+		get_tree().change_scene("res://scenes/init.tscn")
+	if event.is_action_pressed("EXIT"):
+		get_tree().quit()
 
 func _reset():
 	money = 0
@@ -193,13 +206,13 @@ func _auto_balance(positive: bool):
 			Global._change_max_count_orders_on_screen( 1.05 if positive else 0.95)   # +0.05; -0.05
 			Global._change_completed_orders_count(     0.97 if positive else 1.05)   # -0.03; +0.05
 			Global._change_time_to_complete_order(     0.95 if positive else 1.20)   # -0.05; +0.20
-			Global._change_count_groups_in_order(      1.03 if positive else 0.95)   # +0.02; -0.05
+			Global._change_count_groups_in_order(      1.04 if positive else 0.95)   # +0.02; -0.05
 		difficulty.HARD:
 			Global._change_timer_spawn_order_wait_time(0.94 if positive else 1.02)   # -0.06; +0.02
 			Global._change_max_count_orders_on_screen( 1.10 if positive else 0.95)   # -0.06; +0.02
 			Global._change_completed_orders_count(     0.95 if positive else 1.02)   # -0.05; +0.02
 			Global._change_time_to_complete_order(     0.92 if positive else 1.05)   # -0.08; +0.05
-			Global._change_count_groups_in_order(      1.05 if positive else 0.95)   # +0.02; -0.05
+			Global._change_count_groups_in_order(      1.07 if positive else 0.95)   # +0.02; -0.05
 		difficulty.ULTRAHARD:
 			Global._change_timer_spawn_order_wait_time(0.85 if positive else 1.05)   # -0.10; +0.00
 			Global._change_max_count_orders_on_screen( 1.35 if positive else 0.98)   # -0.10; +0.00

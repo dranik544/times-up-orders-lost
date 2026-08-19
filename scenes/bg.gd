@@ -6,9 +6,14 @@ var shakeinterpolate: float = 15.0
 var basePosition: Vector2
 
 func _ready():
+	_on_update_image_bg()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	yield(get_tree(), "idle_frame")
 	_on_viewport_size_changed()
+	Global.connect("updateImageBG", self, "_on_update_image_bg")
+
+func _on_update_image_bg():
+	if Global.imageBG: texture = Global.imageBG
 
 func _shake_camera(speed: float = 3.0, sensitivity: float = 100.0):
 	shakespeed = speed

@@ -12,7 +12,8 @@ config_version=4
 
 config/name="Times up. Order lost."
 run/main_scene="res://scenes/init.tscn"
-config/icon="res://icon.png"
+boot_splash/image="res://pic3.png"
+config/icon="res://pic1.png"
 
 [autoload]
 
@@ -38,6 +39,24 @@ theme/custom="res://defaulttheme.tres"
 mp3={
 "loop": false,
 "loop_offset": 0
+}
+
+[input]
+
+RESTART={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":true,"meta":false,"command":true,"pressed":false,"scancode":0,"physical_scancode":82,"unicode":0,"echo":false,"script":null)
+ ]
+}
+"FULL RESTART"={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":true,"meta":false,"command":true,"pressed":false,"scancode":0,"physical_scancode":82,"unicode":0,"echo":false,"script":null)
+ ]
+}
+EXIT={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":true,"meta":false,"command":true,"pressed":false,"scancode":0,"physical_scancode":81,"unicode":0,"echo":false,"script":null)
+ ]
 }
 
 [physics]
