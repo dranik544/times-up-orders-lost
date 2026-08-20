@@ -235,11 +235,7 @@ func _ready():
 	yield(get_tree(), "idle_frame")
 	yield(get_tree(), "idle_frame")
 	
-	bg.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
-	shadow.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
-	if currentTypeOrder == Global.typeOrder.RARE:
-		rare_particles.emission_rect_extents = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
-		rare_particles.position = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
+	_adapt_bg_and_shadow()
 	
 	# Анимация появления заказа
 	scale.y = 0.0
@@ -258,6 +254,25 @@ func _ready():
 	# Подключаем кнопки
 	ready_button.connect("pressed", self, "_on_ready_pressed")
 	cancel_button.connect("pressed", self, "_on_cancel_pressed")
+	
+	if Global.events["bad pc"]:
+		blocks_container.hide()
+		_adapt_bg_and_shadow()
+		var tweenText: Tween = Tween.new()
+		add_child(tweenText)
+		tweenText.interpolate_property(desc_label, "percent_visible", 0.0, 1.0, rand_range(Global.minTimerSpawnOrdersWaitTime / 4, Global.maxTimerSpawnOrdersWaitTime / 4))
+		tweenText.start()
+		yield(tweenText, "tween_completed")
+		tweenText.queue_free()
+		yield(get_tree().create_timer(2.0), "timeout")
+		blocks_container.show()
+		_adapt_bg_and_shadow()
+
+func _adapt_bg_and_shadow():
+	bg.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
+	shadow.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
+	rare_particles.emission_rect_extents = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
+	rare_particles.position = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
 
 func _on_time_timeout():
 	if random_order.get("tags", -1) != -1:
@@ -436,8 +451,7 @@ func _show_review(good: bool):
 	sepr_2.hide(); sepr_3.hide()
 	time_progress_bar.hide()
 	yield(get_tree(), "idle_frame")
-	bg.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
-	shadow.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
+	_adapt_bg_and_shadow()
 	
 	yield(_show_with_animation(), "completed")
 	

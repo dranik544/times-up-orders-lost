@@ -41,5 +41,5 @@ func _process(delta):
 	else:
 		offset = Vector2.ZERO if !is_dragging else Vector2(-16.0, -16.0)
 	var shadowOffset = Vector2(4.0, 4.0) if !is_dragging else Vector2(12.0, 12.0)
-	get_parent().position = lerp(get_parent().position, basePosition + offset, 40 * delta)
-	shadow.rect_position = lerp(shadow.rect_position, shadowOffset, 40 * delta)
+	get_parent().position = lerp(get_parent().position, basePosition + offset, min(40.0 * delta, 1.0))
+	shadow.rect_position = lerp(shadow.rect_position, shadowOffset, min(40.0 * delta, 1.0))

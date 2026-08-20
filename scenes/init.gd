@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+onready var ver = $ver
+
 onready var difficulty_option_button = $buttons/VBoxContainer/difficulty/OptionButton
 onready var window_aspect_option_button = $"buttons/VBoxContainer/settings/window aspect/OptionButton"
 onready var window_mode_option_button = $"buttons/VBoxContainer/settings/window mode/OptionButton"
@@ -18,6 +20,7 @@ onready var open_music_fileopen = $buttons/openMusic
 onready var event_ad = $"buttons/VBoxContainer/events/event ad"
 onready var event_without_mistakes = $"buttons/VBoxContainer/events/event without mistakes"
 onready var event_rain = $"buttons/VBoxContainer/events/event rain"
+onready var event_bad_pc = $"buttons/VBoxContainer/events/event bad pc"
 
 onready var settings = $buttons/VBoxContainer/settings
 onready var events = $buttons/VBoxContainer/events
@@ -35,6 +38,8 @@ var SEtoggle: bool = false
 
 
 func _ready():
+	ver.text = "ver" + str(Global.VERSION)
+	
 	if Global.system == 1:
 		currentWindowScale = 2.2
 		window_scale_slider.value = currentWindowScale
@@ -148,6 +153,7 @@ func _apply_events():
 	Global.events["ad"] = event_ad.pressed
 	Global.events["without mistakes"] = event_without_mistakes.pressed
 	Global.events["rain"] = event_rain.pressed
+	Global.events["bad pc"] = event_bad_pc.pressed
 	
 	print(Global.events)
 

@@ -1,6 +1,8 @@
 extends Node
 # Global.gd (AutoLoad)
 
+const VERSION: String = "1_test1"
+
 signal updateWeights
 signal updateMoney
 signal updateTimerSpawnOrdersWaitTime
@@ -42,7 +44,7 @@ var events: Dictionary = {
 	"ad": false,
 	"without mistakes": false,
 	"rain": false,
-	"extra costs": false,
+	"bad pc": false,
 }
 var soundsVolume: float = 1.0
 var allContentAtStart: bool = false

@@ -238,9 +238,9 @@ text = "Применить настройки"
 
 [node name="events" type="VBoxContainer" parent="buttons/VBoxContainer"]
 visible = false
-margin_top = 283.0
+margin_top = 389.0
 margin_right = 320.0
-margin_bottom = 364.0
+margin_bottom = 532.0
 
 [node name="Label" type="Label" parent="buttons/VBoxContainer/events"]
 margin_right = 320.0
@@ -263,10 +263,17 @@ text = "Ни единой ошибки"
 align = 1
 
 [node name="event rain" type="CheckBox" parent="buttons/VBoxContainer/events"]
-margin_top = 54.0
+margin_top = 85.0
 margin_right = 320.0
-margin_bottom = 81.0
+margin_bottom = 112.0
 text = "Дождливый день"
+align = 1
+
+[node name="event bad pc" type="CheckBox" parent="buttons/VBoxContainer/events"]
+margin_top = 116.0
+margin_right = 320.0
+margin_bottom = 143.0
+text = "Дерьмовый ПК"
 align = 1
 
 [node name="sepr2" type="HSeparator" parent="buttons/VBoxContainer"]
@@ -350,3 +357,16 @@ anchor_bottom = 1.0
 mouse_filter = 2
 texture = SubResource( 13 )
 stretch_mode = 1
+
+[node name="ver" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -135.0
+margin_top = -25.0
+margin_right = -6.0
+margin_bottom = -6.0
+text = "ver"
+align = 2
+valign = 2

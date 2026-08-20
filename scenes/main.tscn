@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://defaulttheme.tres" type="Theme" id=1]
 [ext_resource path="res://font/Ubuntu-Regular.ttf" type="DynamicFontData" id=2]
@@ -44,6 +44,22 @@ height = 16
 fill = 1
 fill_from = Vector2( 0.5, 0.5 )
 fill_to = Vector2( 0.5, 0 )
+
+[sub_resource type="Shader" id=20]
+code = "shader_type canvas_item;
+
+uniform int color_steps = 14; // Количество градаций на канал
+
+void fragment() {
+    vec4 col = texture(SCREEN_TEXTURE, SCREEN_UV);
+    float levels = float(color_steps - 1);
+    col.rgb = round(col.rgb * levels) / levels;
+    COLOR = col;
+}"
+
+[sub_resource type="ShaderMaterial" id=21]
+shader = SubResource( 20 )
+shader_param/color_steps = 14
 
 [sub_resource type="DynamicFont" id=7]
 outline_size = 1
@@ -149,6 +165,13 @@ mouse_filter = 2
 texture = SubResource( 10 )
 expand = true
 stretch_mode = 2
+
+[node name="event_bad_pc1" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource( 21 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
 
 [node name="stats" type="VBoxContainer" parent="CanvasLayer"]
 margin_left = 6.0

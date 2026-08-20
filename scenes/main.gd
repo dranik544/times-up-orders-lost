@@ -12,6 +12,7 @@ onready var title_end = $"CanvasLayer/title end"
 onready var title_image = $"CanvasLayer/title image"
 onready var sound_police = $"sound police"
 onready var orders_layer = $ordersLayer
+onready var event_bad_pc_1 = $CanvasLayer/event_bad_pc1
 
 var orderScene = preload("res://scenes/order1.tscn")
 
@@ -30,6 +31,13 @@ func _ready():
 	Global.connect("updateMoney", self, "_update_money_counter")
 	Global.connect("updatePoliceCount", self, "_update_police_count")
 	Global.connect("updateReputation", self, "_update_reputation")
+	
+	if Global.events["bad pc"]:
+		Engine.target_fps = 15
+		event_bad_pc_1.show()
+	else:
+		Engine.target_fps = 0
+		event_bad_pc_1.hide()
 	
 	_spawn_order(1, Vector2(
 		get_viewport().get_visible_rect().size.x / 2,
