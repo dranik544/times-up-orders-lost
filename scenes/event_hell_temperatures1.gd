@@ -24,6 +24,7 @@ func _ready():
 		temperature_label.queue_free()
 		queue_free()
 	
+	fire.emission_rect_extents = get_viewport().get_visible_rect().size / 1.8
 	fire.modulate.a = 0.0
 	fire_texture.modulate.a = 0.0
 	color_rect.modulate.a = 0.0
