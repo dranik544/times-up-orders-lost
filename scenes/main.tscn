@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://defaulttheme.tres" type="Theme" id=1]
 [ext_resource path="res://font/Ubuntu-Regular.ttf" type="DynamicFontData" id=2]
@@ -21,6 +21,8 @@
 [ext_resource path="res://scenes/flash.gd" type="Script" id=19]
 [ext_resource path="res://scenes/event_rain1.tscn" type="PackedScene" id=20]
 [ext_resource path="res://scenes/music.gd" type="Script" id=21]
+[ext_resource path="res://scenes/event_hell_temperatures1.tscn" type="PackedScene" id=22]
+[ext_resource path="res://scenes/event_activate_okna_xp1.gd" type="Script" id=23]
 
 [sub_resource type="Gradient" id=12]
 offsets = PoolRealArray( 0, 0.422535, 1 )
@@ -108,6 +110,12 @@ outline_size = 1
 outline_color = Color( 0.0431373, 0.0470588, 0.0470588, 0.392157 )
 font_data = ExtResource( 2 )
 
+[sub_resource type="DynamicFont" id=22]
+size = 14
+outline_size = 1
+outline_color = Color( 0.0431373, 0.0470588, 0.0470588, 0.392157 )
+font_data = ExtResource( 2 )
+
 [node name="main" type="Node2D"]
 script = ExtResource( 3 )
 
@@ -165,6 +173,9 @@ mouse_filter = 2
 texture = SubResource( 10 )
 expand = true
 stretch_mode = 2
+
+[node name="event_hell_temperatures1" parent="CanvasLayer" instance=ExtResource( 22 )]
+visible = false
 
 [node name="event_bad_pc1" type="ColorRect" parent="CanvasLayer"]
 visible = false
@@ -258,6 +269,12 @@ margin_bottom = 101.0
 theme = ExtResource( 1 )
 custom_fonts/font = SubResource( 7 )
 text = "0/3 отмен заказа"
+
+[node name="temperature" type="Label" parent="CanvasLayer/stats"]
+margin_top = 105.0
+margin_right = 256.0
+margin_bottom = 124.0
+text = "Температура ПК (°C): 10"
 
 [node name="title" type="VBoxContainer" parent="CanvasLayer"]
 anchor_left = 1.0
@@ -491,6 +508,21 @@ rect_min_size = Vector2( 32, 32 )
 icon = ExtResource( 17 )
 icon_align = 1
 expand_icon = true
+
+[node name="event_activate_okna_xp1" type="Label" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -6.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 0.392157 )
+custom_fonts/font = SubResource( 22 )
+text = "АКТИВАЦИЯ OKNA XP
+Для активации OKNA XP, перейдите в Настройки, раздел
+Лицензия, затем выберите пункт Активация системы и
+введите ващ ключ активации системы."
+align = 2
+valign = 2
+script = ExtResource( 23 )
 
 [node name="timerSpawningOrders" type="Timer" parent="."]
 wait_time = 30.0

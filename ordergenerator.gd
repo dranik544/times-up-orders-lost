@@ -17,6 +17,8 @@ func generate_order_by_type(type_id: int) -> Dictionary:
 
 func generate_start_order() -> Dictionary:
 	return generate_order_by_type(1)
+func generate_begin_order() -> Dictionary:
+	return generate_order_by_type(5)
 
 # ------------------------------------------------------------
 # Выбор шаблона
@@ -25,24 +27,23 @@ func _pick_template() -> Dictionary:
 	var chosen_tag = Global.get_weighted_tag()
 	var candidates = []
 	var completed = Global.completedOrders
-
-	# Проходим по всем заказам
+	
+	# Основной проход по заказам
 	for order in OrderList.orders:
 		var tags = order.get("tags", -1)
-		# Если тег не совпадает с выбранным — пропускаем (но если тег -1, то он не участвует в случайной генерации)
 		if tags != chosen_tag:
 			continue
-
+		
 		var otype = order.get("type", null)
-
-		# Если включён флаг — все заказы доступны (кроме START/BEGIN)
+		
+		# Если включён флаг все контенты — пропускаем только START (1) и BEGIN (5)
 		if Global.allContentAtStart:
 			if otype == 1 or otype == 5:
 				continue
 			candidates.append(order)
 			continue
-
-		# --- Обычная логика ---
+		
+		# --- Обычная логика с прогрессом ---
 		if otype == null or otype == 0 or otype == 3 or otype == 7:
 			candidates.append(order)
 		elif otype == 1 or otype == 5:
@@ -54,26 +55,20 @@ func _pick_template() -> Dictionary:
 		elif otype == 4 and completed >= 25:
 			candidates.append(order)
 		else:
-			pass   # неизвестный тип — пропускаем
-
-	# Если кандидатов нет — пытаемся взять заказы с type == null (любого тега)
-	if candidates.empty():
-		for order in OrderList.orders:
-			if order.get("type", null) == null:
-				candidates.append(order)
-
-	# Если всё ещё пусто — берём вообще все заказы (кроме START/BEGIN, чтобы не сломать обучение)
+			pass
+	
+	# --- Если кандидатов нет, берём заказы с type null, 1 или 3 (любого тега) ---
 	if candidates.empty():
 		for order in OrderList.orders:
 			var otype = order.get("type", null)
-			if otype != 1 and otype != 6:
+			if otype == null or otype == 0 or otype == 3:
 				candidates.append(order)
-
-	# Если даже после этого пусто — выдаём ошибку (но такого быть не должно)
+	
+	# --- Если всё равно пусто — возвращаем пустой словарь (fallback) ---
 	if candidates.empty():
 		print("OrderGenerator: НЕТ ДОСТУПНЫХ ЗАКАЗОВ! Возвращаю fallback.")
 		return {}
-
+	
 	return candidates[randi() % candidates.size()]
 
 func _find_template_by_type(type_id: int) -> Dictionary:

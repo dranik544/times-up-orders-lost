@@ -1,7 +1,7 @@
 extends Node
 # Global.gd (AutoLoad)
 
-const VERSION: String = "1_test1"
+const VERSION: String = "1t1" # t-est, b-eta, d-emo
 
 signal updateWeights
 signal updateMoney
@@ -45,6 +45,8 @@ var events: Dictionary = {
 	"without mistakes": false,
 	"rain": false,
 	"bad pc": false,
+	"hell temperatures": false,
+	"activate okna xp": false,
 }
 var soundsVolume: float = 1.0
 var allContentAtStart: bool = false

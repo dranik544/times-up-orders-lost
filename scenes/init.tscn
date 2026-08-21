@@ -276,6 +276,20 @@ margin_bottom = 143.0
 text = "Дерьмовый ПК"
 align = 1
 
+[node name="event hell temperatures" type="CheckBox" parent="buttons/VBoxContainer/events"]
+margin_top = 116.0
+margin_right = 320.0
+margin_bottom = 143.0
+text = "Адские температуры"
+align = 1
+
+[node name="event activate okna xp" type="CheckBox" parent="buttons/VBoxContainer/events"]
+margin_top = 116.0
+margin_right = 320.0
+margin_bottom = 143.0
+text = "Активация OKNA XP"
+align = 1
+
 [node name="sepr2" type="HSeparator" parent="buttons/VBoxContainer"]
 margin_top = 389.0
 margin_right = 320.0

@@ -29,5 +29,7 @@ func _on_timer_timeout():
 				var event: Node2D = event_ad1Scene.instance()
 				main.orders_layer.add_child(event)
 				event.movement.basePosition = main.get_global_mouse_position()
+			else:
+				_on_timer_timeout()
 	
 	timer_update_waittime()

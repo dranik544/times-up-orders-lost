@@ -42,21 +42,21 @@ func _ready():
 	message.connect("gui_input", self, "_on_ui_gui_input")
 	
 	randomize()
+	#                   0       1     2       3        4         5       6       7
+	#enum typeOrder {DEFAULT, START, RARE, MESSAGE, EMERGENCY, BEGIN, DARKNET, CUSTOM}
 	
 	if currentTypeOrder == Global.typeOrder.START:
 		random_order = OrderGenerator.generate_start_order()
 	elif currentTypeOrder == Global.typeOrder.BEGIN:
-		random_order = OrderGenerator.generate_order_by_type(5)  # если есть BEGIN
-	elif currentTypeOrder == Global.typeOrder.CUSTOM:
-		random_order = OrderList.customOrder   # если остался кастомный
+		random_order = OrderGenerator.generate_begin_order()
 	elif currentTypeOrder == Global.typeOrder.RARE:
 		random_order = OrderGenerator.generate_order_by_type(2)
 	elif currentTypeOrder == Global.typeOrder.MESSAGE:
-		random_order = OrderGenerator.generate_order_by_type(5)
-	elif currentTypeOrder == Global.typeOrder.EMERGENCY:
 		random_order = OrderGenerator.generate_order_by_type(3)
-	elif currentTypeOrder == Global.typeOrder.DARKNET:
+	elif currentTypeOrder == Global.typeOrder.EMERGENCY:
 		random_order = OrderGenerator.generate_order_by_type(4)
+	elif currentTypeOrder == Global.typeOrder.DARKNET:
+		random_order = OrderGenerator.generate_order_by_type(6)
 	else:
 		random_order = OrderGenerator.generate_order()
 	

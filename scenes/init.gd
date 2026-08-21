@@ -16,11 +16,14 @@ onready var select_image_bg_button = $"buttons/VBoxContainer/settings/select ima
 onready var select_music_button = $"buttons/VBoxContainer/settings/select music"
 onready var open_image_bg_fileopen = $buttons/openImageBG
 onready var open_music_fileopen = $buttons/openMusic
+onready var event_desc = $"event desc"
 
 onready var event_ad = $"buttons/VBoxContainer/events/event ad"
 onready var event_without_mistakes = $"buttons/VBoxContainer/events/event without mistakes"
 onready var event_rain = $"buttons/VBoxContainer/events/event rain"
 onready var event_bad_pc = $"buttons/VBoxContainer/events/event bad pc"
+onready var event_hell_temperatures = $"buttons/VBoxContainer/events/event hell temperatures"
+onready var event_activate_okna_xp = $"buttons/VBoxContainer/events/event activate okna xp"
 
 onready var settings = $buttons/VBoxContainer/settings
 onready var events = $buttons/VBoxContainer/events
@@ -154,6 +157,8 @@ func _apply_events():
 	Global.events["without mistakes"] = event_without_mistakes.pressed
 	Global.events["rain"] = event_rain.pressed
 	Global.events["bad pc"] = event_bad_pc.pressed
+	Global.events["hell temperatures"] = event_hell_temperatures.pressed
+	Global.events["activate okna xp"] = event_activate_okna_xp.pressed
 	
 	print(Global.events)
 
