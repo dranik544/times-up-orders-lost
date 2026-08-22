@@ -510,6 +510,7 @@ icon_align = 1
 expand_icon = true
 
 [node name="event_activate_okna_xp1" type="Label" parent="CanvasLayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -6.0

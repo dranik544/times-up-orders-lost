@@ -377,10 +377,11 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -135.0
-margin_top = -25.0
+margin_left = -148.0
+margin_top = -47.0
 margin_right = -6.0
 margin_bottom = -6.0
-text = "ver"
+text = "ver
+game by Drimer544"
 align = 2
 valign = 2

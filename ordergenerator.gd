@@ -17,33 +17,28 @@ func generate_order_by_type(type_id: int) -> Dictionary:
 
 func generate_start_order() -> Dictionary:
 	return generate_order_by_type(1)
+
 func generate_begin_order() -> Dictionary:
 	return generate_order_by_type(5)
 
 # ------------------------------------------------------------
-# Выбор шаблона
+# Выбор шаблона (без изменений)
 # ------------------------------------------------------------
 func _pick_template() -> Dictionary:
 	var chosen_tag = Global.get_weighted_tag()
 	var candidates = []
 	var completed = Global.completedOrders
-	
-	# Основной проход по заказам
+
 	for order in OrderList.orders:
 		var tags = order.get("tags", -1)
 		if tags != chosen_tag:
 			continue
-		
 		var otype = order.get("type", null)
-		
-		# Если включён флаг все контенты — пропускаем только START (1) и BEGIN (5)
 		if Global.allContentAtStart:
 			if otype == 1 or otype == 5:
 				continue
 			candidates.append(order)
 			continue
-		
-		# --- Обычная логика с прогрессом ---
 		if otype == null or otype == 0 or otype == 3 or otype == 7:
 			candidates.append(order)
 		elif otype == 1 or otype == 5:
@@ -56,19 +51,22 @@ func _pick_template() -> Dictionary:
 			candidates.append(order)
 		else:
 			pass
-	
-	# --- Если кандидатов нет, берём заказы с type null, 1 или 3 (любого тега) ---
+
+	if candidates.empty():
+		for order in OrderList.orders:
+			if order.get("type", null) == null:
+				candidates.append(order)
+
 	if candidates.empty():
 		for order in OrderList.orders:
 			var otype = order.get("type", null)
-			if otype == null or otype == 0 or otype == 3:
+			if otype != 1 and otype != 6:
 				candidates.append(order)
-	
-	# --- Если всё равно пусто — возвращаем пустой словарь (fallback) ---
+
 	if candidates.empty():
 		print("OrderGenerator: НЕТ ДОСТУПНЫХ ЗАКАЗОВ! Возвращаю fallback.")
 		return {}
-	
+
 	return candidates[randi() % candidates.size()]
 
 func _find_template_by_type(type_id: int) -> Dictionary:
@@ -78,114 +76,77 @@ func _find_template_by_type(type_id: int) -> Dictionary:
 	return {}
 
 # ------------------------------------------------------------
-# Основная логика обработки шаблона
+# Основная логика обработки шаблона (плоская структура)
 # ------------------------------------------------------------
 func _process_template(template: Dictionary) -> Dictionary:
-	# Копируем основные поля
-	var result = {
-		"name": template.get("name", "Unknown"),
-		"good review": template.get("good review", ""),
-		"bad review": template.get("bad review", ""),
-		"time": template.get("time", 60),
-		"money": template.get("money", 0),
-		"ready text": template.get("ready text", "ГОТОВО"),
-		"cancel text": template.get("cancel text", "ОТМЕНА"),
-		"tags": template.get("tags", -1),
-		"type": template.get("type", null),
-		"prms": []
-	}
-	if template.has("mods"):
-		result["mods"] = template["mods"].duplicate()
+	var order = template.duplicate(true)
 
-	# Если есть группы — обрабатываем их
-	var groups = template.get("groups", [])
-	if groups.empty():
-		# Старый формат без групп
-		result["desc"] = template.get("desc", "")
-		result["prms"] = template.get("prms", []).duplicate()
-		return result
+	# 1. Генерация глобальных значений (если есть)
+	var global_generated = {}
+	if order.has("frmt"):
+		global_generated = _generate_frmt_values(order["frmt"])
+		order.erase("frmt")
 
-	# Выбираем от 1 до min(4, количество групп) случайных групп
-	var max_groups: int = groups.size()
-	
-	max_groups = clamp(max_groups, Global.minCountGroupsInOrder, Global.maxCountGroupsInOrder)
-	
-	var count: int = randi() % max_groups + 1
-	var selected = groups.duplicate()
-	selected.shuffle()
-	selected = selected.slice(0, count)
+	# 2. Подстановка глобальных значений в desc
+	if order.has("desc"):
+		order["desc"] = _format_text(order["desc"], global_generated)
 
-	var flat_prms = []
-	var group_texts = []
+	# 3. Обработка каждого параметра
+	var new_prms = []
+	for param in order.get("prms", []):
+		var new_param = param.duplicate()
 
-	for group in selected:
-		var generated = {}
-		if group.has("frmt"):
-			for key in group["frmt"]:
-				var value = _generate_value(group["frmt"][key])
-				if typeof(value) == TYPE_DICTIONARY and value.has("text") and value.has("index"):
-					generated[key + "_text"] = value["text"]
-					generated[key + "_index"] = value["index"]
-				else:
-					generated[key] = value
+		# Генерация локальных значений (если есть frmt внутри параметра)
+		var local_generated = {}
+		if new_param.has("frmt"):
+			local_generated = _generate_frmt_values(new_param["frmt"])
+			new_param.erase("frmt")
 
-		# Формируем текст группы (используем ДА/НЕТ для булевых)
-		var group_desc = group.get("desc", "")
-		for key in generated:
-			group_desc = group_desc.replace("{" + key + "}", _format_value_for_text(generated[key]))
-		group_texts.append(group_desc)
+		# Объединяем глобальные и локальные для подстановки
+		var all_generated = {}
+		for key in global_generated:
+			all_generated[key] = global_generated[key]
+		for key in local_generated:
+			all_generated[key] = local_generated[key]
 
-		# Обрабатываем блоки параметров
-		for block in group.get("blck", []):
-			var b = block.duplicate()
+		# Подстановка значений во все строковые поля параметра
+		for field in new_param.keys():
+			if typeof(new_param[field]) == TYPE_STRING:
+				new_param[field] = _format_text(new_param[field], all_generated)
 
-			# Подстановка значений в строковые поля (кроме stat)
-			for field in b.keys():
-				if typeof(b[field]) == TYPE_STRING and field != "stat":
-					for key in generated:
-						b[field] = b[field].replace("{" + key + "}", _format_value_for_text(generated[key]))
+		# Преобразование числовых полей (если стали строками)
+		var numeric_fields = ["min value", "max value", "step", "min d value", "max d value", "indx"]
+		for field in numeric_fields:
+			if new_param.has(field) and typeof(new_param[field]) == TYPE_STRING:
+				if new_param[field].is_valid_integer():
+					new_param[field] = int(new_param[field])
+				elif new_param[field].is_valid_float():
+					new_param[field] = float(new_param[field])
 
-			# Подстановка в stat отдельно (сырое значение, чтобы потом преобразовать в bool)
-			if b.has("stat") and typeof(b["stat"]) == TYPE_STRING:
-				for key in generated:
-					b["stat"] = b["stat"].replace("{" + key + "}", str(generated[key]))
-				# Преобразуем строку "true"/"false" в булево
-				b["stat"] = b["stat"].to_lower() == "true"
+		# Преобразование stat в булево (если строка)
+		if new_param.has("stat") and typeof(new_param["stat"]) == TYPE_STRING:
+			new_param["stat"] = new_param["stat"].to_lower() == "true"
 
-			# Преобразуем числовые поля, если они стали строками
-			var numeric_fields = ["min value", "max value", "step", "min d value", "max d value", "indx"]
-			for field in numeric_fields:
-				if b.has(field) and typeof(b[field]) == TYPE_STRING:
-					if b[field].is_valid_integer():
-						b[field] = int(b[field])
-					elif b[field].is_valid_float():
-						b[field] = float(b[field])
+		new_prms.append(new_param)
 
-			flat_prms.append(b)
+	order["prms"] = new_prms
+	return order
 
-	result["prms"] = flat_prms
-
-	# Сборка общего desc
-	var base_desc = template.get("desc", "")
-	if base_desc.empty():
-		var new_desc = "[center][b]ЗАКАЗ[/b][/center]\n"
-		for t in group_texts:
-			new_desc += str(t) + "\n"
-		result["desc"] = new_desc
-	else:
-		var extra = ""
-		for t in group_texts:
-			extra += str(t) + "\n"
-		if not extra.empty():
-			result["desc"] = base_desc + "\n" + extra
+# ------------------------------------------------------------
+# Вспомогательные функции
+# ------------------------------------------------------------
+func _generate_frmt_values(frmt: Dictionary) -> Dictionary:
+	var result = {}
+	for key in frmt:
+		var value = _generate_value(frmt[key])
+		# Если это rand_option, раскладываем на два ключа
+		if typeof(value) == TYPE_DICTIONARY and value.has("text") and value.has("index"):
+			result[key + "_text"] = value["text"]
+			result[key + "_index"] = value["index"]
 		else:
-			result["desc"] = base_desc
-
+			result[key] = value
 	return result
 
-# ------------------------------------------------------------
-# Генерация одного значения по спецификации
-# ------------------------------------------------------------
 func _generate_value(spec):
 	if typeof(spec) != TYPE_DICTIONARY or not spec.has("type"):
 		return spec
@@ -201,22 +162,21 @@ func _generate_value(spec):
 		"rand_text":
 			var pool = spec.get("pool", ["default"])
 			return pool[randi() % pool.size()]
-		"rand_option":   # <-- новый тип
+		"rand_option":
 			var pool = spec.get("pool", ["default"])
 			var idx = randi() % pool.size()
-			# Возвращаем словарь с двумя полями
-			return {
-				"text": pool[idx],
-				"index": idx
-			}
+			return {"text": pool[idx], "index": idx}
 		_:
 			return spec
 
-func _format_value_for_text(value) -> String:
-	if typeof(value) == TYPE_BOOL:
-		return "ДА" if value else "НЕТ"
-	else:
-		return str(value)
+func _format_text(text: String, generated: Dictionary) -> String:
+	for key in generated:
+		var value = generated[key]
+		# Для булевых значений выводим ДА/НЕТ в текст
+		if typeof(value) == TYPE_BOOL:
+			value = "ДА" if value else "НЕТ"
+		text = text.replace("{" + key + "}", str(value))
+	return text
 
 # ------------------------------------------------------------
 # Запасной вариант

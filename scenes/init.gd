@@ -41,7 +41,7 @@ var SEtoggle: bool = false
 
 
 func _ready():
-	ver.text = "ver" + str(Global.VERSION)
+	ver.text = "ver" + str(Global.VERSION) + "\ngame by Drimer544"
 	
 	if Global.system == 1:
 		currentWindowScale = 2.2
