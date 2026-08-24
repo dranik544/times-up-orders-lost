@@ -52,6 +52,7 @@ var soundsVolume: float = 1.0
 var allContentAtStart: bool = false
 var imageBG: Texture = null
 var music: Array = []
+var animations: bool = true
 
 enum typeOrder {DEFAULT, START, RARE, MESSAGE, EMERGENCY, BEGIN, DARKNET, CUSTOM}
 
@@ -198,7 +199,7 @@ func _auto_balance(positive: bool):
 			Global._change_timer_spawn_order_wait_time(0.98 if positive else 1.35)   # -0.02; +0.35
 			Global._change_max_count_orders_on_screen( 1.00 if positive else 1.00)   # +0.02; -0.25
 			Global._change_completed_orders_count(     0.98 if positive else 1.25)   # -0.02; +0.25
-			Global._change_time_to_complete_order(     0.98 if positive else 1.35)   # -0.02; +0.35
+			Global._change_time_to_complete_order(     1.00 if positive else 1.00)   # -0.02; +0.35
 			Global._change_count_groups_in_order(      1.00 if positive else 1.00)   # +0.00; -0.00
 		difficulty.EASY:
 			Global._change_timer_spawn_order_wait_time(0.97 if positive else 1.15)   # -0.03; +0.15
@@ -210,7 +211,7 @@ func _auto_balance(positive: bool):
 			Global._change_timer_spawn_order_wait_time(0.96 if positive else 1.05)   # -0.04; +0.05
 			Global._change_max_count_orders_on_screen( 1.05 if positive else 0.95)   # +0.05; -0.05
 			Global._change_completed_orders_count(     0.97 if positive else 1.05)   # -0.03; +0.05
-			Global._change_time_to_complete_order(     0.95 if positive else 1.20)   # -0.05; +0.20
+			Global._change_time_to_complete_order(     0.96 if positive else 1.15)   # -0.05; +0.20
 			Global._change_count_groups_in_order(      1.04 if positive else 0.95)   # +0.02; -0.05
 		difficulty.HARD:
 			Global._change_timer_spawn_order_wait_time(0.94 if positive else 1.02)   # -0.06; +0.02
@@ -222,7 +223,7 @@ func _auto_balance(positive: bool):
 			Global._change_timer_spawn_order_wait_time(0.85 if positive else 1.05)   # -0.10; +0.00
 			Global._change_max_count_orders_on_screen( 1.35 if positive else 0.98)   # -0.10; +0.00
 			Global._change_completed_orders_count(     0.92 if positive else 0.98)   # -0.08; +0.00
-			Global._change_time_to_complete_order(     0.85 if positive else 0.98)   # -0.15; +0.00
+			Global._change_time_to_complete_order(     0.86 if positive else 0.98)   # -0.15; +0.00
 			Global._change_count_groups_in_order(      1.15 if positive else 0.98)   # +0.02; -0.05
 
 

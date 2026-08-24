@@ -35,11 +35,14 @@ func _on_ui_gui_input(event):
 
 func _process(delta):
 	# Лёгкое смещение от мыши (экранные координаты)
-	var offset: Vector2
-	if Global.system == 0:
-		offset = (get_viewport().get_mouse_position() - get_viewport().get_visible_rect().size / 2) * 0.03 if !is_dragging else Vector2(-16.0, -16.0)
-	else:
-		offset = Vector2.ZERO if !is_dragging else Vector2(-16.0, -16.0)
+	var offset: Vector2 = Vector2.ZERO
+	if Global.animations:
+		if Global.system == 0:
+			offset = (get_viewport().get_mouse_position() - get_viewport().get_visible_rect().size / 2) * 0.03 if !is_dragging else Vector2(-16.0, -16.0)
+		else:
+			offset = Vector2.ZERO if !is_dragging else Vector2(-16.0, -16.0)
+	
 	var shadowOffset = Vector2(4.0, 4.0) if !is_dragging else Vector2(12.0, 12.0)
-	get_parent().position = lerp(get_parent().position, basePosition + offset, min(40.0 * delta, 1.0))
-	shadow.rect_position = lerp(shadow.rect_position, shadowOffset, min(40.0 * delta, 1.0))
+	
+	get_parent().position = lerp(get_parent().position, basePosition + offset, min(40.0 * delta, 1.0)) if Global.animations else basePosition + offset
+	shadow.rect_position = lerp(shadow.rect_position, shadowOffset, min(40.0 * delta, 1.0)) if Global.animations else shadowOffset

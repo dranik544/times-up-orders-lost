@@ -238,7 +238,7 @@ func _ready():
 	_adapt_bg_and_shadow()
 	
 	# Анимация появления заказа
-	scale.y = 0.0
+	if Global.animations: scale.y = 0.0
 	if currentTypeOrder != Global.typeOrder.EMERGENCY: sounds._play_sound(load("res://sounds/whatsapp.mp3"))
 	yield(_show_with_animation(), "completed")
 	
@@ -275,12 +275,17 @@ func _adapt_bg_and_shadow():
 	rare_particles.position = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
 
 func _on_time_timeout():
+	if random_order.has("mods") && random_order["mods"].has("safe skip"):
+		remove_from_group("order")
+		yield(_hide_with_animation(), "completed")
+		_try_spawn_order()
+		queue_free()
+		
+		return
+	else: if isCompleted: return
+	
 	if random_order.get("tags", -1) != -1:
 		Global.decrease_weight(random_order.get("tags", -1))
-	
-	if random_order.has("mods") and random_order["mods"].has("safe skip"):
-		if isCompleted: return
-	else: if isCompleted: return
 	
 	Global.emit_signal("updateFailedOrders")
 	remove_from_group("order")
@@ -416,6 +421,9 @@ func _on_cancel_pressed():
 	queue_free()
 
 func _hide_with_animation():
+	yield(get_tree(), "idle_frame")
+	if !Global.animations: return true
+	
 	tween_complete_order.interpolate_property(self, "scale:y", self.scale.y, 0.0, 0.5, Tween.TRANS_BACK, Tween.EASE_IN)
 	tween_complete_order.start()
 	yield(tween_complete_order, "tween_completed")
@@ -423,6 +431,9 @@ func _hide_with_animation():
 	return true
 
 func _show_with_animation():
+	yield(get_tree(), "idle_frame")
+	if !Global.animations: return true
+	
 	tween_complete_order.interpolate_property(self, "scale:y", self.scale.y, 1.0, 0.5, Tween.TRANS_BACK, Tween.EASE_OUT)
 	tween_complete_order.start()
 	yield(tween_complete_order, "tween_completed")

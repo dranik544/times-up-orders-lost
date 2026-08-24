@@ -108,12 +108,13 @@ func _update_reputation():
 func _end():
 	# Концовка
 	fade.show()
-	var tween: Tween = Tween.new()
-	add_child(tween)
-	tween.interpolate_property(fade, "modulate:a", 0.0, 1.0, 5.0)
-	tween.start()
-	yield(tween, "tween_completed")
-	tween.queue_free()
+	if Global.animations:
+		var tween: Tween = Tween.new()
+		add_child(tween)
+		tween.interpolate_property(fade, "modulate:a", 0.0, 1.0, 5.0)
+		tween.start()
+		yield(tween, "tween_completed")
+		tween.queue_free()
 	get_tree().change_scene("res://scenes/end.tscn")
 
 func _update_title_status():
@@ -185,12 +186,13 @@ func _update_title_status():
 		
 		_spawn_order(5)
 		title.show()
-		var tween: Tween = Tween.new()
-		add_child(tween)
-		tween.interpolate_property(title, "modulate:a", 0.0, 1.0, 3.0)
-		tween.start()
-		yield(tween, "tween_completed")
-		tween.queue_free()
+		if Global.animations:
+			var tween: Tween = Tween.new()
+			add_child(tween)
+			tween.interpolate_property(title, "modulate:a", 0.0, 1.0, 3.0)
+			tween.start()
+			yield(tween, "tween_completed")
+			tween.queue_free()
 
 func _update_police_count():
 	if Global.policeCount >= Global.MAX_POLICE_COUNT:

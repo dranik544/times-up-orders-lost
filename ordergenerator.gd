@@ -18,9 +18,6 @@ func generate_order_by_type(type_id: int) -> Dictionary:
 func generate_start_order() -> Dictionary:
 	return generate_order_by_type(1)
 
-func generate_begin_order() -> Dictionary:
-	return generate_order_by_type(5)
-
 # ------------------------------------------------------------
 # Выбор шаблона (без изменений)
 # ------------------------------------------------------------
@@ -82,39 +79,26 @@ func _process_template(template: Dictionary) -> Dictionary:
 	var order = template.duplicate(true)
 
 	# 1. Генерация глобальных значений (если есть)
-	var global_generated = {}
+	var generated = {}
 	if order.has("frmt"):
-		global_generated = _generate_frmt_values(order["frmt"])
+		generated = _generate_frmt_values(order["frmt"])
 		order.erase("frmt")
 
-	# 2. Подстановка глобальных значений в desc
+	# 2. Подстановка значений в desc (с преобразованием ДА/НЕТ для булевых)
 	if order.has("desc"):
-		order["desc"] = _format_text(order["desc"], global_generated)
+		order["desc"] = _format_text(order["desc"], generated)
 
 	# 3. Обработка каждого параметра
 	var new_prms = []
 	for param in order.get("prms", []):
 		var new_param = param.duplicate()
 
-		# Генерация локальных значений (если есть frmt внутри параметра)
-		var local_generated = {}
-		if new_param.has("frmt"):
-			local_generated = _generate_frmt_values(new_param["frmt"])
-			new_param.erase("frmt")
-
-		# Объединяем глобальные и локальные для подстановки
-		var all_generated = {}
-		for key in global_generated:
-			all_generated[key] = global_generated[key]
-		for key in local_generated:
-			all_generated[key] = local_generated[key]
-
-		# Подстановка значений во все строковые поля параметра
+		# Подставляем сгенерированные значения во все строковые поля параметра
 		for field in new_param.keys():
 			if typeof(new_param[field]) == TYPE_STRING:
-				new_param[field] = _format_text(new_param[field], all_generated)
+				new_param[field] = _format_text(new_param[field], generated)
 
-		# Преобразование числовых полей (если стали строками)
+		# Преобразуем числовые поля (если стали строками)
 		var numeric_fields = ["min value", "max value", "step", "min d value", "max d value", "indx"]
 		for field in numeric_fields:
 			if new_param.has(field) and typeof(new_param[field]) == TYPE_STRING:
@@ -123,7 +107,7 @@ func _process_template(template: Dictionary) -> Dictionary:
 				elif new_param[field].is_valid_float():
 					new_param[field] = float(new_param[field])
 
-		# Преобразование stat в булево (если строка)
+		# Преобразуем stat в булево (если строка)
 		if new_param.has("stat") and typeof(new_param["stat"]) == TYPE_STRING:
 			new_param["stat"] = new_param["stat"].to_lower() == "true"
 
@@ -133,20 +117,23 @@ func _process_template(template: Dictionary) -> Dictionary:
 	return order
 
 # ------------------------------------------------------------
-# Вспомогательные функции
+# Генерация значений из frmt
 # ------------------------------------------------------------
 func _generate_frmt_values(frmt: Dictionary) -> Dictionary:
 	var result = {}
 	for key in frmt:
 		var value = _generate_value(frmt[key])
-		# Если это rand_option, раскладываем на два ключа
+		# Для rand_option: ключ без суффикса — текст, ключ + "_index" — индекс
 		if typeof(value) == TYPE_DICTIONARY and value.has("text") and value.has("index"):
-			result[key + "_text"] = value["text"]
+			result[key] = value["text"]          # например, "color" -> "красный"
 			result[key + "_index"] = value["index"]
 		else:
-			result[key] = value
+			result[key] = value                  # для int, bool, text
 	return result
 
+# ------------------------------------------------------------
+# Генерация одного значения по спецификации
+# ------------------------------------------------------------
 func _generate_value(spec):
 	if typeof(spec) != TYPE_DICTIONARY or not spec.has("type"):
 		return spec
@@ -156,7 +143,11 @@ func _generate_value(spec):
 		"rand_int":
 			var min_val = spec.get("min", 0)
 			var max_val = spec.get("max", 10)
-			return randi() % (max_val - min_val + 1) + min_val
+			var step = spec.get("step", 1)
+			# Количество возможных значений с учётом шага
+			var count = floor((max_val - min_val) / step) + 1
+			var idx = randi() % int(count)
+			return min_val + idx * step
 		"rand_bool":
 			return randi() % 2 == 1
 		"rand_text":
@@ -169,10 +160,12 @@ func _generate_value(spec):
 		_:
 			return spec
 
+# ------------------------------------------------------------
+# Форматирование текста с плейсхолдерами (замена {ключ} на значение)
+# ------------------------------------------------------------
 func _format_text(text: String, generated: Dictionary) -> String:
 	for key in generated:
 		var value = generated[key]
-		# Для булевых значений выводим ДА/НЕТ в текст
 		if typeof(value) == TYPE_BOOL:
 			value = "ДА" if value else "НЕТ"
 		text = text.replace("{" + key + "}", str(value))

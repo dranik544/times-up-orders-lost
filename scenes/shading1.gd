@@ -2,6 +2,8 @@ extends TextureRect
 
 
 func _flash(speed: float = 4.0):
+	if !Global.animations: return
+	
 	var tween: Tween = Tween.new()
 	add_child(tween)
 	tween.interpolate_property(self, "modulate:a", 1.0, 1.0/5, speed)

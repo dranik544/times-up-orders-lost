@@ -105,7 +105,7 @@ margin_bottom = 29.0
 [node name="settings" type="VBoxContainer" parent="buttons/VBoxContainer"]
 margin_top = 33.0
 margin_right = 320.0
-margin_bottom = 385.0
+margin_bottom = 435.0
 alignment = 1
 
 [node name="Label" type="Label" parent="buttons/VBoxContainer/settings"]
@@ -213,27 +213,35 @@ margin_right = 320.0
 margin_bottom = 261.0
 text = "Весь контент со старта: "
 
-[node name="select image bg" type="Button" parent="buttons/VBoxContainer/settings"]
+[node name="enable animations" type="CheckButton" parent="buttons/VBoxContainer/settings"]
 margin_top = 265.0
 margin_right = 320.0
-margin_bottom = 290.0
+margin_bottom = 311.0
+pressed = true
+text = "Анимации:
+(Выключите, если игра лагает)"
+
+[node name="select image bg" type="Button" parent="buttons/VBoxContainer/settings"]
+margin_top = 315.0
+margin_right = 320.0
+margin_bottom = 340.0
 text = "Выбрать свои обои для игры"
 
 [node name="select music" type="Button" parent="buttons/VBoxContainer/settings"]
-margin_top = 294.0
+margin_top = 344.0
 margin_right = 320.0
-margin_bottom = 319.0
+margin_bottom = 369.0
 text = "Выбрать свою музыку для игры"
 
 [node name="sepr1" type="HSeparator" parent="buttons/VBoxContainer/settings"]
-margin_top = 323.0
+margin_top = 373.0
 margin_right = 320.0
-margin_bottom = 323.0
+margin_bottom = 373.0
 
 [node name="apply" type="Button" parent="buttons/VBoxContainer/settings"]
-margin_top = 327.0
+margin_top = 377.0
 margin_right = 320.0
-margin_bottom = 352.0
+margin_bottom = 402.0
 text = "Применить настройки"
 
 [node name="events" type="VBoxContainer" parent="buttons/VBoxContainer"]
@@ -291,20 +299,20 @@ text = "Активация OKNA XP"
 align = 1
 
 [node name="sepr2" type="HSeparator" parent="buttons/VBoxContainer"]
-margin_top = 389.0
+margin_top = 439.0
 margin_right = 320.0
-margin_bottom = 389.0
+margin_bottom = 439.0
 
 [node name="SEtoggle" type="Button" parent="buttons/VBoxContainer"]
-margin_top = 393.0
+margin_top = 443.0
 margin_right = 320.0
-margin_bottom = 418.0
+margin_bottom = 468.0
 text = "Переключиться на испытания"
 
 [node name="continue" type="Button" parent="buttons/VBoxContainer"]
-margin_top = 422.0
+margin_top = 472.0
 margin_right = 320.0
-margin_bottom = 447.0
+margin_bottom = 497.0
 text = "Начать игру"
 
 [node name="openImageBG" type="FileDialog" parent="buttons"]
@@ -377,11 +385,11 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -148.0
+margin_left = -249.0
 margin_top = -47.0
 margin_right = -6.0
 margin_bottom = -6.0
 text = "ver
-game by Drimer544"
+Created by Drimer544"
 align = 2
 valign = 2

@@ -181,6 +181,7 @@ script = ExtResource( 7 )
 [node name="rareParticles" type="CPUParticles2D" parent="."]
 position = Vector2( 102, 153 )
 emitting = false
+amount = 4
 lifetime = 0.5
 preprocess = 0.5
 fixed_fps = 30

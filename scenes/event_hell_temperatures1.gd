@@ -12,6 +12,7 @@ onready var button_timer = $Button/buttonTimer
 onready var button_tween = $Button/buttonTween
 onready var sounds = $sounds
 onready var main: Node2D = get_tree().current_scene
+onready var fire_sound = $"fire sound"
 
 var temp: int = 10
 var temp1thsd: bool = false
@@ -24,8 +25,11 @@ func _ready():
 		temperature_label.queue_free()
 		queue_free()
 	
-	fire.emission_rect_extents = get_viewport().get_visible_rect().size / 1.8
-	fire.modulate.a = 0.0
+	if !Global.animations:
+		fire.queue_free()
+	else:
+		fire.emission_rect_extents = get_viewport().get_visible_rect().size / 1.8
+		fire.modulate.a = 0.0
 	fire_texture.modulate.a = 0.0
 	color_rect.modulate.a = 0.0
 	button.hide()
@@ -56,7 +60,7 @@ func _on_timer_timeout():
 		tween.interpolate_property(color_rect, "modulate:a", color_rect.modulate.a, 1.0, 1.0)
 		tween.interpolate_property(fire_texture, "modulate:a", fire_texture.modulate.a, 1.0, 2.0)
 		tween.interpolate_property(temperature_label, "modulate", temperature_label.modulate, Color(1.0, 0.0, 0.0), 2.0)
-		tween.interpolate_property(fire, "modulate:a", 0.0, 1.0, 2.0)
+		if fire: tween.interpolate_property(fire, "modulate:a", 0.0, 1.0, 2.0)
 		tween.start()
 	
 	if temp1thsd: return
@@ -68,9 +72,13 @@ func _on_timer_timeout():
 		tween.interpolate_property(button, "modulate:a", 0.0, 1.0, 0.25)
 		button.show()
 		tween.start()
+		fire_sound.play()
 
 func _set_timer_waittime():
-	timer.wait_time = rand_range(0.5, 1.0)
+	if Global.events["rain"]:
+		timer.wait_time = rand_range(0.7, 1.4)
+	else:
+		timer.wait_time = rand_range(0.25, 0.6)
 
 func _on_button_down():
 	button_timer.start()
@@ -97,7 +105,8 @@ func _on_button_timer_timeout():
 	temperature_label.text = "Температура ПК (°C): " + str(temp)
 	tween.interpolate_property(color_rect, "modulate:a", color_rect.modulate.a, 0.0, 1.0)
 	tween.interpolate_property(fire_texture, "modulate:a", fire_texture.modulate.a, 0.0, 2.0)
-	tween.interpolate_property(fire, "modulate:a", 0.0, 0.0, 2.0)
+	if fire: tween.interpolate_property(fire, "modulate:a", 0.0, 0.0, 2.0)
 	tween.interpolate_property(temperature_label, "modulate", temperature_label.modulate, Color(1.0, 1.0, 1.0), 4.0)
 	button.hide()
 	tween.start()
+	fire_sound.stop()

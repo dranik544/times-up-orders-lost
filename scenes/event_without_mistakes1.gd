@@ -22,6 +22,8 @@ func _ready():
 	Global.connect("updateFailedOrders", self, "_on_failed_orders")
 
 func _process(delta):
+	if !Global.animations: return
+	
 	time += delta
 	ankh_1.rect_rotation = sin(time * 2) * 8
 	ankh_2.rect_rotation = cos(time * 2) * 8

@@ -27,12 +27,17 @@ func _on_viewport_size_changed():
 	rect_size = viewport_size * 1.2
 	basePosition = (viewport_size - rect_size) * 0.5
 	rect_pivot_offset = rect_size * 0.5
+	
+	rect_position = basePosition
 
 func _process(delta):
+	if !Global.animations: return
+	
 	var mouseoffset = -get_viewport().get_mouse_position() * 0.025
 	
-	var bass_level = spectrum.get_magnitude_for_frequency_range(20, 500).length()
-	rect_scale = lerp(rect_scale, Vector2.ONE * (1.0 + bass_level * 0.6), min(25.0 * delta, 1.0))
+	if spectrum:
+		var bass_level = spectrum.get_magnitude_for_frequency_range(20, 500).length()
+		rect_scale = lerp(rect_scale, Vector2.ONE * (1.0 + bass_level * 0.6), min(25.0 * delta, 1.0))
 	
 	if shakesensitivity > 0:
 		var shake_offset = Vector2(

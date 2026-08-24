@@ -52,8 +52,12 @@ func _ready():
 	
 	bg.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
 	shadow.rect_size = ui.get_combined_minimum_size() + Vector2(6, 6)
-	particles.emission_rect_extents = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
-	particles.position = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
+	
+	if !Global.animations:
+		particles.queue_free()
+	else:
+		particles.emission_rect_extents = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
+		particles.position = ui.get_combined_minimum_size() + Vector2(6, 6) - (ui.get_combined_minimum_size() + Vector2(6, 6)) / 2
 
 func _on_ready_pressed():
 	if triesclose <= 0:
@@ -69,6 +73,9 @@ func _on_ready_pressed():
 	triesclose -= 1
 
 func _hide_with_animation():
+	yield(get_tree(), "idle_frame")
+	if !Global.animations: return true
+	
 	tween_complete_order.interpolate_property(self, "scale:y", self.scale.y, 0.0, 0.5, Tween.TRANS_BACK, Tween.EASE_IN)
 	tween_complete_order.start()
 	yield(tween_complete_order, "tween_completed")
@@ -76,6 +83,9 @@ func _hide_with_animation():
 	return true
 
 func _show_with_animation():
+	yield(get_tree(), "idle_frame")
+	if !Global.animations: return true
+	
 	tween_complete_order.interpolate_property(self, "scale:y", self.scale.y, 1.0, 0.5, Tween.TRANS_BACK, Tween.EASE_OUT)
 	tween_complete_order.start()
 	yield(tween_complete_order, "tween_completed")

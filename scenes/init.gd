@@ -16,7 +16,7 @@ onready var select_image_bg_button = $"buttons/VBoxContainer/settings/select ima
 onready var select_music_button = $"buttons/VBoxContainer/settings/select music"
 onready var open_image_bg_fileopen = $buttons/openImageBG
 onready var open_music_fileopen = $buttons/openMusic
-onready var event_desc = $"event desc"
+onready var enable_animations = $"buttons/VBoxContainer/settings/enable animations"
 
 onready var event_ad = $"buttons/VBoxContainer/events/event ad"
 onready var event_without_mistakes = $"buttons/VBoxContainer/events/event without mistakes"
@@ -41,7 +41,7 @@ var SEtoggle: bool = false
 
 
 func _ready():
-	ver.text = "ver" + str(Global.VERSION) + "\ngame by Drimer544"
+	ver.text = "ver" + str(Global.VERSION) + "\nCreated by Drimer544"
 	
 	if Global.system == 1:
 		currentWindowScale = 2.2
@@ -83,6 +83,7 @@ func _ready():
 	open_image_bg_fileopen.connect("file_selected", self, "_on_open_image_bg_fileopen_file_selected")
 	select_music_button.connect("pressed", self, "_on_select_music_button_pressed")
 	open_music_fileopen.connect("files_selected", self, "_on_open_music_fileopen_files_selected")
+	enable_animations.connect("pressed", self, "_on_enable_animations_pressed")
 	
 	fade.show()
 	yield(get_tree().create_timer(0.4), "timeout")
@@ -119,6 +120,9 @@ func _on_uporderiflineeditfocusentered_check_button_pressed():
 
 func _on_all_content_at_start_check_button_pressed():
 	Global.allContentAtStart = all_content_at_start_check_button.pressed
+
+func _on_enable_animations_pressed():
+	Global.animations = enable_animations.pressed
 
 func _on_select_music_button_pressed():
 	open_music_fileopen.popup_centered()
