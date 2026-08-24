@@ -72,14 +72,11 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -160.0
-margin_top = -223.5
+margin_top = -248.5
 margin_right = 160.0
-margin_bottom = 223.5
+margin_bottom = 248.5
 rect_min_size = Vector2( 320, 0 )
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": true
-}
 
 [node name="difficulty" type="HBoxContainer" parent="buttons/VBoxContainer"]
 margin_right = 320.0

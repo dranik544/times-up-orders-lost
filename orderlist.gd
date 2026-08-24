@@ -5372,7 +5372,7 @@ var orders: Array = [
 		"mods": {"disable cancel": true, "multiple review": 5},
 		"prms": [
 			{"type": "slider", "text": "Время на перехват (мин)", "step": 1, "min value": 2, "max value": 8, "min d value": "{time}", "max d value": "{time}"},
-			{"type": "slider", "text": "Количество дронов", "step": 2, "min value": 5, "max value": 40, "min d value": "{drones}", "max d value": "{drones}"},
+			{"type": "slider", "text": "Количество дронов", "step": 1, "min value": 5, "max value": 40, "min d value": "{drones}", "max d value": "{drones}"},
 			{"type": "slider", "text": "Зона поражения (км)", "step": 1, "min value": 2, "max value": 8, "min d value": "{zone}", "max d value": "{zone}"}
 		]
 	},

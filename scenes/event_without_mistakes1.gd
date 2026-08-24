@@ -4,6 +4,11 @@ onready var ankh_1 = $HBoxContainer/ankh1
 onready var ankh_2 = $HBoxContainer/ankh2
 onready var ankh_3 = $HBoxContainer/ankh3
 onready var screen_ankh_1 = $"screen ankh1"
+onready var particles1 = $HBoxContainer/ankh1/particles
+onready var particles2 = $HBoxContainer/ankh2/particles
+onready var particles3 = $HBoxContainer/ankh3/particles
+onready var screen_particles = $"screen ankh1/particles"
+
 onready var main: Node2D = get_tree().current_scene
 onready var tween = $Tween
 onready var sounds = $sounds
@@ -15,6 +20,12 @@ var baseScreenAnkhPosition: Vector2 = Vector2.ZERO
 
 func _ready():
 	if !Global.events["without mistakes"]: queue_free()
+	
+	if !Global.animations:
+		particles1.queue_free()
+		particles2.queue_free()
+		particles3.queue_free()
+		screen_particles.queue_free()
 	
 	show()
 	screen_ankh_1.hide()

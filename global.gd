@@ -1,7 +1,7 @@
 extends Node
 # Global.gd (AutoLoad)
 
-const VERSION: String = "1t1" # t-est, b-eta, d-emo
+const VERSION: String = "1r2" # r-elease, t-est, b-eta, d-emo
 
 signal updateWeights
 signal updateMoney

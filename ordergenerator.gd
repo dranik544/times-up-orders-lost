@@ -93,10 +93,17 @@ func _process_template(template: Dictionary) -> Dictionary:
 	for param in order.get("prms", []):
 		var new_param = param.duplicate()
 
-		# Подставляем сгенерированные значения во все строковые поля параметра
+		# Подставляем сгенерированные значения во все строковые поля параметра, КРОМЕ stat
 		for field in new_param.keys():
-			if typeof(new_param[field]) == TYPE_STRING:
+			if typeof(new_param[field]) == TYPE_STRING and field != "stat":
 				new_param[field] = _format_text(new_param[field], generated)
+
+		# Отдельно подставляем значения в stat (сырые, без ДА/НЕТ)
+		if new_param.has("stat") and typeof(new_param["stat"]) == TYPE_STRING:
+			for key in generated:
+				new_param["stat"] = new_param["stat"].replace("{" + key + "}", str(generated[key]))
+			# Преобразуем строку "true"/"false" в булево
+			new_param["stat"] = new_param["stat"].to_lower() == "true"
 
 		# Преобразуем числовые поля (если стали строками)
 		var numeric_fields = ["min value", "max value", "step", "min d value", "max d value", "indx"]
@@ -106,10 +113,6 @@ func _process_template(template: Dictionary) -> Dictionary:
 					new_param[field] = int(new_param[field])
 				elif new_param[field].is_valid_float():
 					new_param[field] = float(new_param[field])
-
-		# Преобразуем stat в булево (если строка)
-		if new_param.has("stat") and typeof(new_param["stat"]) == TYPE_STRING:
-			new_param["stat"] = new_param["stat"].to_lower() == "true"
 
 		new_prms.append(new_param)
 
@@ -125,10 +128,10 @@ func _generate_frmt_values(frmt: Dictionary) -> Dictionary:
 		var value = _generate_value(frmt[key])
 		# Для rand_option: ключ без суффикса — текст, ключ + "_index" — индекс
 		if typeof(value) == TYPE_DICTIONARY and value.has("text") and value.has("index"):
-			result[key] = value["text"]          # например, "color" -> "красный"
+			result[key] = value["text"]
 			result[key + "_index"] = value["index"]
 		else:
-			result[key] = value                  # для int, bool, text
+			result[key] = value
 	return result
 
 # ------------------------------------------------------------
@@ -144,7 +147,6 @@ func _generate_value(spec):
 			var min_val = spec.get("min", 0)
 			var max_val = spec.get("max", 10)
 			var step = spec.get("step", 1)
-			# Количество возможных значений с учётом шага
 			var count = floor((max_val - min_val) / step) + 1
 			var idx = randi() % int(count)
 			return min_val + idx * step
