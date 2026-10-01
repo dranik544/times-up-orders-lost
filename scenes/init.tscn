@@ -72,9 +72,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -160.0
-margin_top = -248.5
+margin_top = -270.5
 margin_right = 160.0
-margin_bottom = 248.5
+margin_bottom = 270.5
 rect_min_size = Vector2( 320, 0 )
 alignment = 1
 
@@ -102,7 +102,7 @@ margin_bottom = 29.0
 [node name="settings" type="VBoxContainer" parent="buttons/VBoxContainer"]
 margin_top = 33.0
 margin_right = 320.0
-margin_bottom = 435.0
+margin_bottom = 479.0
 alignment = 1
 
 [node name="Label" type="Label" parent="buttons/VBoxContainer/settings"]
@@ -218,27 +218,33 @@ pressed = true
 text = "Анимации:
 (Выключите, если игра лагает)"
 
-[node name="select image bg" type="Button" parent="buttons/VBoxContainer/settings"]
+[node name="enable transparent window" type="CheckButton" parent="buttons/VBoxContainer/settings"]
 margin_top = 315.0
 margin_right = 320.0
-margin_bottom = 340.0
+margin_bottom = 355.0
+text = "Прозрачное окно"
+
+[node name="select image bg" type="Button" parent="buttons/VBoxContainer/settings"]
+margin_top = 359.0
+margin_right = 320.0
+margin_bottom = 384.0
 text = "Выбрать свои обои для игры"
 
 [node name="select music" type="Button" parent="buttons/VBoxContainer/settings"]
-margin_top = 344.0
+margin_top = 388.0
 margin_right = 320.0
-margin_bottom = 369.0
+margin_bottom = 413.0
 text = "Выбрать свою музыку для игры"
 
 [node name="sepr1" type="HSeparator" parent="buttons/VBoxContainer/settings"]
-margin_top = 373.0
+margin_top = 417.0
 margin_right = 320.0
-margin_bottom = 373.0
+margin_bottom = 417.0
 
 [node name="apply" type="Button" parent="buttons/VBoxContainer/settings"]
-margin_top = 377.0
+margin_top = 421.0
 margin_right = 320.0
-margin_bottom = 402.0
+margin_bottom = 446.0
 text = "Применить настройки"
 
 [node name="events" type="VBoxContainer" parent="buttons/VBoxContainer"]
@@ -296,20 +302,20 @@ text = "Активация OKNA XP"
 align = 1
 
 [node name="sepr2" type="HSeparator" parent="buttons/VBoxContainer"]
-margin_top = 439.0
+margin_top = 483.0
 margin_right = 320.0
-margin_bottom = 439.0
+margin_bottom = 483.0
 
 [node name="SEtoggle" type="Button" parent="buttons/VBoxContainer"]
-margin_top = 443.0
+margin_top = 487.0
 margin_right = 320.0
-margin_bottom = 468.0
+margin_bottom = 512.0
 text = "Переключиться на испытания"
 
 [node name="continue" type="Button" parent="buttons/VBoxContainer"]
-margin_top = 472.0
+margin_top = 516.0
 margin_right = 320.0
-margin_bottom = 497.0
+margin_bottom = 541.0
 text = "Начать игру"
 
 [node name="openImageBG" type="FileDialog" parent="buttons"]

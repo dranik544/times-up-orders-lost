@@ -1,7 +1,7 @@
 extends Node
 # Global.gd (AutoLoad)
 
-const VERSION: String = "1r2" # r-elease, t-est, b-eta, d-emo
+const VERSION: String = "1r3" # r-elease, t-est, b-eta, d-emo
 
 signal updateWeights
 signal updateMoney
@@ -14,7 +14,7 @@ signal updatePoliceCount
 signal updateFailedOrders
 signal updateImageBG
 
-var system: int = 0   # 0 - ПК, 1 - ТЕЛЕФОН
+var system: int = 0   # 0 - ПК, 1 - ТЕЛЕФОН, 2 - БРАУЗЕР
 
 var money: int = 0
 var canceledOrders: int = 0
@@ -53,6 +53,7 @@ var allContentAtStart: bool = false
 var imageBG: Texture = null
 var music: Array = []
 var animations: bool = true
+var transparentWindow: bool = false
 
 enum typeOrder {DEFAULT, START, RARE, MESSAGE, EMERGENCY, BEGIN, DARKNET, CUSTOM}
 
@@ -74,7 +75,8 @@ const PENALTY = 0.2            # насколько уменьшаем вес п
 
 
 func _ready():
-	if OS.has_feature("pc"): system = 0
+	if OS.has_feature("web"): system = 2
+	elif OS.has_feature("standalone"): system = 0
 	elif OS.has_feature("mobile"): system = 1
 
 func _input(event):

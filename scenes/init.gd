@@ -17,6 +17,7 @@ onready var select_music_button = $"buttons/VBoxContainer/settings/select music"
 onready var open_image_bg_fileopen = $buttons/openImageBG
 onready var open_music_fileopen = $buttons/openMusic
 onready var enable_animations = $"buttons/VBoxContainer/settings/enable animations"
+onready var enable_transparent_window = $"buttons/VBoxContainer/settings/enable transparent window"
 
 onready var event_ad = $"buttons/VBoxContainer/events/event ad"
 onready var event_without_mistakes = $"buttons/VBoxContainer/events/event without mistakes"
@@ -49,11 +50,15 @@ func _ready():
 		_apply_settings()
 		uporderiflineeditfocusentered_check_button.show()
 		window_fullscreen_check_button.hide()
+		enable_transparent_window.hide()
 		Global.upOrderIfLineEditFocusEntered = true
 	else:
 		uporderiflineeditfocusentered_check_button.hide()
 		window_fullscreen_check_button.show()
 		Global.upOrderIfLineEditFocusEntered = false
+	if Global.system == 2:
+		window_fullscreen_check_button.hide()
+		enable_transparent_window.hide()
 	
 	for i in Global.difficulty:
 		difficulty_option_button.add_item(i)
@@ -84,6 +89,8 @@ func _ready():
 	select_music_button.connect("pressed", self, "_on_select_music_button_pressed")
 	open_music_fileopen.connect("files_selected", self, "_on_open_music_fileopen_files_selected")
 	enable_animations.connect("pressed", self, "_on_enable_animations_pressed")
+	enable_transparent_window.connect("pressed", self, "_on_enable_transparent_window_pressed")
+	
 	
 	fade.show()
 	yield(get_tree().create_timer(0.4), "timeout")
@@ -123,6 +130,9 @@ func _on_all_content_at_start_check_button_pressed():
 
 func _on_enable_animations_pressed():
 	Global.animations = enable_animations.pressed
+
+func _on_enable_transparent_window_pressed():
+	Global.transparentWindow = enable_transparent_window.pressed
 
 func _on_select_music_button_pressed():
 	open_music_fileopen.popup_centered()

@@ -1,5 +1,7 @@
 extends Node2D
 
+onready var bg = $bg
+onready var canvas_layer = $CanvasLayer
 onready var timer_spawning_orders = $timerSpawningOrders
 onready var timer_canceled = $timerCanceled
 onready var money_label = $CanvasLayer/stats/money
@@ -18,6 +20,8 @@ var orderScene = preload("res://scenes/order1.tscn")
 
 
 func _ready():
+	transparent_window(Global.transparentWindow)
+	
 	if Global.allContentAtStart:
 		Global.unlockedElement1 = true
 		Global.unlockedElement2 = true
@@ -200,3 +204,12 @@ func _update_police_count():
 		sound_police.play()
 		yield(sound_police, "finished")
 		_end()
+
+func transparent_window(enabled: bool):
+	OS.window_per_pixel_transparency_enabled = enabled
+	get_tree().get_root().transparent_bg = enabled
+	bg.visible = !enabled
+	canvas_layer.get_node("shading1").visible = !enabled
+	canvas_layer.get_node("shading2").visible = !enabled
+	canvas_layer.get_node("shading3").visible = !enabled
+	canvas_layer.get_node("pause button").visible = !enabled
